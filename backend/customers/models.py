@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.core.mail import send_mail
-#from .managers import CustomerManager
+from .managers import CustomerManager
 
 class Customer(AbstractBaseUser):
     email = models.EmailField(verbose_name='email address', unique=True)
@@ -12,7 +12,7 @@ class Customer(AbstractBaseUser):
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     picture = models.ImageField(verbose_name='picture', upload_to='avatars/', null=True, blank=True)
 
-#   objects = CustomerManager()
+    objects = CustomerManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
