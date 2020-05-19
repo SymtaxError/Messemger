@@ -120,3 +120,6 @@ thumb
 sketch
 
 .vscode/
+
+### PyCharm ###
+.idea/**
