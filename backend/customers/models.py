@@ -17,7 +17,7 @@ class Customer(AbstractBaseUser):
     REQUIRED_FIELDS = []
 
     class Meta:
-        ordering = ['is_superuser", "-email"]
+        ordering = ["is_superuser", "-email"]
 
     def get_username(self):
         '''
@@ -30,7 +30,7 @@ class Customer(AbstractBaseUser):
         '''
         Returns the first_name and the last_name with a space between them.
         '''
-        full_name = "{0} {1}".format(self.first_name, self.last_name)
+        full_name = f"{self.first_name} {self.last_name}"
         return full_name
 
     def email_user(self, subject, message, from_email=None, **kwargs):
