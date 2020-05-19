@@ -8,14 +8,6 @@ class CustomerManager(BaseUserManager):
         Creates and saves a Customer with the given email, password, first_name
         and last_name
         '''
-        if not email:
-            raise ValueError('The given email must be set')
-        elif not password:
-            raise ValueError('The given pawword must be set')
-        elif not first_name:
-            raise ValueError('The given first name must be set')
-        elif not last_name:
-            raise ValueError('The given last name must be set')
         email = self.normalize_email(email)
         user = self.model(email=email, first_name=first_name, \
             last_name=last_name, **kwargs)
