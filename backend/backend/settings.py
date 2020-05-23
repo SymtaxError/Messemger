@@ -19,6 +19,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'customers',
     'todos',
+    'servers',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +53,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+
+ASGI_APPLICATION = 'backend.routing.application'
 
 DATABASES = {
     'default': {
