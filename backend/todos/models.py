@@ -1,6 +1,6 @@
 from django.db import models
-from ..servers.models import Server
-from ..customers.models import Customer
+from servers.models import Server
+from customers.models import Customer
 
 
 class Desk(models.Model):
@@ -9,12 +9,6 @@ class Desk(models.Model):
         Server,
         verbose_name="server",
         on_delete=models.CASCADE
-    )
-    creator = models.ForeignKey(
-        Customer,
-        verbose_name='creator',
-        on_delete=models.SET_DEFAULT,
-        default="DELETED"
     )
 
 
@@ -25,12 +19,6 @@ class Table(models.Model):
         Desk,
         verbose_name="desk",
         on_delete=models.CASCADE
-    )
-    creator = models.ForeignKey(
-        Customer,
-        verbose_name='creator',
-        on_delete=models.SET_DEFAULT,
-        default="DELETED"
     )
 
 
@@ -48,10 +36,4 @@ class Card(models.Model):
         Desk,
         verbose_name="desk",
         on_delete=models.CASCADE
-    )
-    creator = models.ForeignKey(
-        Customer,
-        verbose_name='creator',
-        on_delete=models.SET_DEFAULT,
-        default="DELETED"
     )
