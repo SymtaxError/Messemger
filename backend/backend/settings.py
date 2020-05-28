@@ -16,8 +16,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'customers',
-    'todos',
-    'servers',
 ]
 
 MIDDLEWARE = [
@@ -44,8 +42,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
-ASGI_APPLICATION = 'backend.routing.application'
 
 DATABASES = {
     'default': {
