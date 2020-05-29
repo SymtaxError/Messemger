@@ -42,7 +42,7 @@ const request = async <T>(
     body?: string
 ): Promise<T> => {
     const result = await fetch(
-        `${backendURL}${path}}`,
+        `${backendURL}${path}`,
         {method: method, headers: headers, body: body}
     );
     if (result.status === 403) {
