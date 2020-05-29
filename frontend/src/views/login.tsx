@@ -1,22 +1,21 @@
 import React, {CSSProperties, ReactNode, useState} from 'react';
 import styles from "views/login.module.css";
-import {http, loginRequest, registerRequest} from "api/http"
+import {http, loginRequest, registerRequest, resultRefresh} from "api/http"
 import {UserUnit} from "api/models/user";
 
+
 export const Login: React.FC = () => {
-    const [Login, setLogin] = useState("");
-    const [Password, setPassword] = useState("");
-    const [PasswordCheck, setPasswordCheck] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordCheck, setPasswordCheck] = useState("");
     const [isSignIn, setIsSignIn] = useState(true);
-    const [Mail, setMail] = useState("");
-    const [Name, setName] = useState("");
-    const [Surname, setSurname] = useState("");
+    const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
 
     const setAllZero = () => {
-        // setLogin("");
         setPassword("");
         setPasswordCheck("");
-        setMail("");
+        setEmail("");
         setName("");
         setSurname("");
     };
@@ -40,15 +39,15 @@ export const Login: React.FC = () => {
             </div>
 
             <div className={styles.signInputBlock}>
-                <div className={styles.signInputText}>Логин/Почта</div>
-                <input className={styles.signLoginEntry} value={Login}
-                       onChange={a => setLogin(a.target.value)}
-                       style={Login === "" ? stylesWrongInput : stylesGoodInput}
+                <div className={styles.signInputText}>Электронная почта</div>
+                <input className={styles.signLoginEntry} value={email}
+                       onChange={a => setEmail(a.target.value)}
+                       style={email === "" ? stylesWrongInput : stylesGoodInput}
                 />
                 <div className={styles.signInputText}>Пароль</div>
-                <input className={styles.signLoginEntry} value={Password}
+                <input className={styles.signLoginEntry} value={password}
                        onChange={a => setPassword(a.target.value)}
-                       style={Password === "" ? stylesWrongInput : stylesGoodInput}
+                       style={password === "" ? stylesWrongInput : stylesGoodInput}
                        type={"password"}
                 />
                 <div className={styles.toRegister} onClick={a => {
@@ -56,9 +55,9 @@ export const Login: React.FC = () => {
                     setAllZero()
                 }}>Регистрация
                 </div>
-                <button className={styles.signButton} onClick={async () => {
-                    await loginRequest(Login, Password)
-                }}>Войти
+                <button className={styles.signButton} onClick={async () =>
+                    await loginRequest(email, password)
+                }>Войти
                 </button>
             </div>
         </div>);
@@ -70,43 +69,39 @@ export const Login: React.FC = () => {
             </div>
 
             <div className={styles.signInputBlock}>
-                <div className={styles.signInputText}>Логин</div>
-                <input className={styles.signLoginEntry} value={Login}
-                       onChange={a => setLogin(a.target.value)}
-                       style={Login === "" ? stylesWrongInput : stylesGoodInput}
-                />
                 <div className={styles.signInputText}>Электронная почта</div>
-                <input className={styles.signLoginEntry} value={Mail}
-                       onChange={a => setMail(a.target.value)}
-                       style={Mail === "" ? stylesWrongInput : stylesGoodInput}
+                <input className={styles.signLoginEntry} value={email}
+                       onChange={a => setEmail(a.target.value)}
+                       style={email === "" ? stylesWrongInput : stylesGoodInput}
                 />
                 <div className={styles.signInputText}>Имя</div>
-                <input className={styles.signLoginEntry} value={Name}
+                <input className={styles.signLoginEntry} value={name}
                        onChange={a => setName(a.target.value)}
-                       style={Name === "" ? stylesWrongInput : stylesGoodInput}
+                       style={name === "" ? stylesWrongInput : stylesGoodInput}
                 />
                 <div className={styles.signInputText}>Фамилия</div>
-                <input className={styles.signLoginEntry} value={Surname}
+                <input className={styles.signLoginEntry} value={surname}
                        onChange={a => setSurname(a.target.value)}
-                       style={Surname === "" ? stylesWrongInput : stylesGoodInput}
+                       style={surname === "" ? stylesWrongInput : stylesGoodInput}
                 />
                 <div className={styles.signInputText}>Пароль</div>
-                <input className={styles.signLoginEntry} value={Password}
+                <input className={styles.signLoginEntry} value={password}
                        onChange={a => setPassword(a.target.value)}
-                       style={Password === "" ? stylesWrongInput : stylesGoodInput}
+                       style={password === "" ? stylesWrongInput : stylesGoodInput}
                        type={"password"}
                 />
                 <div className={styles.signInputText}>Повторите пароль</div>
-                <input className={styles.signLoginEntry} value={PasswordCheck}
+                <input className={styles.signLoginEntry} value={passwordCheck}
                        onChange={a => setPasswordCheck(a.target.value)}
-                       style={(PasswordCheck !== Password || PasswordCheck === "") ? stylesWrongInput : stylesGoodInput}
+                       style={(passwordCheck !== password || passwordCheck === "") ? stylesWrongInput : stylesGoodInput}
                        type={"password"}
                 />
 
                 <div className={styles.toRegister} onClick={a => setIsSignIn(!isSignIn)}>Все-таки хотите войти?</div>
                 <button className={styles.signButton} onClick={async () => {
-                    await registerRequest({email: Mail, password: Password, first_name: Name, last_name: Surname});
-                }}>Регистрация</button>
+                    await registerRequest({email: email, password: password, first_name: name, last_name: surname});
+                }}>Регистрация
+                </button>
             </div>
         </div>);
     return (
@@ -118,5 +113,6 @@ export const Login: React.FC = () => {
                 You need to make a good style for a text like this, huh
                 And probably a big text for the Name
             </div>
+
         </div>);
 }

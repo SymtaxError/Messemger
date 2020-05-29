@@ -1,14 +1,7 @@
 import {UserUnit} from "api/models/user";
-import {stringify} from "querystring";
-import {Ref} from "react";
 
-export const backendURL = "localhost:8000/";
 
-const composeArgs = (args: Record<string, string>): string => {
-    const entries = Object.entries(args);
-    const params = entries.map(entry => `${entry[0]}=${entry[1]}`).join("&");
-    return params.length ? `?${params}` : "";
-};
+export const backendURL = "http://localhost:8000";
 
 const headers = {
     "Content-Type": "application/json; charset=UTF-8",
@@ -22,7 +15,7 @@ interface RefreshUnit {
     refresh: string
 }
 
-const resultRefresh = async (): Promise<void> => {
+export const resultRefresh = async (): Promise<void> => {
     const bodyForCheck = {
         "refresh": (localStorage.getItem("refresh") !== "undefined")
             ? `${localStorage.getItem("refresh")}`
@@ -45,18 +38,15 @@ const resultRefresh = async (): Promise<void> => {
 
 const request = async <T>(
     path: string,
-    args: Record<string, string>,
     method: "GET" | "POST" | "DELETE",
     body?: string
 ): Promise<T> => {
-    const params = composeArgs(args);
     const result = await fetch(
-        `${backendURL}${path}${params}`,
-        {method: method, body: body, headers: headers}
+        `${backendURL}${path}}`,
+        {method: method, headers: headers, body: body}
     );
-
     if (result.status === 403) {
-        resultRefresh();
+        await resultRefresh();
     } else if (result.status === 401) {
         alert(result.text());
     }
@@ -65,13 +55,13 @@ const request = async <T>(
 
 export const http = {
     get: async <T>(path: string, args: Record<string, string>): Promise<T> => {
-        return request(path, args, "GET");
+        return request(path, "GET");
     },
     post: async <T>(path: string, args: Record<string, string>, body?: string): Promise<T> => {
-        return request(path, args, "POST", body);
+        return request(path, "POST", body);
     },
     delete: async <T>(path: string, args: Record<string, string>): Promise<T> => {
-        return request(path, args, "DELETE");
+        return request(path,"DELETE");
     }
 };
 
