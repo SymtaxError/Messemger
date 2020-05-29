@@ -23,7 +23,7 @@ export const resultRefresh = async (): Promise<void> => {
     };
     const response = await fetch(
         `${backendURL}/auth/jwt/refresh/`, // Сюда адрес для проверки временного токена
-        {method: "POST", body: JSON.stringify(bodyForCheck)}
+        {method: "POST", body: JSON.stringify(bodyForCheck), mode: "cors"}
     );
     const state = response.status;
     const result: RefreshUnit = JSON.parse(await response.text());
@@ -43,7 +43,7 @@ const request = async <T>(
 ): Promise<T> => {
     const result = await fetch(
         `${backendURL}${path}`,
-        {method: method, headers: headers, body: body}
+        {method: method, headers: headers, body: body, mode: "cors"}
     );
     if (result.status === 403) {
         await resultRefresh();
