@@ -25,7 +25,6 @@
 }
 
 .avatarSign {
-
     font-weight: 900;
 }
 
@@ -33,4 +32,52 @@
     width: 150px;
     height: 150px;
     background-color: cornflowerblue;
+}
+
+.settingsSite {
+    font-weight: 900;
+}
+
+.settingsBlock {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.settingsMain {
+    display: flex;
+    flex-flow: column nowrap;
+    place-items: flex-start;
+}
+
+.settingInput {
+    height: 27px;
+    width: 100%;
+    font-weight: 400;
+    font-size: 15px;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    background-color: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.exitButton {
+    height: 35px;
+    width: 70px;
+    background-color: #bb2816;
+    border-color: #bb2816;
+    border-style: solid;
+    border-radius: 4px;
+    font-size: 18px;
+    white-space: nowrap;
+    color: white;
+    transition: 0.5s;
+}
+
+.exitButton:hover {
+    background-color: #9b2516;
+    border-color: #9b2516;
+    transition: 0.5s;
 }

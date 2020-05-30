@@ -16,7 +16,7 @@
     height: 100%;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: start;
+    justify-content: flex-start;
     place-content: center;
     align-items: center;
 }
@@ -25,7 +25,7 @@
     height: 100%;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: start;
+    justify-content: flex-start;
     flex-direction: row-reverse;
     place-content: center;
     align-items: center;

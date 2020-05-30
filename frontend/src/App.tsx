@@ -48,7 +48,6 @@ export const App: React.FC = () => {
 
                 </div>
             </div>
-            {/*{width > 1000 ? <Login/> : <Profile/>}*/}
             <Switch location={location}>
                 <Route path="/login"
                        component={Login}/>

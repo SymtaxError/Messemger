@@ -1,4 +1,5 @@
-import {UserUnit} from "api/models/user";
+import {UserUnit} from "./models/user";
+import {RegisterUnit} from "./models/register";
 
 
 export const backendURL = "http://localhost:8000";
@@ -61,11 +62,11 @@ export const http = {
         return request(path, "POST", body);
     },
     delete: async <T>(path: string, args: Record<string, string>): Promise<T> => {
-        return request(path,"DELETE");
+        return request(path, "DELETE");
     }
 };
 
-export const registerRequest = async (user: UserUnit): Promise<void> => {
+export const registerRequest = async (user: RegisterUnit): Promise<void> => {
     const args = {};
     await http.post("/users/register/", args, JSON.stringify(user));
     return;
@@ -75,4 +76,10 @@ export const loginRequest = async (email: string, password: string): Promise<voi
     const args = {};
     await http.post("/auth/jwt/login/", args, JSON.stringify({"email": email, "password": password}));
     return;
+};
+
+export const userDataRequest = async (): Promise<UserUnit> => {
+    const args = {};
+    const response = await http.get("/users/profile/", args);
+    return response as unknown as UserUnit;
 };
