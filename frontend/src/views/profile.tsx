@@ -10,7 +10,7 @@ export const Profile: React.FC = () => {
                 <div className={styles.avatarImg}>Avatar image</div>
                 <div>Upload new avatar</div>
             </div>
-            <div>asdddddddddsadsadsasadasdasdasdadasdasdasdasdasdasd</div>
+
         </div>
     </div>
     )

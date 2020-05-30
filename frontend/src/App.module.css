@@ -1,4 +1,60 @@
 .header {
     background-color: #7030a0;
     height: 50px;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.headerImg {
+    height: 35px;
+    width: 35px;
+}
+
+.firstBlock {
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+    place-content: center;
+    align-items: center;
+}
+
+.secondBlock {
+    height: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+    flex-direction: row-reverse;
+    place-content: center;
+    align-items: center;
+}
+
+.imgBlock {
+    display: flex;
+    flex-flow: row nowrap;
+    padding-right: 10px;
+    padding-left: 10px;
+    align-items: center;
+    border-right: solid 2px white;
+}
+
+.imgLabel {
+    padding-left: 10px;
+    color: #FFFFFF;
+}
+
+.imgLabelRight {
+    padding-right: 10px;
+    color: #FFFFFF;
+}
+
+.imgBlockRight {
+    display: flex;
+    flex-flow: row nowrap;
+    padding-right: 10px;
+    padding-left: 10px;
+    align-items: center;
+    border-left: solid 2px white;
 }
