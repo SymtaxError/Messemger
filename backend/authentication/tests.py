@@ -1,11 +1,11 @@
 from django.test import RequestFactory, TestCase
-from customers.models import Customer
+from users.models import User
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 class LoginTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        Customer.objects.create_user('test@test.ru', '12345', 'Ilia', 'Muravev')
+        User.objects.create_user('test@test.ru', '12345', 'Ilia', 'Muravev')
 
     def test_details(self):
         payload = {

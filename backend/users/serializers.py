@@ -1,12 +1,12 @@
 from rest_framework import serializers
-from .models import Customer
+from .models import User
 
-class CustomerSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Customer
+        model = User
         fields = ['email', 'password', 'first_name', 'last_name']
 
-class ProfileSerializer(CustomerSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Customer
+        model = User
         fields = ['email', 'first_name', 'last_name']
