@@ -19,7 +19,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'users',
-    'channels'
+    'channels',
+    'servers'
 ]
 
 MIDDLEWARE = [

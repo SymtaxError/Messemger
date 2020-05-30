@@ -46,7 +46,7 @@ class Message(models.Model):
         "date published",
         default=timezone.now
     )
-    labels = models.ManyToManyField(Label, verbose_name='labels')
+    labels = models.ManyToManyField('Label', verbose_name='labels')
 
     class Meta:
         ordering = ['-date_published']
