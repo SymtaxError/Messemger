@@ -1,6 +1,6 @@
 import React, {CSSProperties, ReactNode, useState} from 'react';
 import styles from "views/login.module.css";
-import {loginRequest, registerRequest} from "api/http"
+import {http, loginRequest, registerRequest, resultRefresh} from "api/http"
 import {UserUnit} from "api/models/user";
 
 
@@ -112,8 +112,7 @@ export const Login: React.FC = () => {
                 Info about out super mega website of doom
                 You need to make a good style for a text like this, huh
                 And probably a big text for the Name
-                sadasdsadadasdasdasdasdasd
             </div>
 
         </div>);
-};
+}

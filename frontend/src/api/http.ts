@@ -5,8 +5,8 @@ export const backendURL = "http://localhost:8000";
 
 const headers = {
     "Content-Type": "application/json; charset=UTF-8",
-    "Authorization": (localStorage.getItem("Authorization") !== "undefined")
-        ? `${localStorage.getItem("Authorization")}`
+    "access": (localStorage.getItem("access") !== "undefined")
+        ? `${localStorage.getItem("access")}`
         : ""
 };
 
@@ -28,7 +28,7 @@ export const resultRefresh = async (): Promise<void> => {
     const state = response.status;
     const result: RefreshUnit = JSON.parse(await response.text());
     if (state === 200) {
-        localStorage.setItem("Authorization", result.access);
+        localStorage.setItem("access", result.access);
         localStorage.setItem("refresh", result.refresh);
     } else if (state === 401) {
         window.location.replace("localhost:3000/login")

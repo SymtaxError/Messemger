@@ -4,7 +4,6 @@ import 'index.css';
 import {App} from 'App';
 import * as serviceWorker from 'serviceWorker';
 import {Login} from "./views/login";
-import {Profile} from "./views/profile";
 
 ReactDOM.render(
     <App/>,
