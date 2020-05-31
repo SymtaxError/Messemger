@@ -1,9 +1,9 @@
 from django.db import models
-from servers.models import Server
-from customers.models import Customer
-
+from servers.models import Server, Label
+from users.models import User
 
 class Desk(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     title = models.CharField(max_length=30, verbose_name='desk title')
     server = models.ForeignKey(
         Server,
@@ -11,20 +11,19 @@ class Desk(models.Model):
         on_delete=models.CASCADE
     )
 
-
 class Table(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    title = models.CharField(max_length=30, verbose_name='desk title')
+    title = models.CharField(max_length=30, verbose_name='table title')
     desk = models.ForeignKey(
         Desk,
         verbose_name="desk",
         on_delete=models.CASCADE
     )
 
-
 class Card(models.Model):
+    id = models.AutoField(primary_key=True, unique=True)
     title = models.CharField(max_length=30, verbose_name='desk title')
-    assignees = models.ManyToManyField(Customer)
+    assignees = models.ManyToManyField(User, verbose_name='assignees')
     date_expiration = models.DateField(verbose_name='date expiration')
     is_done = models.BooleanField(verbose_name='done flag')
     table = models.ForeignKey(
@@ -37,3 +36,4 @@ class Card(models.Model):
         verbose_name="desk",
         on_delete=models.CASCADE
     )
+    labels = models.ManyToManyField(Label, verbose_name='labels')
