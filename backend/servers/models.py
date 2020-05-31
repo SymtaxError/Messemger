@@ -1,17 +1,20 @@
 from django.db import models
-from customers.models import Customer
+from users.models import User
 from django.utils import timezone
 
+def get_upload_path(instance, filename):
+    return os.path.join(MEDIA_ROOT, 'servers', str(instance.id), 'avatars', filename)
+
 class Server(models.Model):
-    unique_id = models.AutoField(primary_key=True, unique=True)
-    name = models.CharField(max_length=50)
+    id = models.AutoField(primary_key=True, unique=True)
+    name = models.CharField(max_length=100)
     picture = models.ImageField(
         'picture',
-        upload_to='avatars/',
+        upload_to=get_upload_path,
         null=True,
         blank=True
     )
-    customers = models.ManyToManyField(Customer, verbose_name='customers')
+    users = models.ManyToManyField(User, verbose_name='users')
     DIALOG = 'D'
     CHAT = 'C'
     CHAT_TYPE_CHOICES = (
@@ -34,8 +37,8 @@ class Message(models.Model):
         on_delete=models.CASCADE
     )
     owner = models.ForeignKey(
-        Customer,
-        verbose_name="customer",
+        User,
+        verbose_name="user",
         on_delete=models.CASCADE
     )
     text = models.CharField(max_length=280, verbose_name="message")
@@ -46,7 +49,7 @@ class Message(models.Model):
     labels = models.ManyToManyField('Label', verbose_name='labels')
 
     class Meta:
-        ordering = ['date_published']
+        ordering = ['-date_published']
 
     def __str__(self):
         return self.text
@@ -78,5 +81,3 @@ class Label(models.Model):
         choices=COLOR_TYPE_CHOICES,
         default=NO_COLOR
     )
-     
-# Create your models here.
