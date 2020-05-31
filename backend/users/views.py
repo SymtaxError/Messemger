@@ -5,6 +5,8 @@ from .serializers import UserSerializer, ProfileSerializer
 from .models import User
 
 class UserRegistrationView(APIView):
+    authentication_classes = []
+    permission_classes = [permissions.AllowAny]
     def post(self, request):
         user = UserSerializer(data=request.data)
         if user.is_valid():
