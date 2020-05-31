@@ -1,5 +1,5 @@
 from django.test import RequestFactory, TestCase
-from .views import CustomerRegistrationView
+from .views import UserRegistrationView
 
 class RegistrationTest(TestCase):
     def setUp(self):
@@ -13,5 +13,5 @@ class RegistrationTest(TestCase):
             'last_name': 'Muravev'
         }
         request = self.factory.post('/register/', data=payload)
-        response = CustomerRegistrationView.as_view()(request)
+        response = UserRegistrationView.as_view()(request)
         self.assertEqual(response.status_code, 201)
