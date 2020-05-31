@@ -46,7 +46,7 @@ export const Header: React.FC = () => {
             <div className={styles.firstBlock}>
                 <div className={styles.imgBlock} onClick={() => history.push("/home")}>
                     <img src={homeImg} className={styles.headerImg}/>
-                    <div className={styles.imgLabel}>Home</div>
+                    <div className={styles.imgLabel}>Home{user.first_name} {user.last_name} {user.email}</div>
                 </div>
                 {/*{width > 1000 ? <div>asd</div> : <div>asdd</div>}*/}
                 <div className={styles.imgBlock} onClick={() => history.push("/todo")}>
