@@ -62,21 +62,24 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data = json.loads(text_data)
-        self.message_text = text_data['text']
+        params = text_data['params']
+        self.message_text = params['text']
         await self.save_message()
         await self.channel_layer.group_send(
             self.group_name,
             {
                 'type': 'chat_message',
                 'user': self.scope['user'].get_full_name(),
-                'text': text_data['text']
+                'action': text_data['action'],
+                'params': params
             }
         )
 
     async def chat_message(self, event):
         await self.send(text_data=json.dumps({
             'user': event['user'],
-            'text': event['text']
+            'action': event['action'],
+            'params': event['params']
         }))
 
 class ToDoConsumer(AsyncWebsocketConsumer):
