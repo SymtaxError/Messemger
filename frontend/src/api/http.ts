@@ -108,5 +108,5 @@ export const loginRequest = async (email: string, password: string): Promise<voi
 export const userDataRequest = async (): Promise<UserUnit> => {
     const args = {};
     const response = await http.get("/users/profile/", args);
-    return response as unknown as UserUnit;
+    return response.body as unknown as UserUnit;
 };

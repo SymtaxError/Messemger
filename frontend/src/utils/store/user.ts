@@ -1,6 +1,7 @@
 import {createStore, Store, Event, createEvent, createEffect, Effect} from "effector";
 import {userDataRequest} from "../../api/http";
 import {UserUnit} from "../../api/models/user";
+import {useMappedStore} from "./projection";
 
 interface UserData {
     user: UserUnit
@@ -34,7 +35,6 @@ export const UserStore = (() => {
     });
     store.getUser.done.watch(result => {
         store.setUser(result.result);
-        console.log("yay user!");
     });
 
     store.getUser();
