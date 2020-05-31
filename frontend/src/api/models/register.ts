@@ -1,5 +1,6 @@
-export interface UserUnit {
+export interface RegisterUnit {
     email: string
+    password: string
     first_name: string
     last_name: string
 }

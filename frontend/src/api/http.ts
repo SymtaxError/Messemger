@@ -1,28 +1,21 @@
-import {UserUnit} from "api/models/user";
-import {stringify} from "querystring";
-import {Ref} from "react";
+import {UserUnit} from "./models/user";
+import {RegisterUnit} from "./models/register";
+import {UserStore} from "../utils/store/user";
 
-export const backendURL = "localhost:8000/";
 
-const composeArgs = (args: Record<string, string>): string => {
-    const entries = Object.entries(args);
-    const params = entries.map(entry => `${entry[0]}=${entry[1]}`).join("&");
-    return params.length ? `?${params}` : "";
-};
+export const backendURL = "http://localhost:8000";
 
-const headers = {
-    "Content-Type": "application/json; charset=UTF-8",
-    "access": (localStorage.getItem("access") !== "undefined")
-        ? `${localStorage.getItem("access")}`
-        : ""
-};
+interface WrappedResponse<T> {
+    body?: T
+    code: number
+}
 
 interface RefreshUnit {
     access: string
     refresh: string
 }
 
-const resultRefresh = async (): Promise<void> => {
+export const resultRefresh = async (): Promise<void> => {
     const bodyForCheck = {
         "refresh": (localStorage.getItem("refresh") !== "undefined")
             ? `${localStorage.getItem("refresh")}`
@@ -30,7 +23,7 @@ const resultRefresh = async (): Promise<void> => {
     };
     const response = await fetch(
         `${backendURL}/auth/jwt/refresh/`, // Сюда адрес для проверки временного токена
-        {method: "POST", body: JSON.stringify(bodyForCheck)}
+        {method: "POST", body: JSON.stringify(bodyForCheck), mode: "cors"}
     );
     const state = response.status;
     const result: RefreshUnit = JSON.parse(await response.text());
@@ -45,37 +38,53 @@ const resultRefresh = async (): Promise<void> => {
 
 const request = async <T>(
     path: string,
-    args: Record<string, string>,
     method: "GET" | "POST" | "DELETE",
     body?: string
-): Promise<T> => {
-    const params = composeArgs(args);
+): Promise<WrappedResponse<T>> => {
+    const headers = {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": (localStorage.getItem("access") !== "undefined")
+            ? `JWT ${localStorage.getItem("access")}`
+            : ""
+    };
+
     const result = await fetch(
-        `${backendURL}${path}${params}`,
-        {method: method, body: body, headers: headers}
+        `${backendURL}${path}`,
+        {method: method, headers: headers, body: body, mode: "cors"}
     );
 
-    if (result.status === 403) {
-        resultRefresh();
+    const status = await result.status;
+
+    if (status === 403) {
+        await resultRefresh();
     } else if (result.status === 401) {
-        alert(result.text());
+        alert("Ошибка 401");
     }
-    return JSON.parse(await result.text() || "null") as unknown as T;
+
+    if (status !== 200)
+        return {
+            code: status
+        };
+    return {
+        body: JSON.parse(await result.text() || "null") as unknown as T,
+        code: status
+    };
 };
+
 
 export const http = {
-    get: async <T>(path: string, args: Record<string, string>): Promise<T> => {
-        return request(path, args, "GET");
+    get: async <T>(path: string, args: Record<string, string>): Promise<WrappedResponse<T>> => {
+        return request(path, "GET");
     },
-    post: async <T>(path: string, args: Record<string, string>, body?: string): Promise<T> => {
-        return request(path, args, "POST", body);
+    post: async <T>(path: string, args: Record<string, string>, body?: string): Promise<WrappedResponse<T>> => {
+        return request(path, "POST", body);
     },
-    delete: async <T>(path: string, args: Record<string, string>): Promise<T> => {
-        return request(path, args, "DELETE");
+    delete: async <T>(path: string, args: Record<string, string>): Promise<WrappedResponse<T>> => {
+        return request(path, "DELETE");
     }
 };
 
-export const registerRequest = async (user: UserUnit): Promise<void> => {
+export const registerRequest = async (user: RegisterUnit): Promise<void> => {
     const args = {};
     await http.post("/users/register/", args, JSON.stringify(user));
     return;
@@ -83,6 +92,21 @@ export const registerRequest = async (user: UserUnit): Promise<void> => {
 
 export const loginRequest = async (email: string, password: string): Promise<void> => {
     const args = {};
-    await http.post("/auth/jwt/login/", args, JSON.stringify({"email": email, "password": password}));
+    const wrappedResponse = await http.post<RefreshUnit>("/auth/jwt/login/", args, JSON.stringify({
+        "email": email,
+        "password": password
+    }));
+    if (wrappedResponse.body) {
+        localStorage.setItem("access", wrappedResponse.body.access);
+        localStorage.setItem("refresh", wrappedResponse.body.refresh);
+        await UserStore.getUser();
+    } else
+        alert("Неправильный логин/пароль");
     return;
+};
+
+export const userDataRequest = async (): Promise<UserUnit> => {
+    const args = {};
+    const response = await http.get("/users/profile/", args);
+    return response as unknown as UserUnit;
 };
