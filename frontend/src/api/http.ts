@@ -5,13 +5,6 @@ import {UserStore} from "../utils/store/user";
 
 export const backendURL = "http://localhost:8000";
 
-const headers = {
-    "Content-Type": "application/json; charset=UTF-8",
-    "Authorization": (localStorage.getItem("access") !== "undefined")
-        ? `JWT ${localStorage.getItem("access")}`
-        : ""
-};
-
 interface WrappedResponse<T> {
     body?: T
     code: number
@@ -48,6 +41,13 @@ const request = async <T>(
     method: "GET" | "POST" | "DELETE",
     body?: string
 ): Promise<WrappedResponse<T>> => {
+    const headers = {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": (localStorage.getItem("access") !== "undefined")
+            ? `JWT ${localStorage.getItem("access")}`
+            : ""
+    };
+
     const result = await fetch(
         `${backendURL}${path}`,
         {method: method, headers: headers, body: body, mode: "cors"}
@@ -100,8 +100,7 @@ export const loginRequest = async (email: string, password: string): Promise<voi
         localStorage.setItem("access", wrappedResponse.body.access);
         localStorage.setItem("refresh", wrappedResponse.body.refresh);
         await UserStore.getUser();
-    }
-    else
+    } else
         alert("Неправильный логин/пароль");
     return;
 };
