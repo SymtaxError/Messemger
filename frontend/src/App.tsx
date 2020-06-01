@@ -8,7 +8,7 @@ import styles from "App.module.css";
 
 export const App: React.FC = () => {
 
-    const webSocket = new WebSocket(`ws://localhost:8000/chat/1/?${localStorage.getItem("access")}`);
+    const webSocket = new WebSocket(`ws://localhost:8000/servers/chat/1/?${localStorage.getItem("access")}/`);
 
     const sendTestMessage = () => {
         const msg = {

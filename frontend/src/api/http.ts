@@ -110,3 +110,13 @@ export const userDataRequest = async (): Promise<UserUnit> => {
     const response = await http.get("/users/profile/", args);
     return response.body as unknown as UserUnit;
 };
+
+// export const createPersonalChat = async (""): Promise<void> => {
+//     const args = {};
+//
+// };
+
+export const createGroupChat = async (name: string): Promise<void> => {
+    const args = {};
+    await http.post("/servers/chat/", args, JSON.stringify(name));
+};
