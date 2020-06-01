@@ -10,22 +10,26 @@
 .profile {
     display: flex;
     flex-flow: column nowrap;
+    place-content: center;
+    align-items: center;
 }
 
 .avatarBlock {
-    width: 1000px;
+    width: 100%;
     display: flex;
     flex-flow: row wrap;
     place-content: space-between;
     align-content: center;
     padding-top: 25px;
     padding-bottom: 25px;
+    padding-right: 25px;
     border-top: 1px solid #e1e1e1;
     border-bottom: 1px solid #e1e1e1;
 }
 
-.avatarSign {
+.settingsSite {
     font-weight: 900;
+    padding-left: 20px;
 }
 
 .avatarImg {
@@ -34,14 +38,11 @@
     background-color: cornflowerblue;
 }
 
-.settingsSite {
-    font-weight: 900;
-}
-
 .settingsBlock {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-column-gap: 100px;
+    justify-content: flex-start;
     margin-top: 20px;
 }
 
@@ -53,7 +54,7 @@
 
 .settingInput {
     height: 27px;
-    width: 100%;
+    width: 230px;
     font-weight: 400;
     font-size: 15px;
     border: 1px solid #e1e1e1;
@@ -64,6 +65,7 @@
 }
 
 .exitButton {
+    margin-top: 10px;
     height: 35px;
     width: 70px;
     background-color: #bb2816;

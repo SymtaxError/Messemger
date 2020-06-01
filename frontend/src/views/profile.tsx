@@ -19,7 +19,7 @@ export const Profile: React.FC = () => {
         <div className={styles.body}>
             <div className={styles.profile}>
                 <div className={styles.avatarBlock}>
-                    <div className={styles.avatarSign}>Your current Avatar</div>
+                    <div className={styles.settingsSite}>Your current Avatar</div>
                     <div className={styles.avatarImg}>Avatar image</div>
                     <div>Upload new avatar</div>
                 </div>
