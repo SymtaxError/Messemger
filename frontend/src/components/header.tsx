@@ -4,6 +4,7 @@ import homeImg from "img/home.png";
 import todoImg from "img/todo.png";
 import calendarImg from "img/calendar.png";
 import userImg from "img/user.png";
+import messagerImg from "img/messager.png"
 import {useHistory} from "react-router-dom";
 import {useMappedStore} from "../utils/store";
 import {UserStore} from "../utils/store/user";
@@ -47,10 +48,14 @@ export const Header: React.FC = () => {
                     <img src={homeImg} className={styles.headerImg}/>
                     <div className={styles.imgLabel}>Home</div>
                 </div>
+                <div className={styles.imgBlock} onClick={() => history.push("/home")}>
+                    <img src={homeImg} className={styles.headerImg}/>
+                    <div className={styles.imgLabel}>Home</div>
+                </div>
                 {/*{width > 1000 ? <div>asd</div> : <div>asdd</div>}*/}
-                <div className={styles.imgBlock} onClick={() => history.push("/todo")}>
-                    <img src={todoImg} className={styles.headerImg}/>
-                    <div className={styles.imgLabel}>ToDo</div>
+                <div className={styles.imgBlock} onClick={() => history.push("/chat")}>
+                    <img src={messagerImg} className={styles.headerImg}/>
+                    <div className={styles.imgLabel}>Сообщения</div>
                 </div>
                 <div className={styles.imgBlock} onClick={() => history.push("/calendar")}>
                     <img src={calendarImg} className={styles.headerImg}/>
