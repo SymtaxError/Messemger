@@ -1,27 +1,83 @@
 import json
 from channels.db import database_sync_to_async
+from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 from django.contrib.auth.models import AnonymousUser
 from .models import Message, Server
 from todos.models import Desk, Table, Card
 
-class NotificationConsumer(WebsocketConsumer):
-    def connect(self):
+@database_sync_to_async
+def get_full_name(instance):
+    return instance.scope['user'].profile.get_full_name()
+
+class NotificationConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.location = self.scope['query_string'].decode().split('&')[1][9:]
+        print(self.location)
         if not (type(self.scope['user']) == AnonymousUser):
-            self.accept()
+            await self.join_all_chats()
+            await self.join_all_todos()
+            await self.accept()
         else:
-            self.disconnect(3000)
+            await self.disconnect(3000)
 
-    def disconnect(self, close_code):
-        self.close(code=close_code)
+    async def disconnect(self, close_code):
+        if not (type(self.scope['user']) == AnonymousUser):
+            for id in await self.get_chat_list():
+                if self.location == ('chat_' + str(id)):
+                    continue
+                await self.channel_layer.group_discard('chat_' + str(id), self.channel_name)
+            for id in await self.get_todos_list():
+                if self.location == ('desk_' + str(id)):
+                    continue
+                await self.channel_layer.grop_discard('desk_' + str(id), self.channel_name)
+        await self.close(code=close_code)
 
-    def receive(self, text_data):
-        print(self.scope['user'])
+    @database_sync_to_async
+    def get_chat_list(self):
+        return [item.id for item in Server.objects.filter(users=self.scope['user'])]
+
+    @database_sync_to_async
+    def get_todos_list(self):
+        query = async_to_sync(self.get_chat_list)()
+        todos = []
+        for id in query:
+            todos += [item.id for item in Server.objects.get(id=id).desk_set.all()]
+        return todos
+
+    async def join_all_chats(self):
+        query = await self.get_chat_list()
+        for id in query:
+            if ('chat_' + str(id)) == self.location:
+                continue
+            await self.channel_layer.group_add('chat_' + str(id), self.channel_name)
+
+    async def join_all_todos(self):
+        query = await self.get_todos_list()
+        for todo in query:
+            if ('desk_' + str(todo.id)) == self.location:
+                continue
+            await self.channel_layer.group_add('desk_' + str(todo.id), self.channel_name)
+
+    async def receive(self, text_data):
         text_data = json.loads(text_data)
+        await self.change_location(text_data)
+
+    async def change_location(self, text_data):
+        await self.channel_layer.group_discard(self.location, self.channel_name)
         self.location = text_data['location']
-        if self.location == 'chat':
-            self.chat_id = text_data['id']
-            self.send(json.dumps(text_data))
+        await self.channel_layer.group_add(self.location, self.channel_name)
+
+    async def chat_message(self, data):
+        await self.send(text_data=json.dumps({
+            'location': 'chat_' + str(data['params']['chat_id']),
+            'action' : 'chat_message',
+            'user': data['user']
+            }
+            ))
+
+    async def desk_action(self, text_data):
+        pass
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -62,24 +118,27 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         text_data = json.loads(text_data)
+        action = text_data['action']
         params = text_data['params']
-        self.message_text = params['text']
-        await self.save_message()
-        await self.channel_layer.group_send(
+        if action == 'chat_message':
+            self.message_text = params['text']
+            await self.save_message()
+            self.user_name = await get_full_name(self)
+            await self.channel_layer.group_send(
             self.group_name,
             {
                 'type': 'chat_message',
-                'user': self.scope['user'].get_full_name(),
-                'action': text_data['action'],
+                'user': self.user_name,
                 'params': params
             }
-        )
+            )
 
-    async def chat_message(self, event):
+    async def chat_message(self, data):
+        data['params']['chat_id'] = self.chat_id
         await self.send(text_data=json.dumps({
-            'user': event['user'],
-            'action': event['action'],
-            'params': event['params']
+            'action': 'chat_message',
+            'user': data['user'],
+            'params': data['params']
         }))
 
 class ToDoConsumer(AsyncWebsocketConsumer):
@@ -212,20 +271,21 @@ class ToDoConsumer(AsyncWebsocketConsumer):
         elif text_data['action'] == 'remove_card':
             pass
 
+        # self.user_name = await get_full_name(self)
         await self.channel_layer.group_send(
             self.group_name,
             {
                 'type': 'desk_action',
-                'user': self.scope['user'].get_full_name(),
+                'user': await get_full_name(self),
                 'action': text_data['action'],
                 'params': params
             }
         )
 
-    async def desk_action(self, event):
+    async def desk_action(self, data):
         await self.send(text_data=json.dumps({
-            'user': event['user'],
-            'action': event['action'],
-            'params': event['params']
+            'user': data['user'],
+            'action': data['action'],
+            'params': data['params']
         }))
 

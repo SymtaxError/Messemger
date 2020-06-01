@@ -32,7 +32,7 @@ class JWTAuthMiddlewareInstance:
 
     async def __call__(self, receive, send):
         close_connections()
-        token = self.scope['query_string'].decode()
+        token = self.scope['query_string'].decode().split('&')[0][6:]
         self.scope['user'] = await get_user(token)
         inner = self.inner(self.scope)
         return await inner(receive, send)
