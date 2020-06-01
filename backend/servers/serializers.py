@@ -2,9 +2,9 @@ from rest_framework import serializers
 from .models import Server, Message, Label
 
 class ServerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Server
-        fields = ['picture', 'name', 'users', 'type']
+    name = serializers.CharField(max_length=100)
+    type_chat = serializers.CharField(max_length=1)
+    
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:

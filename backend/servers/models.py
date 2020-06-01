@@ -17,6 +17,7 @@ class Server(models.Model):
     users = models.ManyToManyField(User, verbose_name='users')
     DIALOG = 'D'
     CHAT = 'C'
+
     CHAT_TYPE_CHOICES = (
         (DIALOG, 'Dialog'),
         (CHAT, 'Chat')
@@ -28,6 +29,8 @@ class Server(models.Model):
         choices=CHAT_TYPE_CHOICES,
         default=DIALOG
     )
+
+    objects = ServerManager()
 
 class Message(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
