@@ -7,16 +7,10 @@ from todos.models import Desk, Table, Card
 
 class NotificationConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.location = self.scope['location']
+        self.location = self.scope['query_string'].decode().split('&')[1][9:]
         if not (type(self.scope['user']) == AnonymousUser):
-            for chat in database_sync_to_async(Server.objects.filter)(users=self.scope['user']):
-                if ('chat_' + str(chat_id)) == self.location:
-                    continue
-                await self.channel_layer.group_add('chat_' + str(chat.id), self.channel_name)
-            for todo in database_sync_to_async(Desk.server.objects.filter)(users=self.scope['user']):
-                if ('desk_' + str(chat_id)) == self.location:
-                    continue
-                await self.channel_layer.group_add('desk_' + str(todo.id), self.channel_name)
+            self.join_all_chats()
+            self.join_all_todos()
             await self.accept()
         else:
             await self.disconnect(3000)
@@ -31,6 +25,29 @@ class NotificationConsumer(AsyncWebsocketConsumer):
                 continue
             await self.channel_layer.grop_discard('desk_' + str(todo.id), self.channel_name)
         await self.close(code=close_code)
+
+    @database_sync_to_async
+    async def get_chat_list(self):
+        return Server.objects.filter(users=self.scope['user'])
+
+    @database_sync_to_async
+    async def get_todos_list(self):
+        return Desk.server.objects.filter(users=self.scope['user'])
+
+    async def join_all_chats(self):
+        query = await self.get_chat_list()
+        for chat in query:
+            if ('chat_' + str(chat.id)) == self.location:
+                continue
+            await self.channel_layer.group_add('chat_' + str(chat.id), self.channel_name)
+
+    async def join_all_todos(self):
+        query = await self.get_todos_list()
+        for todo in query:
+            if ('desk_' + str(todo.id)) == self.location:
+                continue
+            await self.channel_layer.group_add('desk_' + str(todo.id), self.channel_name)
+
 
     async def receive(self, text_data):
         text_data = json.loads(text_data)
