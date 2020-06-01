@@ -15,7 +15,6 @@ export const Header: React.FC = () => {
     ] = useMappedStore(UserStore, x => [
         x.user
     ]);
-
     const [width, setWidth] = useState(window.innerWidth);
     const updateWidth = () => {
         setWidth(window.innerWidth);
@@ -46,7 +45,7 @@ export const Header: React.FC = () => {
             <div className={styles.firstBlock}>
                 <div className={styles.imgBlock} onClick={() => history.push("/home")}>
                     <img src={homeImg} className={styles.headerImg}/>
-                    <div className={styles.imgLabel}>Home{user.first_name} {user.last_name} {user.email}</div>
+                    <div className={styles.imgLabel}>Home</div>
                 </div>
                 {/*{width > 1000 ? <div>asd</div> : <div>asdd</div>}*/}
                 <div className={styles.imgBlock} onClick={() => history.push("/todo")}>
