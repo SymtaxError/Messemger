@@ -1,6 +1,6 @@
 import {createStore, Store, Event, createEvent, createEffect, Effect} from "effector";
-import {userDataRequest} from "../../api/http";
-import {UserUnit} from "../../api/models/user";
+import {userDataRequest} from "api/http";
+import {UserUnit} from "api/models/user";
 import {useMappedStore} from "./projection";
 
 interface UserData {
