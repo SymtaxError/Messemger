@@ -24,8 +24,10 @@ class UserProfileView(APIView):
             'email': user.email,
             'first_name': user.profile.first_name,
             'last_name': user.profile.last_name,
-            'tag': user.profile.tag
+            'tag': user.profile.tag,
         }
+        if user.profile.status != None:
+            data['status'] = user.profile.status
         profile = ProfileSerializer(data=data)
         if profile.is_valid():
             return Response(profile.data, status=status.HTTP_200_OK)
