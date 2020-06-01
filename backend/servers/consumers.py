@@ -95,7 +95,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.group_name,
             {
                 'type': 'chat_message',
-                'user': self.scope['user'].get_full_name(),
+                'user': self.scope['user'].profile.get_full_name(),
                 'action': text_data['action'],
                 'params': params
             }
@@ -242,7 +242,7 @@ class ToDoConsumer(AsyncWebsocketConsumer):
             self.group_name,
             {
                 'type': 'desk_action',
-                'user': self.scope['user'].get_full_name(),
+                'user': self.scope['user'].profile.get_full_name(),
                 'action': text_data['action'],
                 'params': params
             }
