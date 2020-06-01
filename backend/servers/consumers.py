@@ -5,23 +5,49 @@ from django.contrib.auth.models import AnonymousUser
 from .models import Message, Server
 from todos.models import Desk, Table, Card
 
-class NotificationConsumer(WebsocketConsumer):
-    def connect(self):
+class NotificationConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.location = self.scope['location']
         if not (type(self.scope['user']) == AnonymousUser):
-            self.accept()
+            for chat in database_sync_to_async(Server.objects.filter)(users=self.scope['user']):
+                if ('chat_' + str(chat_id)) == self.location:
+                    continue
+                await self.channel_layer.group_add('chat_' + str(chat.id), self.channel_name)
+            for todo in database_sync_to_async(Desk.server.objects.filter)(users=self.scope['user']):
+                if ('desk_' + str(chat_id)) == self.location:
+                    continue
+                await self.channel_layer.group_add('desk_' + str(todo.id), self.channel_name)
+            await self.accept()
         else:
-            self.disconnect(3000)
+            await self.disconnect(3000)
 
-    def disconnect(self, close_code):
-        self.close(code=close_code)
+    async def disconnect(self, close_code):
+        for chat in database_sync_to_async(Server.objects.filter)(users=self.scope['user']):
+            if self.location == ('chat_' + str(chat.id)):
+                continue
+            await self.channel_layer.group_discard('chat_' + str(chat.id), self.channel_name)
+        for todo in database_sync_to_async(Desk.server.objects.filter)(users=self.scope['user']):
+            if self.location == ('desk_' + str(todo.id)):
+                continue
+            await self.channel_layer.grop_discard('desk_' + str(todo.id), self.channel_name)
+        await self.close(code=close_code)
 
-    def receive(self, text_data):
-        print(self.scope['user'])
+    async def receive(self, text_data):
         text_data = json.loads(text_data)
+        await self.send(json.dumps(text_data({
+            'location' : text_data['location'],
+            'action' : text_data['action']
+        })))
+
+    async def change_location(self, text_data):
+        await self.channel_layer.group_add(self.location, self.channel_layer)
         self.location = text_data['location']
-        if self.location == 'chat':
-            self.chat_id = text_data['id']
-            self.send(json.dumps(text_data))
+        await self.channel_layer.group_discard(self.location, self.channel_layer)
+        await self.send(json.dumps(text_data({
+            'location' : self.location,
+            'action' : text_data['action']
+        })))
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
