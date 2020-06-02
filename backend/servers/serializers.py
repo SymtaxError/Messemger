@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import Server, Message, Label
-from users.models import UserProfile
+from .models import Label
+from django.utils.dateparse import parse_datetime
 
 class ServerSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
@@ -11,9 +11,22 @@ class ServerSerializer(serializers.Serializer):
 
 class MessageSerializer(serializers.Serializer):
     owner = serializers.CharField(max_length=60)
-    owner_tag = serializers.CharField(max_length=128)
+    owner_tag = serializers.SerializerMethodField()
     text = serializers.CharField(max_length=280)
-    date_published = serializers.DateTimeField(format="{ year : %Y, month : %m, day : %d, hour : %H, minute : %M}")
+    date_published = serializers.SerializerMethodField()
+    def get_date_published(self, obj):
+        datetime = parse_datetime(str(obj.date_published))
+        date = {
+            'year': datetime.year,
+            'month': datetime.month,
+            'day': datetime.day,
+            'hour': datetime.hour,
+            'minute': datetime.second
+        }
+        return date
+    
+    def get_owner_tag(self, obj):
+        return obj.owner.profile.tag
 
 class LabelSerializer(serializers.ModelSerializer):
     class Meta:
