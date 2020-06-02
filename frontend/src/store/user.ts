@@ -1,14 +1,26 @@
 import {createStore, Store, Event, createEvent, createEffect, Effect} from "effector";
-import {userDataRequest} from "api/http";
 import {UserUnit} from "api/models/user";
-import {useMappedStore} from "./projection";
+
+export const userDataRequest = async (): Promise<UserUnit> => {
+    const headers = {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": (localStorage.getItem("access") !== "undefined")
+            ? `JWT ${localStorage.getItem("access")}`
+            : ""
+    };
+    const response = await fetch(
+        `http://localhost:8000/users/profile/`,
+        {method: "GET", headers: headers, mode: "cors"}
+    );
+    return JSON.parse(await response.text()) as unknown as UserUnit;
+};
 
 interface UserData {
     user: UserUnit
 }
 
 const initialData: UserData = {
-    user: {email: "", first_name: "", last_name: ""}
+    user: {email: "", first_name: "", last_name: "", tag: ""}
 };
 
 interface UserStore extends Store<UserData> {
@@ -26,6 +38,7 @@ export const UserStore = (() => {
         name: "getUser",
         handler: async (): Promise<UserUnit> => {
             const response = await userDataRequest();
+            console.log(response);
             return response;
         }
     });

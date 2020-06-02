@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "components/chat.module.css"
-import {MessageType} from "api/models/message";
+import {MessageType} from "api/models/messageType";
 
 interface messageComponentProps {
     unit: MessageType
@@ -18,13 +18,13 @@ export const AnMessage: React.FC<messageComponentProps> = x => {
     )
 };
 
-export const myMessage: React.FC<messageComponentProps> = x => {
+export const MyMessage: React.FC<messageComponentProps> = x => {
     return (
         <div className={styles.myMsg}>
             <div className={styles.msgContent}>
                 <div className={styles.msgAuthor}>{x.unit.owner}</div>
                 <div className={styles.msgText}>{x.unit.text}</div>
-                <div className={styles.msgDate}>{x.unit.date_published}</div>
+                <div className={styles.msgDate}>b</div>
             </div>
         </div>
     )
