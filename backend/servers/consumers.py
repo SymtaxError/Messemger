@@ -263,29 +263,29 @@ class ToDoConsumer(AsyncWebsocketConsumer):
         elif text_data['action'] == 'create_card':
             await self.create_card(params['table_id'], params['title'])
         elif text_data['action'] == 'move_table':
-            pass
+            await self.move_table(params['old_table_id'], params['new_table_id'])
         elif text_data['action'] == 'move_card':
-            pass
+            await self.create_table(params['old_table_id'], params['old_card_id'],
+                params['new_table_id'], params['new_card_id'])
         elif text_data['action'] == 'remove_table':
-            pass
+            await self.create_table(params['table_id'])
         elif text_data['action'] == 'remove_card':
-            pass
+            await self.create_table(params['table_id'], params['card_id'])
 
-        # self.user_name = await get_full_name(self)
         await self.channel_layer.group_send(
             self.group_name,
             {
                 'type': 'desk_action',
-                'user': await get_full_name(self),
                 'action': text_data['action'],
+                'user': await get_full_name(self),
                 'params': params
             }
         )
 
     async def desk_action(self, data):
         await self.send(text_data=json.dumps({
-            'user': data['user'],
             'action': data['action'],
+            'user': data['user'],
             'params': data['params']
         }))
 

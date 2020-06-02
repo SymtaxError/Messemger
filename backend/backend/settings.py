@@ -21,7 +21,8 @@ INSTALLED_APPS = [
     'users',
     'channels',
     'servers',
-    'todos'
+    'todos',
+    'news'
 ]
 
 MIDDLEWARE = [
