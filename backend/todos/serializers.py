@@ -1,48 +1,32 @@
 from rest_framework import serializers
 from .models import Desk, Table, Card
-
-
-# class ToDosSerializer(serializers.Serializer):
-#     id = serializers.IntegerField(required=False)
-#     name = serializers.CharField(max_length=100)
-#     type_chat = serializers.CharField(max_length=1, required=False)
-#     tag = serializers.CharField(max_length=128, required=False)
-#     picture = serializers.ImageField(required=False)
-
-# class MessageSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Message
-#         fields = ['user', 'message', 'labels', 'date_published']
-#
-# class LabelSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Label
-#         fields = ['text', 'color']
+from users.models import User
 
 class AssignSerializer(serializers.ModelSerializer):
     class Meta:
+        model = User
         fields = ['id']
 
 
 class CardSerializer(serializers.ModelSerializer):
-    assingn = AssignSerializer(read_only=True)
+    assignees = AssignSerializer(read_only=True, many=True)
 
     class Meta:
         model = Card
-        fields = ['id', 'id_on_table', 'title', 'assign']
+        fields = ['id', 'id_on_table', 'title', 'assignees']
 
 
 class TableSerializer(serializers.ModelSerializer):
-    cards = CardSerializer(read_only=True, many=True)
+    card_set = CardSerializer(read_only=True, many=True)
 
     class Meta:
         model = Table
-        fields = ['id', 'id_on_desk', 'title', 'cards']
+        fields = ['id', 'id_on_desk', 'title', 'card_set']
 
 
 class DeskSerializer(serializers.ModelSerializer):
-    tables = TableSerializer(read_only=True, many=True)
+    table_set = TableSerializer(read_only=True, many=True)
 
     class Meta:
         model = Desk
-        fields = ['id', 'title', 'server', 'tables']
+        fields = ['id', 'title', 'server', 'table_set']
