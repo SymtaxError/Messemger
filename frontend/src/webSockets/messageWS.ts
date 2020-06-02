@@ -2,7 +2,7 @@ export const msgSocket = new WebSocket(`ws://localhost:8000/servers/chat/1/?${lo
 
 export const sendTestMessage = () => {
     const msg = {
-        user: "Durak",
+        user: "TestUser",
         action: "chat_message",
         params: {
             "text": "testim-testim",
@@ -13,5 +13,5 @@ export const sendTestMessage = () => {
 };
 
 msgSocket.onmessage = (event) => {
-    alert(event.data);
+    alert(JSON.parse(event.data));
 };

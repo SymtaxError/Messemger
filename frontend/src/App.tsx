@@ -5,7 +5,7 @@ import {Profile} from "views/profile";
 import { Header } from "./components/header";
 import {Switch, useLocation, useHistory, Route, Redirect} from "react-router-dom";
 import styles from "App.module.css";
-import {sendTestMessage} from "./webSockets/messageWS";
+import {sendTestMessage} from "webSockets/messageWS";
 import {Messemger} from "views/messemger";
 
 export const App: React.FC = () => {
