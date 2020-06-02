@@ -2,10 +2,11 @@ from rest_framework import serializers
 from .models import Desk, Table, Card
 from users.models import User
 
-class AssignSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id']
+class AssignSerializer(serializers.Serializer):
+    user_tag = serializers.SerializerMethodField()
+
+    def get_user_tag(self, obj):
+        return obj.profile.tag
 
 
 class CardSerializer(serializers.ModelSerializer):
