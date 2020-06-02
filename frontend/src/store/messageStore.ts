@@ -1,5 +1,5 @@
 import {createStore, Store, Event, createEvent, createEffect, Effect} from "effector";
-import {MessageType} from "api/models/message";
+import {MessageType} from "api/models/messageType";
 
 interface MessagesData {
     name: string

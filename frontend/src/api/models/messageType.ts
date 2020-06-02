@@ -1,4 +1,4 @@
-import {DateType} from "./date";
+import {DateType} from "./dateType";
 
 export interface MessageType {
     owner: string

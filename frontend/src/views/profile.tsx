@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import styles from "views/profile.module.css"
-import {UserStore} from "utils/store/user";
+import {UserStore} from "store/user";
 import {useMappedStore} from "utils/store";
 
 export const Profile: React.FC = () => {
