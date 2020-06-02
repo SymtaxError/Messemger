@@ -58,3 +58,35 @@ class ServerView(APIView):
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_403_FORBIDDEN)
+
+
+
+class MessageView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        chat_id = int(request.GET.get('chat_id'))
+        count = int(request.GET.get('count'))
+        start = int(request.GET.get('start')) - 1
+        if servers.methods.server_has_user(request, chat_id):
+            try:
+                server = Server.objects.get(id=chat_id)
+                query_set = server.message_set.all()[start: start + count]
+                serializer = MessageSerializer(query_set, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def post(self, request):
+        chat_id = int(request.GET.get('chat_id'))
+        if servers.methods.server_has_user(request, chat_id):
+            serializer = MessageSerializer(data=request.data)
+            if serializer.is_valid():
+                data = serializer.validated_data
+                Message.objects.create_message(text=data['text'], owner=request.user, server = Server.objects.get(id=chat_id))
+                return Response(status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_403_FORBIDDEN)
