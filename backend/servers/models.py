@@ -1,6 +1,8 @@
 from django.db import models
 from users.models import User
 from .managers import ServerManager
+from backend.settings import MEDIA_ROOT
+import os
 
 def get_upload_path(instance, filename):
     return os.path.join(MEDIA_ROOT, 'servers', str(instance.id), 'avatars', filename)
@@ -33,6 +35,11 @@ class Server(models.Model):
         default=DIALOG
     )
     objects = ServerManager()
+
+    def update(self, **kwargs):
+        for item in kwargs.items():
+            self.__dict__[item[0]] = item[1]
+        self.save()
 
 class Message(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
