@@ -6,6 +6,7 @@ class ServerSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
     type_chat = serializers.CharField(max_length=1, required=False)
     tag = serializers.CharField(max_length=128, required=False)
+    picture = serializers.ImageField(required=False)
 
 class MessageSerializer(serializers.ModelSerializer):
     text = serializers.CharField(max_length=280)
