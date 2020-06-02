@@ -5,6 +5,7 @@ from users.models import User
 class Desk(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     title = models.CharField(max_length=30, verbose_name='desk title')
+    users = models.ManyToManyField(User, verbose_name='users')
     server = models.ForeignKey(
         Server,
         verbose_name="server",
