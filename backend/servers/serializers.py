@@ -8,9 +8,7 @@ class ServerSerializer(serializers.Serializer):
     tag = serializers.CharField(max_length=128, required=False)
 
 class MessageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Message
-        fields = ['user', 'message', 'labels', 'date_published']
+    text = serializers.CharField(max_length=280)
 
 class LabelSerializer(serializers.ModelSerializer):
     class Meta:
