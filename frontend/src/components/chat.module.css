@@ -33,7 +33,7 @@
     flex-flow: column nowrap;
     justify-content: flex-start;
     padding-right: 10px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 

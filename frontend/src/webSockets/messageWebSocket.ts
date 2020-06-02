@@ -13,5 +13,5 @@ export const sendTestMessage = () => {
 };
 
 msgSocket.onmessage = (event) => {
-    alert(JSON.parse(event.data));
+    alert(event.data);
 };
