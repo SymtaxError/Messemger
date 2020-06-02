@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import User
-from .managers import NewsPostManager
+from news.managers import NewsPostManager
 
 class NewsPost(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
@@ -13,9 +13,12 @@ class NewsPost(models.Model):
         on_delete=models.CASCADE
     )
     
-    objects = NewPostManager()
+    objects = NewsPostManager()
 
     class Meta:
         ordering = ['-date_published']
 
-# Create your models here.
+    def update(self, **kwargs):
+        for item in kwargs.items():
+            self.__dict__[item[0]] = item[1]
+        self.save()
