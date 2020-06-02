@@ -69,9 +69,15 @@ class MessageView(APIView):
         count = int(request.GET.get('count'))
         start = int(request.GET.get('start'))
         if servers.methods.server_has_user(request, chat_id):
-            server = Server.objects.get(id=chat_id)
-            serializer = MessageSerializer(server.message_set.all()[start : start + count], many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            try:
+                server = Server.objects.get(id=chat_id)
+                query_set = server.message_set.all()[start - 1 : start + count - 1]
+                for i in range(len(query_set)):
+                    query_set[i].owner_tag = request.user.profile.tag
+                serializer = MessageSerializer(query_set, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
 

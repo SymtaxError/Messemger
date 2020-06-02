@@ -10,8 +10,8 @@ class ServerSerializer(serializers.Serializer):
     picture = serializers.ImageField(required=False)
 
 class MessageSerializer(serializers.Serializer):
-    owner = serializers.CharField(max_length=280)
-    owner_tag = serializers.IntegerField()
+    owner = serializers.CharField(max_length=60)
+    owner_tag = serializers.CharField(max_length=128)
     text = serializers.CharField(max_length=280)
     date_published = serializers.DateTimeField(format="{ year : %Y, month : %m, day : %d, hour : %H, minute : %M}")
 
