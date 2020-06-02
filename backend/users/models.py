@@ -30,6 +30,12 @@ class User(AbstractBaseUser):
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
+    def __str__(self):
+        return UserProfile.objects.get(user=self).get_full_name()
+
+    def get_tag(self):
+        return UserProfile.objects.get(user=self).tag
+
 class UserProfile(models.Model):
     user = models.OneToOneField(
         AUTH_USER_MODEL,

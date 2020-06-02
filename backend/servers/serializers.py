@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Server, Message, Label
+from users.models import UserProfile
 
 class ServerSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
@@ -8,8 +9,11 @@ class ServerSerializer(serializers.Serializer):
     tag = serializers.CharField(max_length=128, required=False)
     picture = serializers.ImageField(required=False)
 
-class MessageSerializer(serializers.ModelSerializer):
+class MessageSerializer(serializers.Serializer):
+    owner = serializers.CharField(max_length=280)
+    owner_tag = serializers.IntegerField()
     text = serializers.CharField(max_length=280)
+    date_published = serializers.DateTimeField(format="{ year : %Y, month : %m, day : %d, hour : %H, minute : %M}")
 
 class LabelSerializer(serializers.ModelSerializer):
     class Meta:
