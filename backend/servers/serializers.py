@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import Server, Message, Label
-from users.models import UserProfile
 
 class ServerSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
