@@ -1,6 +1,6 @@
 import {createStore, Store, Event, createEvent, Effect, createEffect} from "effector";
 import {ChatType} from "api/models/chatType";
-import {getChatList} from "api/http";
+import {getChatList, http} from "api/http";
 
 interface ChatListStore {
     chats: ChatType[]

@@ -7,6 +7,7 @@ import {AnMessage} from "./messageComponent";
 import {ChatStore} from "../store/chatListStore";
 import {useMappedStore} from "../utils/store";
 import {UserStore} from "../store/user";
+import {MessagesStore} from "../store/chatContentStore";
 
 export const Chat: React.FC = () => {
 
@@ -16,17 +17,25 @@ export const Chat: React.FC = () => {
         x.user
     ]);
 
+    const [
+        name,
+        messageList
+    ] = useMappedStore(MessagesStore, y => [
+        y.name,
+        y.content
+    ]);
+
     return (
         <div className={styles.chat}>
             <div className={styles.header}>
                 <div className={styles.headerName}>
-                    Name
+                    {name}
                 </div>
                 <img src={menuImg} className={styles.headerImg}/>
             </div>
             <div className={styles.content}>
                 {
-                    mockMessageUnits.map((unit, key) => {
+                    messageList.map((unit, key) => {
                         return (unit.owner === user.first_name)
                             ? < MyMessage
                                 unit={unit}
@@ -42,7 +51,6 @@ export const Chat: React.FC = () => {
             <div className={styles.enter}>
                 <textarea className={styles.sendArea} placeholder="Type your message"/>
                 <button className={styles.sendButton}>Отправить</button>
-                <button className={styles.sendButton} onClick={() => ChatStore.updateChatList()}>получить фигню</button>
             </div>
         </div>
     )

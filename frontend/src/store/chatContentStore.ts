@@ -4,14 +4,17 @@ import {getChatList, getMessagesRequest} from "api/http";
 import {MessageType} from "../api/models/messageType";
 
 interface ChatContentStore {
+    name: string
     content: MessageType[]
 }
 
 const initialData: ChatContentStore = {
+    name: "",
     content: []
 };
 
 interface MessagesStore extends Store<ChatContentStore> {
+    setName: Event<string>
     setMessages: Event<MessageType[]>
     addMessage: Event<MessageType>
     getMessages: Effect<number, MessageType[]>
@@ -19,6 +22,9 @@ interface MessagesStore extends Store<ChatContentStore> {
 
 export const MessagesStore = (() => {
     const store = createStore<ChatContentStore>(initialData) as MessagesStore;
+
+    store.setName = createEvent<string>("Name set");
+    store.on(store.setName, ((state, payload) => ({ ...state, name: payload })));
 
     store.setMessages = createEvent<MessageType[]>("set messages");
     store.on(store.setMessages, ((state, payload) => ({...state, content: payload})));
