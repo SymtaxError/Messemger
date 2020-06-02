@@ -28,7 +28,7 @@ class CardSerializer(serializers.ModelSerializer):
     assingn = AssignSerializer(read_only=True)
 
     class Meta:
-        model = Desk
+        model = Card
         fields = ['id', 'id_on_table', 'title', 'assign']
 
 
