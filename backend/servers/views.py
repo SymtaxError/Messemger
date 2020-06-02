@@ -82,7 +82,10 @@ class MessageView(APIView):
     def post(self, request):
         chat_id = int(request.GET.get('chat_id'))
         if servers.methods.server_has_user(request, chat_id):
-            serializer = MessageSerializer(data=request.data)
+            query_set = {}
+            query_set['text'] = request.data['text']
+            query_set['owner'] = str(request.user)
+            serializer = MessageSerializer(data=query_set)
             if serializer.is_valid():
                 data = serializer.validated_data
                 Message.objects.create_message(text=data['text'], owner=request.user, server = Server.objects.get(id=chat_id))

@@ -21,7 +21,7 @@ class MessageSerializer(serializers.Serializer):
             'month': datetime.month,
             'day': datetime.day,
             'hour': datetime.hour,
-            'minute': datetime.second
+            'minute': datetime.minute
         }
         return date
     
