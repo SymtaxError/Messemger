@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import User
-from .managers import ServerManager
+from .managers import ServerManager, MessageManager
 from backend.settings import MEDIA_ROOT
 import os
 
@@ -59,6 +59,8 @@ class Message(models.Model):
         auto_now_add=True
     )
     labels = models.ManyToManyField('Label', verbose_name='labels')
+
+    objects = MessageManager()
 
     class Meta:
         ordering = ['-date_published']
