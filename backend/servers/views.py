@@ -22,13 +22,12 @@ class ServerView(APIView):
                 user = UserProfile.objects.get(tag=data['tag']).user
                 server = Server.objects.create_server(data['name'],
                     creator=request.user, type_chat='D')
-                server.users.add(request.user, user)
+                server.users.add(user)
                 server.save()
                 return Response(status=status.HTTP_201_CREATED)
             except:
                 server = Server.objects.create_server(data['name'],
                     creator=request.user, type_chat='C')
-                server.users.add(request.user)
                 return Response(status=status.HTTP_201_CREATED)
             else:
                 return Response(statis=status.HTTP_500_INTERNAL_SERVER_ERROR)
