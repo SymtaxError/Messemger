@@ -8,7 +8,7 @@ import deleteImg from "../img/delete.png";
 import addImg from "../img/add.png";
 
 
-export const Home: React.FC = () => {
+export const Todo: React.FC = () => {
 
     return (
         <div className={styles.body}>
