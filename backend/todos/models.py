@@ -21,6 +21,8 @@ class Table(models.Model):
         verbose_name="desk",
         on_delete=models.CASCADE
     )
+    class Meta:
+        ordering = ['id_on_desk']
 
 class Card(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
@@ -40,3 +42,5 @@ class Card(models.Model):
         on_delete=models.CASCADE
     )
     labels = models.ManyToManyField(Label, verbose_name='labels')
+    class Meta:
+        ordering = ['id_on_table']
