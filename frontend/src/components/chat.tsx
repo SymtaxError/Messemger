@@ -60,9 +60,8 @@ export const Chat: React.FC<ChatProps> = props => {
                 }
             </div>
             <div className={styles.enter}>
-                <textarea className={styles.sendArea} onChange={a => setPendingMsg(a.target.value)} placeholder="Type your message"/>
+                <textarea className={styles.sendArea} onChange={a => setPendingMsg(a.target.value)} placeholder="Напишите сообщение..."/>
                 <button className={styles.sendButton} onClick={() => sendMessage(pendingMsg, connection)}>Отправить</button>
-                <button className={styles.sendButton} onClick={() => ChatStore.addMessage({id: 1, message: "msg", owner: "idk"})}>Отправить</button>
             </div>
         </div>
     )

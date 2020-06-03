@@ -8,6 +8,7 @@ import messagerImg from "img/messager.png"
 import {useHistory} from "react-router-dom";
 import {useMappedStore} from "../utils/store";
 import {UserStore} from "../store/user";
+import {ChatStore} from "../store/chatListStore";
 
 export const Header: React.FC = () => {
 
@@ -40,7 +41,10 @@ export const Header: React.FC = () => {
                     <img src={homeImg} className={styles.headerImg} alt={""}/>
                     <div className={styles.imgLabel}>Home</div>
                 </div>
-                <div className={styles.imgBlock} onClick={() => history.push("/chat")}>
+                <div className={styles.imgBlock} onClick={() => {
+                    ChatStore.updateChatList();
+                    history.push("/chat");
+                }}>
                     <img src={messagerImg} className={styles.headerImg} alt={""}/>
                     <div className={styles.imgLabel}>Сообщения</div>
                 </div>

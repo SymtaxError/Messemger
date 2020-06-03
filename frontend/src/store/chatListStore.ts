@@ -1,7 +1,6 @@
-import {createStore, Store, Event, createEvent, Effect, createEffect} from "effector";
+import {createEffect, createEvent, createStore, Effect, Event, Store} from "effector";
 import {ChatType} from "api/models/chatType";
 import {getChatList} from "api/http";
-import {DateType} from "../api/models/dateType";
 import {replaceOrPush} from "utils/misc/arrays";
 
 interface ChatListStore {
@@ -22,12 +21,15 @@ interface ChatInit {
     picture?: string
 }
 
+interface MessageContent {
+    text: string
+    id: number
+}
+
 interface MessageType {
     owner: string
     // owner_tag: string
-    message: string
-    // date_published: DateType
-    id: number
+    content: MessageContent
 }
 
 interface ChatStore extends Store<ChatListStore> {
@@ -49,7 +51,7 @@ export const ChatStore = (() => {
 
     store.addMessage = createEvent<MessageType>("push message to chat");
     store.on(store.addMessage, ((state, payload) => {
-        const chat = state.chats.find(a => a.id === payload.id);
+        const chat = state.chats.find(a => a.id === payload.content.id);
         if (!chat)
             return state;
         const editedChat = {...chat, messages: [...chat.messages, payload]} as ChatType;
@@ -60,7 +62,7 @@ export const ChatStore = (() => {
         name: "create chat",
         handler: (a: ChatInit): ChatType => {
             const connection = new WebSocket(`ws://localhost:8000/servers/chat/${a.id}/?token${a.token}`);
-            connection.onmessage = a.onMessage
+            connection.onmessage = a.onMessage;
 
             return {
                 ...a,
@@ -75,8 +77,7 @@ export const ChatStore = (() => {
     store.updateChatList = createEffect({
         name: "getChatList",
         handler: async (): Promise<ChatType[]> => {
-            const response = await getChatList();
-            return response;
+            return await getChatList();
         }
     });
     store.updateChatList.fail.watch(({error}) => {
