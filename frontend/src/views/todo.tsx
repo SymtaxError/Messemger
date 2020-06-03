@@ -1,11 +1,11 @@
 import React from 'react';
 
-import styles from "./todo.module.css";
-import plusImg from "../img/plus.png";
-import doneImg from "../img/done.png";
-import notdoneImg from "../img/notdone.png";
-import deleteImg from "../img/delete.png";
-import addImg from "../img/add.png";
+import styles from "views/todo.module.css";
+import plusImg from "img/plus.png";
+import doneImg from "img/done.png";
+import notdoneImg from "img/notdone.png";
+import deleteImg from "img/delete.png";
+import addImg from "img/add.png";
 
 
 export const Todo: React.FC = () => {

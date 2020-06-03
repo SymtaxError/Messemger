@@ -47,8 +47,6 @@ export const App: React.FC = () => {
                     <Redirect to="/home"/>
                 </Route>
             </Switch>
-
-            <button className={styles.tempBut} onClick={() => getChatList()}>Get chat list</button>
         </div>
     );
 };
