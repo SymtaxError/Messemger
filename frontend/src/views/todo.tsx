@@ -36,53 +36,53 @@ export const Todo: React.FC = () => {
                         <div className={styles.headOfCard}>Длинное название карточки</div>
                         <div className={styles.point}>
                             <div className={styles.done}>
-                                <img src={doneImg} className={styles.doneImg}/>
+                                <img src={doneImg} className={styles.doneImg} alt={""}/>
                             </div>
                             <div className={styles.task}>Задача 1</div>
                             <div className={styles.delete}>
-                                <img src={deleteImg} className={styles.deleteImg}/>
+                                <img src={deleteImg} className={styles.deleteImg} alt={""}/>
                             </div>
                         </div>
                         <div className={styles.point}>
                             <div className={styles.done}>
-                                <img src={doneImg} className={styles.doneImg}/>
+                                <img src={doneImg} className={styles.doneImg} alt={""}/>
                             </div>
                             <div className={styles.task}>Задача 2</div>
                             <div className={styles.delete}>
-                                <img src={deleteImg} className={styles.deleteImg}/>
+                                <img src={deleteImg} className={styles.deleteImg} alt={""}/>
                             </div>
                         </div>
                         <div className={styles.point}>
                             <div className={styles.notDone}>
-                                <img src={notdoneImg} className={styles.notdoneImg}/>
+                                <img src={notdoneImg} className={styles.notdoneImg} alt={""}/>
                             </div>
                             <div className={styles.task}>Задача 3</div>
                             <div className={styles.delete}>
-                                <img src={deleteImg} className={styles.deleteImg}/>
+                                <img src={deleteImg} className={styles.deleteImg} alt={""}/>
                             </div>
                         </div>
                         <div className={styles.addPoint}>
-                            <img src={addImg} className={styles.addImg}/>
+                            <img src={addImg} className={styles.addImg} alt={""}/>
                         </div>
                     </div>
                     <div className={styles.card}>
                         <div className={styles.headOfCard}>Обычное название</div>
                         <div className={styles.point}>
                             <div className={styles.notDone}>
-                                <img src={notdoneImg} className={styles.notdoneImg}/>
+                                <img src={notdoneImg} className={styles.notdoneImg} alt={""}/>
                             </div>
                             <div className={styles.task}>Задача 1.1</div>
                             <div className={styles.delete}>
-                                <img src={deleteImg} className={styles.deleteImg}/>
+                                <img src={deleteImg} className={styles.deleteImg} alt={""}/>
                             </div>
                         </div>
                         <div className={styles.addPoint}>
-                            <img src={addImg} className={styles.addImg}/>
+                            <img src={addImg} className={styles.addImg} alt={""}/>
                         </div>
                     </div>
                     <div className={styles.addCard}>
                         Добавить карточку
-                        <img src={addImg} className={styles.addImg}/>
+                        <img src={addImg} className={styles.addImg} alt={""}/>
                     </div>
                 </div>
             </div>
