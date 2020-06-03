@@ -8,7 +8,6 @@ import {Messemger} from "views/messemger";
 
 import {Todo} from "views/todo"
 
-import {getChatList} from "api/http";
 import {Home} from "views/home";
 
 import {useMappedStore} from "utils/store";
@@ -23,6 +22,8 @@ export const App: React.FC = () => {
         x.user
     ]);
 
+    console.log(user);
+
     const location = useLocation();
 
     return (
@@ -34,7 +35,7 @@ export const App: React.FC = () => {
                 <Route path="/todo"
                        component={Todo}/>
 
-                <PrivateRoute condition={user.first_name === ""}
+                <PrivateRoute condition={true}
                               path="/chat"
                               component={Messemger}/>
                 {/*<Route path="/profile"*/}
