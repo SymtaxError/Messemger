@@ -14,7 +14,7 @@ class CardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Card
-        fields = ['id', 'id_on_table', 'title', 'assignees']
+        fields = ['id_on_table', 'title', 'assignees']
 
 
 class TableSerializer(serializers.ModelSerializer):
@@ -22,7 +22,7 @@ class TableSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Table
-        fields = ['id', 'id_on_desk', 'title', 'card_set']
+        fields = ['id_on_desk', 'title', 'card_set']
 
 
 class DeskSerializer(serializers.ModelSerializer):
