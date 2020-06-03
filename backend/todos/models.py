@@ -13,7 +13,7 @@ class Desk(models.Model):
     )
     creator = models.ForeignKey(
         User,
-        related_name='creator',
+        related_name='desk_creator',
         on_delete=models.CASCADE
     )
 
