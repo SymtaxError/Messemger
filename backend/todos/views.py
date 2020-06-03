@@ -45,14 +45,11 @@ class DeskView(APIView):
                 text_data[item[0]] = item[1]
             if not 'title' in text_data.keys():
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-            print(text_data)
             # serializer = DeskSerializer(data={**text_data})
             # print('aaa')
             # if serializer.is_valid():
             desk = Desk.objects.get(id=id)
-            print(desk.title)
             desk.edit_title(text_data['title'])
-            print(desk.title)
 
             desk.save()
             return Response(status=status.HTTP_200_OK)
