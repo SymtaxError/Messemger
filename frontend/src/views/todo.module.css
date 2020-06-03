@@ -83,6 +83,7 @@
 .mainPart {
     display: flex;
     flex-flow: row nowrap;
+    align-items: flex-start;
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
