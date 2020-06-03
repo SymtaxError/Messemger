@@ -25,7 +25,7 @@ class DeskView(APIView):
             if (data['server'] in [server for server in user.server_set.all()]):
                 # add desk
                 # TODO
-                
+
                 return Response(status=status.HTTP_201_CREATED)
                 # pass
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
