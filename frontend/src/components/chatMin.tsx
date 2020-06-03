@@ -15,9 +15,10 @@ export const ChatMin: React.FC<chatMinComponentProps> = x => {
         <div className={styles.dialog}
              onClick={
                  async () => {
-                     const response = await getMessagesRequest(x.unit.id);
-                     console.log(response);
-                     MessagesStore.setMessages(response);
+                     // const response = await getMessagesRequest(x.unit.id);
+                     // console.log(response);
+                     // MessagesStore.setMessages(response);
+                     alert("ASDASD");
                  }
              }
         >
