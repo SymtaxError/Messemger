@@ -1,16 +1,26 @@
 from django.db import models
 from servers.models import Server, Label
 from users.models import User
+from .managers import DeskManager
 
 class Desk(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     title = models.CharField(max_length=30, verbose_name='desk title')
-    users = models.ManyToManyField(User, verbose_name='users')
     server = models.ForeignKey(
         Server,
         verbose_name="server",
         on_delete=models.CASCADE
     )
+    creator = models.ForeignKey(
+        User,
+        related_name='desk_creator',
+        on_delete=models.CASCADE
+    )
+    objects = DeskManager()
+    users = models.ManyToManyField(User, verbose_name='users')
+    def edit_title(self, new_title):
+        self.__dict__['title'] = new_title
+        self.save()
 
 class Table(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
@@ -21,6 +31,8 @@ class Table(models.Model):
         verbose_name="desk",
         on_delete=models.CASCADE
     )
+    class Meta:
+        ordering = ['id_on_desk']
 
 class Card(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
@@ -40,3 +52,5 @@ class Card(models.Model):
         on_delete=models.CASCADE
     )
     labels = models.ManyToManyField(Label, verbose_name='labels')
+    class Meta:
+        ordering = ['id_on_table']
