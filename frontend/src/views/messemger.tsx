@@ -27,7 +27,7 @@ export const Messemger: React.FC = () => {
                     <img src={plusImg} className={styles.leftBarImg} alt={""}
                          onClick={
                              async () => {
-                                 await createGroupChat("test1", "asd#2")
+                                 await createGroupChat("test1", ["first#1"])
                                      .then(() => ChatStore.updateChatList());
                              }
                          }

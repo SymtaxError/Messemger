@@ -117,7 +117,7 @@ export const loginRequest = async (email: string, password: string): Promise<voi
     return;
 };
 
-export const createGroupChat = async (name: string, tag?: string): Promise<void> => {
+export const createGroupChat = async (name: string, users: string[]): Promise<void> => {
     const args = {};
     await http.post("/servers/list/", args, JSON.stringify({name: name}));
 };
