@@ -17,6 +17,8 @@ export const Messemger: React.FC = () => {
         x.chats
     ]);
 
+    console.log(chatList);
+
     const [selectedChat, setSelectedChat] = useState<ChatType>();
 
     return (

@@ -24,9 +24,9 @@ interface ChatInit {
 
 interface MessageType {
     owner: string
-    owner_tag: string
+    // owner_tag: string
     message: string
-    date_published: DateType
+    // date_published: DateType
     id: number
 }
 
@@ -59,12 +59,12 @@ export const ChatStore = (() => {
     store.createChat = createEffect({
         name: "create chat",
         handler: (a: ChatInit): ChatType => {
-            const connection = new WebSocket(`ws://localhost:8000/servers/chat/${a.id}/?${a.token}`);
+            const connection = new WebSocket(`ws://localhost:8000/servers/chat/${a.id}/?token${a.token}`);
             connection.onmessage = a.onMessage
 
             return {
                 ...a,
-                connection:  connection,
+                connection: connection,
                 messages: []
             };
         }
@@ -79,7 +79,7 @@ export const ChatStore = (() => {
             return response;
         }
     });
-    store.updateChatList.fail.watch(({ error }) => {
+    store.updateChatList.fail.watch(({error}) => {
         console.error("Bad credentials", error);
         return;
     });
