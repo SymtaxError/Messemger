@@ -7,6 +7,7 @@ import {Switch, useLocation, useHistory, Route, Redirect} from "react-router-dom
 import styles from "App.module.css";
 import {sendTestMessage} from "webSockets/messageWS";
 import {Messemger} from "views/messemger";
+import {Home} from "views/home"
 
 export const App: React.FC = () => {
 
@@ -22,11 +23,12 @@ export const App: React.FC = () => {
                        component={Profile}/>
                 <Route path="/chat"
                        component={Messemger}/>
+                <Route path="/home"
+                       component={Home}/>
                 <Route exact path="/">
                     <Redirect to="/home"/>
                 </Route>
             </Switch>
-            <button className={styles.tempBut} onClick={() => sendTestMessage()}>Test WebS</button>
         </div>
     );
 };

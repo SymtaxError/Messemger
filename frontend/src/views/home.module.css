@@ -1,0 +1,139 @@
+.body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: white;
+}
+.listOfLists{
+    border-top: 2px solid white;
+    border-right: 2px solid white;
+    height: 100%;
+    min-width: 250px;
+    max-width: 250px;
+    background-color: #7030a0;
+}
+.list1{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    height: 60px; /*65px*/
+    width: 100%;
+    border-bottom: 2px solid white;
+}
+.nameOfList{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    color: white;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.plusImg{
+    padding-left: 10px;
+    height: 35px;
+    width: 37px;
+}
+.other{
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+.head{
+    display: flex;
+    flex-flow: row nowrap;
+    height: 30px;
+    width: 100%;
+    border-bottom: 2px solid grey;
+    overflow: hidden;
+}
+.deskName{
+    height: 100%;
+    width: 250px;
+    padding: 3px;
+    border-right: 2px solid grey;
+    font-size: 16px;
+    font-weight: 400;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.team{
+    display: flex;
+    flex-flow: row nowrap;
+}
+.teammate{
+    padding: 3px;
+}
+.mainPart{
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    padding: 10px;
+}
+.card{
+    display: flex;
+    flex-flow: column nowrap;
+    width: 200px;
+    padding: 20px;
+    background-color: #ddd;
+    border: 2px solid #7030a0;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+.headOfCard{
+    width: 100%;
+    height: 25px;
+    border-bottom: 3px solid #7030a0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 15px;
+}
+.point{
+    display: flex;
+    flex-flow: row nowrap;
+    border-bottom: 1px solid #7030a0;
+    margin-bottom: 5px;
+}
+.doneImg{
+    height: 20px;
+    width: 20px;
+}
+.notdoneImg{
+    height: 20px;
+    width: 20px;
+}
+.task{
+    width: 80%;
+    padding-left: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.deleteImg{
+    height: 20px;
+    width: 20px;
+}
+.addPoint{
+    margin-left: auto;
+}
+.addImg{
+    height: 20px;
+    width: 20px;
+    margin-left: auto;
+}
+.addCard{
+    display: flex;
+    flex-flow: row nowrap;
+    width: 200px;
+    height: 20px;
+    padding: 15px;
+    background-color: #ddd;
+    border: 2px solid #7030a0;
+    border-radius: 8px;
+}

@@ -48,10 +48,6 @@ export const Header: React.FC = () => {
                     <img src={homeImg} className={styles.headerImg}/>
                     <div className={styles.imgLabel}>Home</div>
                 </div>
-                <div className={styles.imgBlock} onClick={() => history.push("/home")}>
-                    <img src={homeImg} className={styles.headerImg}/>
-                    <div className={styles.imgLabel}>Home</div>
-                </div>
                 {/*{width > 1000 ? <div>asd</div> : <div>asdd</div>}*/}
                 <div className={styles.imgBlock} onClick={() => history.push("/chat")}>
                     <img src={messagerImg} className={styles.headerImg}/>
