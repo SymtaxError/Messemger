@@ -1,10 +1,8 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
 import styles from "components/chat.module.css"
 import menuImg from "img/tripleMenu.png"
-import {mockMessageUnits} from "../api/models/messageType";
 import { MyMessage }from "./messageComponent";
 import {AnMessage} from "./messageComponent";
-import {ChatStore} from "../store/chatListStore";
 import {useMappedStore} from "../utils/store";
 import {UserStore} from "../store/user";
 import {MessagesStore} from "../store/chatContentStore";
@@ -31,7 +29,7 @@ export const Chat: React.FC = () => {
                 <div className={styles.headerName}>
                     {name}
                 </div>
-                <img src={menuImg} className={styles.headerImg}/>
+                <img src={menuImg} className={styles.headerImg} alt={""}/>
             </div>
             <div className={styles.content}>
                 {

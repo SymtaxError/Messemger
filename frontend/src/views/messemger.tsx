@@ -21,7 +21,7 @@ export const Messemger: React.FC = () => {
             <div className={styles.leftBarOpen}>
                 <div className={styles.leftBarHeader}>
                     <div className={styles.leftBarText}>Список чатов</div>
-                    <img src={plusImg} className={styles.leftBarImg}
+                    <img src={plusImg} className={styles.leftBarImg} alt={""}
                          onClick={
                              async () => {
                                  await createGroupChat("test1")

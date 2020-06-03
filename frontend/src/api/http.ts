@@ -1,9 +1,7 @@
-import {UserUnit} from "./models/user";
 import {RegisterUnit} from "./models/register";
 import {UserStore} from "../store/user";
 import {ChatType} from "./models/chatType";
 import {MessageType} from "./models/messageType";
-
 
 export const backendURL = "http://localhost:8000";
 
@@ -38,8 +36,9 @@ export const resultRefresh = async (): Promise<void> => {
     if (state === 200) {
         localStorage.setItem("access", result.access);
         localStorage.setItem("refresh", result.refresh);
-    } else if (state === 401) {
-        window.location.replace("localhost:3000/login")
+    } else {
+        console.log("want redirect");
+        // window.location.replace("localhost:3000/login");
     }
     return;
 };
@@ -65,10 +64,10 @@ const request = async <T>(
 
     const status = await result.status;
 
-    if (status === 403) {
+    if (status === 401) {
         await resultRefresh();
-    } else if (result.status === 401) {
-        alert("Ошибка 401");
+    } else if (status === 400) {
+        console.log("логин-пароль")
     }
 
     if (status !== 200)

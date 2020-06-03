@@ -1,6 +1,5 @@
 import {createStore, Store, Event, createEvent, Effect, createEffect} from "effector";
-import {ChatType} from "api/models/chatType";
-import {getChatList, getMessagesRequest} from "api/http";
+import {getMessagesRequest} from "api/http";
 import {MessageType} from "../api/models/messageType";
 
 interface ChatContentStore {
