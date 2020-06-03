@@ -88,8 +88,51 @@ class MessageView(APIView):
             serializer = MessageSerializer(data=query_set)
             if serializer.is_valid():
                 data = serializer.validated_data
-                Message.objects.create_message(text=data['text'], owner=request.user, server = Server.objects.get(id=chat_id))
+                Message.objects.create_message(
+                    text=data['text'],
+                    owner=request.user,
+                    server = Server.objects.get(id=chat_id)
+                )
                 return Response(status=status.HTTP_201_CREATED)
             else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(
+                    serializer.errors,
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+class LabelView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def post(self, request):
+        message_id = int(request.GET.get('message_id'))
+        print(request.user, message_id)
+        if request.user in Message.objects.get(id=message_id).server.users.all():
+            serializer = LabelSerializer(data=request.data)
+            if serializer.is_valid():
+                data = serializer.validated_data
+                if Label.objects.filter(text=data['text']).count() == 0:
+                    label = Label.objects.create_label(
+                        text=data['text'],
+                        color=data['color']
+                    )
+                else:
+                    label = Label.objects.get(text=data['text'])
+                Message.objects.get(id=message_id).labels.add(label)
+                return Response(status=status.HTTP_201_CREATED)
+            else:
+                return Response(
+                    serializer.errors,
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def delete(self, request):
+        message_id = int(request.GET.get('message_id'))
+        label_id = int(request.GET.get('label_id'))
+        if request.user in Message.objects.get(id=message_id).server.users.all():
+            try:
+                Message.objects.get(id=message_id).labels.remove(Label.objects.get(id=label_id))
+                return Response(status=status.HTTP_200_OK)
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_403_FORBIDDEN)

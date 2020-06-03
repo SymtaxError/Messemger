@@ -14,6 +14,15 @@ class MessageSerializer(serializers.Serializer):
     owner_tag = serializers.SerializerMethodField()
     text = serializers.CharField(max_length=280)
     date_published = serializers.SerializerMethodField()
+    labels = serializers.SerializerMethodField()
+
+    def get_labels(self, obj):
+        label_set = {}
+        for label in obj.labels.all():
+            label_set[label.id] = (label.text, label.color) 
+        return label_set
+
+
     def get_date_published(self, obj):
         datetime = parse_datetime(str(obj.date_published))
         date = {
@@ -28,7 +37,6 @@ class MessageSerializer(serializers.Serializer):
     def get_owner_tag(self, obj):
         return obj.owner.profile.tag
 
-class LabelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Label
-        fields = ['text', 'color']
+class LabelSerializer(serializers.Serializer):
+    text = serializers.CharField(max_length=30)
+    color = serializers.CharField(max_length=1)

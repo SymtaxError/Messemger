@@ -15,3 +15,9 @@ class MessageManager(BaseUserManager):
         message = self.model(text=text, owner=owner, server=server)
         message.save(using=self.db)
         return message
+
+class LabelManager(BaseUserManager):
+    def create_label(self, text, color, **kwargs):
+        label = self.model(text=text, color=color)
+        label.save(using=self.db)
+        return label

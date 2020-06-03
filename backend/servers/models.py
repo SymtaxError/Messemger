@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import User
-from .managers import ServerManager, MessageManager
+from .managers import ServerManager, MessageManager, LabelManager
 from backend.settings import MEDIA_ROOT
 import os
 
@@ -95,3 +95,5 @@ class Label(models.Model):
         choices=COLOR_TYPE_CHOICES,
         default=NO_COLOR
     )
+
+    objects = LabelManager()
