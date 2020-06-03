@@ -1,6 +1,6 @@
 import React, {CSSProperties, ReactNode, useState} from 'react';
 import styles from "views/login.module.css";
-import {http, loginRequest, registerRequest, resultRefresh} from "api/http"
+import {loginRequest, registerRequest} from "api/http"
 
 
 export const Login: React.FC = () => {

@@ -1,9 +1,15 @@
-import {UserUnit} from "./models/user";
 import {RegisterUnit} from "./models/register";
-import {UserStore} from "../utils/store/user";
-
+import {UserStore} from "../store/user";
+import {ChatType} from "./models/chatType";
+import {MessageType} from "./models/messageType";
 
 export const backendURL = "http://localhost:8000";
+
+const composeArgs = (args: Record<string, string>): string => {
+    const entries = Object.entries(args);
+    const params = entries.map(entry => `${entry[0]}=${entry[1]}`).join("&");
+    return params.length ? `?${params}` : "";
+};
 
 interface WrappedResponse<T> {
     body?: T
@@ -30,17 +36,20 @@ export const resultRefresh = async (): Promise<void> => {
     if (state === 200) {
         localStorage.setItem("access", result.access);
         localStorage.setItem("refresh", result.refresh);
-    } else if (state === 401) {
-        window.location.replace("localhost:3000/login")
+    } else {
+        console.log("want redirect");
+        // window.location.replace("localhost:3000/login");
     }
     return;
 };
 
 const request = async <T>(
     path: string,
-    method: "GET" | "POST" | "DELETE",
+    args: Record<string, string>,
+    method: "GET" | "POST" | "DELETE" | "PUT",
     body?: string
 ): Promise<WrappedResponse<T>> => {
+    const params = composeArgs(args);
     const headers = {
         "Content-Type": "application/json; charset=UTF-8",
         "Authorization": (localStorage.getItem("access") !== "undefined")
@@ -49,16 +58,16 @@ const request = async <T>(
     };
 
     const result = await fetch(
-        `${backendURL}${path}`,
+        `${backendURL}${path}${params}`,
         {method: method, headers: headers, body: body, mode: "cors"}
     );
 
     const status = await result.status;
 
-    if (status === 403) {
+    if (status === 401) {
         await resultRefresh();
-    } else if (result.status === 401) {
-        alert("Ошибка 401");
+    } else if (status === 400) {
+        console.log("логин-пароль")
     }
 
     if (status !== 200)
@@ -74,13 +83,16 @@ const request = async <T>(
 
 export const http = {
     get: async <T>(path: string, args: Record<string, string>): Promise<WrappedResponse<T>> => {
-        return request(path, "GET");
+        return request(path, args, "GET");
     },
     post: async <T>(path: string, args: Record<string, string>, body?: string): Promise<WrappedResponse<T>> => {
-        return request(path, "POST", body);
+        return request(path, args, "POST", body);
     },
     delete: async <T>(path: string, args: Record<string, string>): Promise<WrappedResponse<T>> => {
-        return request(path, "DELETE");
+        return request(path, args, "DELETE");
+    },
+    put: async <T>(path: string, args: Record<string, string>, body?: string): Promise<WrappedResponse<T>> => {
+        return request(path, args, "PUT");
     }
 };
 
@@ -105,18 +117,39 @@ export const loginRequest = async (email: string, password: string): Promise<voi
     return;
 };
 
-export const userDataRequest = async (): Promise<UserUnit> => {
+export const createGroupChat = async (name: string, tag?: string): Promise<void> => {
     const args = {};
-    const response = await http.get("/users/profile/", args);
-    return response.body as unknown as UserUnit;
+    await http.post("/servers/list/", args, JSON.stringify({name: name}));
 };
 
-// export const createPersonalChat = async (""): Promise<void> => {
+export const getChatList = async (): Promise<ChatType[]> => {
+    const args = {};
+    const response = await http.get("/servers/list/", args);
+    return response.body as unknown as ChatType[]
+};
+
+export const getMessagesRequest = async (id: number): Promise<MessageType[]> => {
+    const args = {"chat_id": `${id}`, "count": "20", "start": "20"};
+    const response = await http.get("/servers/messages/", args);
+    return response.body as unknown as MessageType[]
+};
+
+
+// export const deleteChat = async (): Promise<> => {
 //     const args = {};
-//
+//     await http.delete("/servers/list/добавь парамс(?chat_id={id})", args);
 // };
-
-export const createGroupChat = async (name: string): Promise<void> => {
-    const args = {};
-    await http.post("/servers/chat/", args, JSON.stringify(name));
-};
+//
+// export const changeChatName = async(): Promise<> => {
+//     const args = {};
+//     //В body name: string - новое имя
+//     //В парамс - chat id как в deleteChat
+//     await http.put("/servers/list/")
+// };
+//
+// export const changeChatAvatar = async(): Promise<> => {
+//     const args = {};
+//     //в body - picture - файл
+//     //В парамс - как выше
+//     await http.put("servers/list/")
+// }
