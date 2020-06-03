@@ -12,7 +12,6 @@ class DeskView(APIView):
 
     def get(self, request):
         user = request.user
-        print(user.desk_set.all())
         desks = DeskSerializer(user.desk_set.all(), many=True)
         return Response(desks.data, status=status.HTTP_200_OK)
 

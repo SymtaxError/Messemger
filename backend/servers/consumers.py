@@ -168,14 +168,14 @@ class ToDoConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def get_table_from_id(self, table_id):
         try:
-            return Table.objects.get(desk=self.desk, id_on_desk=table_id)
+            return Table.objects.filter(desk=self.desk, id_on_desk=table_id)[0]
         except:
             return None
 
     @database_sync_to_async
     def get_card_from_id(self, table, card_id):
         try:
-            return Card.objects.get(desk=self.desk, table=table, id_on_table=card_id)
+            return Card.objects.filter(desk=self.desk, table=table, id_on_table=card_id)[0]
         except:
             return None
 
@@ -202,19 +202,19 @@ class ToDoConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def move_card(self, old_table_id, old_card_id, new_table_id, new_card_id):
-        table = self.get_table_from_id(old_table_id)
-        card = self.get_card_from_id(table=table, card_id=old_card_id)
+        table = async_to_sync(self.get_table_from_id)(old_table_id)
+        card = async_to_sync(self.get_card_from_id)(table=table, card_id=old_card_id)
         if old_table_id != new_table_id:
             query = Card.objects.filter(desk=self.desk, table=table,
                 id_on_table__gt=old_card_id)
         else:
             query = Card.objects.filter(desk=self.desk, table=table,
-                id_on_table__gt=old_card_id).exclude(id_on_table__gte=new_card_id)
+                id_on_table__gt=old_card_id).exclude(id_on_table__gt=new_card_id)
         for item in query:
             item.id_on_table -= 1
             item.save()
         if old_table_id != new_table_id:
-            table = self.get_table_from_id(new_table_id)
+            table = async_to_sync(self.get_table_from_id)(new_table_id)
             query = Card.objects.filter(desk=self.desk, table=table,
                 id_on_table__gte=new_card_id)
             for item in query:
@@ -226,9 +226,9 @@ class ToDoConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def move_table(self, old_table_id, new_table_id):
-        table = self.get_table_from_id(old_table_id)
+        table = async_to_sync(self.get_table_from_id)(old_table_id)
         query = Table.objects.filter(desk=self.desk, id_on_desk__gt=old_table_id)
-        query.exclude(id_on_desk__gte=new_table_id)
+        query = query.exclude(id_on_desk__gt=new_table_id)
         for item in query:
             item.id_on_desk -= 1
             item.save()
@@ -237,10 +237,10 @@ class ToDoConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def remove_card(self, table_id, card_id):
-        table = self.get_table_from_id(table_id)
-        card = self.get_card_from_id(table=table, card_id=card_id)
+        table = async_to_sync(self.get_table_from_id)(table_id)
+        card = async_to_sync(self.get_card_from_id)(table=table, card_id=card_id)
         query = Card.objects.filter(desk=self.desk, table=table,
-            id_on_table__gt=old_table_id)
+            id_on_table__gt=card_id)
         for item in query:
             item.id_on_table -= 1
             item.save()
@@ -248,8 +248,8 @@ class ToDoConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def remove_table(self, table_id):
-        table = self.get_table_from_id(table_id=table_id)
-        query = Table.objects.filter(desk=self.desk, id_on_desk__gt=old_table_id)
+        table = async_to_sync(self.get_table_from_id)(table_id=table_id)
+        query = Table.objects.filter(desk=self.desk, id_on_desk__gt=table_id)
         for item in query:
             item.id_on_desk -= 1
             item.save()
@@ -265,12 +265,12 @@ class ToDoConsumer(AsyncWebsocketConsumer):
         elif text_data['action'] == 'move_table':
             await self.move_table(params['old_table_id'], params['new_table_id'])
         elif text_data['action'] == 'move_card':
-            await self.create_table(params['old_table_id'], params['old_card_id'],
+            await self.move_card(params['old_table_id'], params['old_card_id'],
                 params['new_table_id'], params['new_card_id'])
         elif text_data['action'] == 'remove_table':
-            await self.create_table(params['table_id'])
+            await self.remove_table(params['table_id'])
         elif text_data['action'] == 'remove_card':
-            await self.create_table(params['table_id'], params['card_id'])
+            await self.remove_card(params['table_id'], params['card_id'])
 
         await self.channel_layer.group_send(
             self.group_name,

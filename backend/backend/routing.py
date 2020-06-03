@@ -6,7 +6,7 @@ from django.urls import include, path
 application = ProtocolTypeRouter({
     'websocket': JWTAuthMiddlewareStack(
         URLRouter([
-            path('servers/', servers.routing.websocket_urlpatterns),
+            path('', servers.routing.websocket_urlpatterns),
         ]),
     )
 })
