@@ -2,7 +2,7 @@ import {createStore, Store, Event, createEvent, Effect, createEffect} from "effe
 import {ChatType} from "api/models/chatType";
 import {getChatList} from "api/http";
 import {DateType} from "../api/models/dateType";
-import {replaceOrPush} from "../utils/misc/arrays";
+import {replaceOrPush} from "utils/misc/arrays";
 
 interface ChatListStore {
     chats: ChatType[]
