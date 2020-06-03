@@ -11,6 +11,11 @@ class Desk(models.Model):
         verbose_name="server",
         on_delete=models.CASCADE
     )
+    creator = models.ForeignKey(
+        User,
+        related_name='creator',
+        on_delete=models.CASCADE
+    )
 
 class Table(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
