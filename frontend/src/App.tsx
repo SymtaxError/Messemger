@@ -13,6 +13,7 @@ import {Home} from "views/home";
 import {useMappedStore} from "utils/store";
 import {UserStore} from "store/user";
 import {PrivateRoute} from "PrivateRoute";
+import {Profile} from "./views/profile";
 
 export const App: React.FC = () => {
 
@@ -34,14 +35,11 @@ export const App: React.FC = () => {
                        component={Login}/>
                 <Route path="/todo"
                        component={Todo}/>
-
                 <PrivateRoute condition={true}
                               path="/chat"
                               component={Messemger}/>
-                {/*<Route path="/profile"*/}
-                {/*       component={Profile}/>*/}
-                {/*<Route path="/chat"*/}
-                {/*       component={Messemger}/>*/}
+                <Route path="/profile"
+                       component={Profile}/>
                 <Route path="/home"
                        component={Home}/>
                 <Route exact path="/">
