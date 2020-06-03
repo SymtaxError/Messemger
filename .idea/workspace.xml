@@ -13,12 +13,13 @@
   <component name="ProjectId" id="1cfYHSU9tB7GyEDIGtmAEUGx5WR" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -31,6 +32,7 @@
       <option name="presentableId" value="Default" />
       <updated>1590921026994</updated>
       <workItem from="1590921030776" duration="9000" />
+      <workItem from="1591109115776" duration="33000" />
     </task>
     <servers />
   </component>
