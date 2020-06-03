@@ -1,13 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from "components/chat.module.css"
 import menuImg from "img/tripleMenu.png"
 import { MyMessage }from "./messageComponent";
 import {AnMessage} from "./messageComponent";
 import {useMappedStore} from "../utils/store";
 import {UserStore} from "../store/user";
-import {MessagesStore} from "../store/chatContentStore";
+import {ChatType} from "../api/models/chatType";
+import {sendWSMessage} from "../webSockets/messageWS";
+import {ChatStore} from "../store/chatListStore";
+import {MessageType} from "../api/models/messageType";
 
-export const Chat: React.FC = () => {
+interface ChatProps {
+    chat?: ChatType
+}
+
+export const Chat: React.FC<ChatProps> = props => {
 
     const [
         user
@@ -15,25 +22,29 @@ export const Chat: React.FC = () => {
         x.user
     ]);
 
-    const [
-        name,
-        messageList
-    ] = useMappedStore(MessagesStore, y => [
-        y.name,
-        y.content
-    ]);
+    const [pendingMsg, setPendingMsg] = useState("");
+
+    const sendMessage = (msg: string, ws: WebSocket): void => {
+        sendWSMessage(ws, msg);
+        setPendingMsg("");
+    };
+
+    if (!props.chat)
+        return <div />;
+
+    const connection = props.chat.connection;
 
     return (
         <div className={styles.chat}>
             <div className={styles.header}>
                 <div className={styles.headerName}>
-                    {name}
+                    {props.chat?.name}
                 </div>
                 <img src={menuImg} className={styles.headerImg} alt={""}/>
             </div>
             <div className={styles.content}>
                 {
-                    messageList.map((unit, key) => {
+                    props.chat?.messages.map((unit, key) => {
                         return (unit.owner === user.first_name)
                             ? < MyMessage
                                 unit={unit}
@@ -47,8 +58,8 @@ export const Chat: React.FC = () => {
                 }
             </div>
             <div className={styles.enter}>
-                <textarea className={styles.sendArea} placeholder="Type your message"/>
-                <button className={styles.sendButton}>Отправить</button>
+                <textarea className={styles.sendArea} onChange={a => setPendingMsg(a.target.value)} placeholder="Type your message"/>
+                <button className={styles.sendButton} onClick={() => sendMessage(pendingMsg, connection)}>Отправить</button>
             </div>
         </div>
     )

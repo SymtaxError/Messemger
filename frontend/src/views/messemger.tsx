@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styles from "views/messemger.module.css"
 import {ChatMin} from "components/chatMin"
 import {Chat} from "components/chat"
@@ -7,6 +7,7 @@ import {useMappedStore} from "../utils/store";
 import {ChatStore} from "store/chatListStore";
 import plusImg from "img/plus.png"
 import {createGroupChat} from "api/http";
+import {ChatType} from "../api/models/chatType";
 
 export const Messemger: React.FC = () => {
 
@@ -16,6 +17,8 @@ export const Messemger: React.FC = () => {
         x.chats
     ]);
 
+    const [selectedChat, setSelectedChat] = useState<ChatType>();
+
     return (
         <div className={styles.body}>
             <div className={styles.leftBarOpen}>
@@ -24,7 +27,7 @@ export const Messemger: React.FC = () => {
                     <img src={plusImg} className={styles.leftBarImg} alt={""}
                          onClick={
                              async () => {
-                                 await createGroupChat("test1")
+                                 await createGroupChat("test1", ["first#1"])
                                      .then(() => ChatStore.updateChatList());
                              }
                          }
@@ -32,11 +35,11 @@ export const Messemger: React.FC = () => {
                 </div>
                 {
                     (chatList?.length)
-                        ? chatList.map((unit, key) => <ChatMin unit={unit} key={`chatMin-unit-${key}`}/>)
+                        ? chatList.map((unit, key) => <ChatMin unit={unit} key={`chatMin-unit-${key}`} onClick={() => setSelectedChat(unit)}/>)
                         : <div className={styles.leftBarText}>У Вас нет чатов!</div>
                 }
             </div>
-            <Chat/>
+            <Chat chat={selectedChat}/>
             <div className={styles.rightBar}>
                 <RightBar/>
             </div>
