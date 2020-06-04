@@ -9,7 +9,7 @@ export const userDataRequest = async (): Promise<UserUnit> => {
             : ""
     };
     const response = await fetch(
-        `http://localhost:8000/users/profile/`,
+        `api/users/profile/`,
         {method: "GET", headers: headers, mode: "cors"}
     );
     return JSON.parse(await response.text()) as unknown as UserUnit;

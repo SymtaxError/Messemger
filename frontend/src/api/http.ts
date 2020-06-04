@@ -3,7 +3,7 @@ import {UserStore} from "../store/user";
 import {ChatType} from "./models/chatType";
 import {MessageType} from "./models/messageType";
 
-export const backendURL = "http://localhost:8000";
+export const backendURL = "api";
 
 const composeArgs = (args: Record<string, string>): string => {
     const entries = Object.entries(args);

@@ -61,7 +61,7 @@ export const ChatStore = (() => {
     store.createChat = createEffect({
         name: "create chat",
         handler: (a: ChatInit): ChatType => {
-            const connection = new WebSocket(`ws://localhost:8000/chat/${a.id}/?token=${a.token}`);
+            const connection = new WebSocket(`api/ws/chat/${a.id}/?token=${a.token}`);
             connection.onmessage = a.onMessage;
 
             return {

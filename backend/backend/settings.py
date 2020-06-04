@@ -6,7 +6,7 @@ SECRET_KEY = os.getenv('PRODUCT_KEY')
 
 SECRET_KEY = 'g3+@bj_&u2t9rnamqq5malbxt9xj2=49e#z)dp%ncl$lf5f!4x'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -59,7 +59,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [(os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))],
         },
     },
 }
@@ -78,6 +78,9 @@ DATABASES = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
     ]
 }
 
