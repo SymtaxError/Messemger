@@ -129,7 +129,7 @@ export const getChatList = async (): Promise<ChatType[]> => {
 };
 
 export const getMessagesRequest = async (id: number): Promise<MessageType[]> => {
-    const args = {"chat_id": `${id}`, "count": "20", "start": "0"};
+    const args = {"chat_id": `${id}`, "count": "20", "start": "1"};
     const response = await http.get("/servers/messages/", args);
     return response.body as unknown as MessageType[]
 };
