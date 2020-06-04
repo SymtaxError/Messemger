@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Label
 from django.utils.dateparse import parse_datetime
+from users.models import UserProfile
 
 class ServerSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
@@ -40,3 +41,9 @@ class MessageSerializer(serializers.Serializer):
 class LabelSerializer(serializers.Serializer):
     text = serializers.CharField(max_length=30)
     color = serializers.CharField(max_length=1)
+
+class ServerMemberSerializer(serializers.Serializer):
+    first_name = serializers.CharField(max_length=30)
+    last_name = serializers.CharField(max_length=30)
+    tag = serializers.CharField(max_length=128)
+    avatar = serializers.ImageField(allow_null=True)

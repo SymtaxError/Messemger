@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
@@ -35,8 +34,8 @@ class ServerView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):
-        if servers.methods.is_owner(request):
-            id = int(request.GET.get('chat_id'))
+        id = int(request.GET.get('chat_id'))
+        if servers.methods.is_owner(request, id):
             request.user.server_set.get(id=id).delete()
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_403_FORBIDDEN)
