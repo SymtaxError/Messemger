@@ -1,6 +1,7 @@
 from django.urls import path, include
-from .views import DeskView
+from .views import DeskListView, DeskMembersModerateView
 
 urlpatterns = [
-    path('list/', DeskView.as_view()),
+    path('list/', DeskListView.as_view()),
+    path('<int:desk_id>/members/', DeskMembersModerateView.as_view())
 ]
