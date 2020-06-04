@@ -2,13 +2,15 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+SECRET_KEY = os.getenv('PRODUCT_KEY')
+
 SECRET_KEY = 'g3+@bj_&u2t9rnamqq5malbxt9xj2=49e#z)dp%ncl$lf5f!4x'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static_files')
+MEDIA_ROOT = os.getenv('MEDIA_ROOT')
 
 INSTALLED_APPS = [
     'corsheaders',
@@ -64,8 +66,12 @@ CHANNEL_LAYERS = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST'),
+        'PORT': os.getenv('POSTGRES_PORT')
     }
 }
 
@@ -115,5 +121,3 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-STATIC_URL = '/static/'
