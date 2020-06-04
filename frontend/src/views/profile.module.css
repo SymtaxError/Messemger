@@ -83,3 +83,22 @@
     border-color: #9b2516;
     transition: 0.5s;
 }
+
+.changeButton {
+    margin-top: 10px;
+    height: 35px;
+    width: auto;
+    background-color: green;
+    border-color: darkgreen;
+    border-style: solid;
+    border-radius: 4px;
+    font-size: 18px;
+    white-space: nowrap;
+    color: white;
+    transition: 0.5s;
+}
+
+.changeButton:hover {
+    background-color: darkgreen;
+    transition: 0.5s;
+}

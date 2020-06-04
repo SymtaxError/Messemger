@@ -1,8 +1,7 @@
-import {createStore, Store, Event, createEvent, Effect, createEffect} from "effector";
+import {createEffect, createEvent, createStore, Effect, Event, Store} from "effector";
 import {ChatType} from "api/models/chatType";
 import {getChatList} from "api/http";
-import {DateType} from "../api/models/dateType";
-import {replaceOrPush} from "../utils/misc/arrays";
+import {replaceOrPush} from "utils/misc/arrays";
 
 interface ChatListStore {
     chats: ChatType[]
@@ -22,18 +21,22 @@ interface ChatInit {
     picture?: string
 }
 
-interface MessageType {
-    owner: string
+interface MessageContent {
+    text: string
     owner_tag: string
-    message: string
-    date_published: DateType
-    id: number
+    chat_id: number
+}
+
+export interface MessageType {
+    user: string
+    params: MessageContent
 }
 
 interface ChatStore extends Store<ChatListStore> {
     setChats: Event<ChatType[]>
     addChat: Event<ChatType>
     addMessage: Event<MessageType>
+    getMessages: Event<MessageType[]>
     updateChatList: Effect<void, ChatType[]>
     createChat: Effect<ChatInit, ChatType>
 }
@@ -47,9 +50,19 @@ export const ChatStore = (() => {
     store.addChat = createEvent<ChatType>("add single chat");
     store.on(store.addChat, ((state, payload) => ({...state, chats: [...state.chats, payload]})));
 
+    store.getMessages = createEvent<MessageType[]>("put messages by request onclick");
+    store.on(store.getMessages, ((state, payload) => {
+        if (!payload)
+            return state;
+        const chat = state.chats.find(a => a.id === payload[0].params.chat_id);
+        const editedChat = {...chat, messages: []} as ChatType; // Стираю все
+        payload.forEach(a => store.addMessage(a));
+        return ({...state, chats: replaceOrPush<ChatType>(state.chats, chat, editedChat)});
+    }));
+
     store.addMessage = createEvent<MessageType>("push message to chat");
     store.on(store.addMessage, ((state, payload) => {
-        const chat = state.chats.find(a => a.id === payload.id);
+        const chat = state.chats.find(a => a.id === payload.params.chat_id);
         if (!chat)
             return state;
         const editedChat = {...chat, messages: [...chat.messages, payload]} as ChatType;
@@ -59,27 +72,25 @@ export const ChatStore = (() => {
     store.createChat = createEffect({
         name: "create chat",
         handler: (a: ChatInit): ChatType => {
-            const connection = new WebSocket(`ws://localhost:8000/servers/chat/${a.id}/?${a.token}`);
-            connection.onmessage = a.onMessage
+            const connection = new WebSocket(`ws://localhost:8000/chat/${a.id}/?token=${a.token}`);
+            connection.onmessage = a.onMessage;
 
             return {
                 ...a,
-                connection:  connection,
+                connection: connection,
                 messages: []
             };
         }
     });
-
     store.createChat.done.watch(a => store.addChat(a.result));
 
     store.updateChatList = createEffect({
-        name: "getChatList",
+        name: "update chat list",
         handler: async (): Promise<ChatType[]> => {
-            const response = await getChatList();
-            return response;
+            return await getChatList();
         }
     });
-    store.updateChatList.fail.watch(({ error }) => {
+    store.updateChatList.fail.watch(({error}) => {
         console.error("Bad credentials", error);
         return;
     });
@@ -89,7 +100,20 @@ export const ChatStore = (() => {
             result.result.forEach(a => store.createChat({
                 ...a,
                 token: token,
-                onMessage: a => store.addMessage(JSON.parse(a.data) as unknown as MessageType)
+                onMessage: a => {
+                    const buf: MessageType = JSON.parse(a.data);
+                    const temp = {
+                        user: buf.user,
+                        params: {
+                            text: buf.params.text,
+                            chat_id: buf.params.chat_id,
+                            owner_tag: buf.params.owner_tag
+                        }
+                    };
+                    // Попробуем вернуть temp, если все-таки не парсится нормально, ага?
+                    console.log(buf);
+                    store.addMessage(buf)
+                }
             }));
         }
 

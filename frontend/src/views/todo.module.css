@@ -3,14 +3,14 @@
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    background-color: #F9E5DE;
+    background-color: #FFE1E1;
 }
 
 .listOfLists {
     height: 100%;
     min-width: 250px;
     max-width: 250px;
-    background-color: #63465A;
+    background-color: #B77986;
     box-sizing: border-box;
 }
 
@@ -20,15 +20,15 @@
     justify-content: center;
     height: 40px;
     width: 100%;
-    border-top: 2px solid #E8E8E8;
+    border-bottom: 2px solid #63465A;
 }
 
 .nameOfList {
     padding-left: 10px;
     padding-right: 10px;
     font-size: 16px;
-    font-weight: 400;
-    color: #E8E8E8;
+    font-weight: 500;
+    color: #363636;
     justify-content: center;
     white-space: nowrap;
     overflow: hidden;
@@ -51,7 +51,7 @@
 .head {
     display: flex;
     flex-flow: row nowrap;
-    background-color: #F1D263;
+    background-color: #F4C5A8;
     height: 30px;
     width: 100%;
     border-bottom: 2px solid #63465A;
@@ -62,7 +62,7 @@
     height: 100%;
     width: 250px;
     padding: 3px;
-    /*border-right: 2px solid #63465A;*/
+    border-right: 2px solid #63465A;
     font-size: 16px;
     font-weight: 400;
     justify-content: center;
@@ -94,7 +94,7 @@
     flex-flow: column nowrap;
     width: 200px;
     padding: 20px;
-    background-color: #DD99A7;
+    background-color: #E7A295;
     border-radius: 8px;
     margin-right: 20px;
 }
@@ -155,6 +155,6 @@
     width: 200px;
     height: 20px;
     padding: 15px;
-    background-color: #DD99A7;
+    background-color: #E7A295;
     border-radius: 8px;
 }

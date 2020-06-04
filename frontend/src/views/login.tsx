@@ -1,15 +1,19 @@
 import React, {CSSProperties, ReactNode, useState} from 'react';
 import styles from "views/login.module.css";
 import {loginRequest, registerRequest} from "api/http"
+import {useHistory} from "react-router";
 
 
 export const Login: React.FC = () => {
+    const history = useHistory();
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
     const [isSignIn, setIsSignIn] = useState(true);
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
+
+    const mailCheck = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     const setAllZero = () => {
         setPassword("");
@@ -41,7 +45,7 @@ export const Login: React.FC = () => {
                 <div className={styles.signInputText}>Электронная почта</div>
                 <input className={styles.signLoginEntry} value={email}
                        onChange={a => setEmail(a.target.value)}
-                       style={email === "" ? stylesWrongInput : stylesGoodInput}
+                       style={!mailCheck.test(email) ? stylesWrongInput : stylesGoodInput}
                 />
                 <div className={styles.signInputText}>Пароль</div>
                 <input className={styles.signLoginEntry} value={password}
@@ -54,9 +58,13 @@ export const Login: React.FC = () => {
                     setAllZero()
                 }}>Регистрация
                 </div>
-                <button className={styles.signButton} onClick={async () =>
-                    await loginRequest(email, password)
-                }>Войти
+                <button className={styles.signButton} onClick={async () => {
+                    const responseCode = await loginRequest(email, password);
+                    if (responseCode === 200)
+                        history.push("/home");
+                    else
+                        alert("Неправильный логин или пароль!")
+                }}>Войти
                 </button>
             </div>
         </div>);
@@ -98,7 +106,13 @@ export const Login: React.FC = () => {
 
                 <div className={styles.toRegister} onClick={a => setIsSignIn(!isSignIn)}>Все-таки хотите войти?</div>
                 <button className={styles.signButton} onClick={async () => {
-                    await registerRequest({email: email, password: password, first_name: name, last_name: surname});
+                    const code = await registerRequest({email: email, password: password, first_name: name, last_name: surname});
+                    if (code === 201)
+                        setIsSignIn(!isSignIn);
+                    else if (code === 403)
+                        alert("Такой пользователь уже существует");
+                    else
+                        alert("Данные введены неправильно!");
                 }}>Регистрация
                 </button>
             </div>
