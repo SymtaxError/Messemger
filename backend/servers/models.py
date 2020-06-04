@@ -5,9 +5,14 @@ from backend.settings import MEDIA_ROOT
 import os
 
 def get_upload_path(instance, filename):
+    """Describes path where loaded images are saved"""
     return os.path.join(MEDIA_ROOT, 'servers', str(instance.id), 'avatars', filename)
 
 class Server(models.Model):
+    """Description of Server's fields in database, such as id, name, creator, 
+    picture, users, type (chat or dialog), manager, used for working with 
+    objects. The only method of this class is update - allows editing name
+    and picture of certain server."""
     id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=100)
     creator = models.ForeignKey(
@@ -35,7 +40,7 @@ class Server(models.Model):
         default=DIALOG
     )
     objects = ServerManager()
-
+    
     def update(self, **kwargs):
         for item in kwargs.items():
             self.__dict__[item[0]] = item[1]
