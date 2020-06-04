@@ -2,56 +2,79 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
-from .serializers import DeskSerializer
+from .serializers import DeskListSerializer, DeskSerializer
+from servers.serializers import ServerMemberSerializer
 from .models import Desk
-import todos.methods
+from todos.methods import desk_has_user, is_owner
 from users.models import UserProfile
-import json
 
-
-# from .todos.methods import
-# from users.models import UserProfile
-# import todos.methods
-
-
-class DeskView(APIView):
+class DeskListView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         user = request.user
-        desks = DeskSerializer(user.desk_set.all(), many=True)
+        desks = DeskListSerializer(user.desk_set.all(), many=True)
         return Response(desks.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = DeskSerializer(data=request.data)
-        if serializer.is_valid():
-            data = serializer.validated_data
+        try:
+            serializer = DeskSerializer(request.data)
+            data = serializer.data
+            tags = data['tags']
             user = request.user
-            if (data['server'] in [server for server in user.server_set.all()]):
-                desk = Desk.objects.create_desk(title=data['title'],
-                                                server=data['server'],
-                                                creator=user)
-                if 'tags' in request.data.keys():
-                    for nickname in json.loads(request.data['tags']):
-                        user = UserProfile.objects.get(tag=nickname).user
-                        desk.users.add(user)
-                desk.save()
-                return Response(status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_403_FORBIDDEN)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            user.server_set.get(id=data['server_id'])
+            desk = Desk.objects.create_desk(data['title'],
+                data['server_id'], user, *tags)
+            return Response(status=status.HTTP_201_CREATED)
+        except:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
     def put(self, request):
-        id = int(request.GET.get('id'))
-        if todos.methods.desk_has_user(request, id):
+        desk_id = int(request.GET.get('desk_id'))
+        if desk_has_user(request, desk_id):
             text_data = {}
             for item in request.data.items():
                 text_data[item[0]] = item[1]
             if not 'title' in text_data.keys():
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-            desk = Desk.objects.get(id=id)
+            desk = Desk.objects.get(id=desk_id)
             desk.edit_title(text_data['title'])
-            desk.save()
             return Response(status=status.HTTP_200_OK)
         else:
-            return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+class DeskMembersModerateView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request, desk_id):
+        user = request.user
+        if desk_has_user(request, desk_id):
+            users = user.desk_set.get(id=desk_id).users.all()
+            profiles = []
+            for i in range(len(users)):
+                profiles.append(users[i].profile)
+            users = ServerMemberSerializer(profiles, many=True)
+            return Response(users.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def post(self, request, desk_id):
+        user = request.user
+        if desk_has_user(request, desk_id):
+            desk = Desk.objects.get(id=desk_id)
+            tags = request.data['tags']
+            desk.add_users(tags)
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def put(self, request, desk_id):
+        if desk_has_user(request, desk_id) and is_owner(request, desk_id):
+            desk = Desk.objects.get(id=desk_id)
+            tags = request.data['tags']
+            desk.remove_users(tags)
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_403_FORBIDDEN)

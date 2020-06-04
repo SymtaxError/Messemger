@@ -25,9 +25,19 @@ class TableSerializer(serializers.ModelSerializer):
         fields = ['id_on_desk', 'title', 'card_set']
 
 
-class DeskSerializer(serializers.ModelSerializer):
+class DeskListSerializer(serializers.ModelSerializer):
     table_set = TableSerializer(read_only=True, many=True)
 
     class Meta:
         model = Desk
         fields = ['id', 'title', 'server', 'table_set']
+
+class DeskSerializer(serializers.Serializer):
+    server_id = serializers.IntegerField()
+    title = serializers.CharField(max_length=30)
+    tags = serializers.SerializerMethodField()
+    def get_tags(self, obj):
+        if 'tags' in obj.keys():
+            return obj['tags']
+        else:
+            return []

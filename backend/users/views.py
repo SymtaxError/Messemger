@@ -11,9 +11,12 @@ class UserRegistrationView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             data = serializer.validated_data
-            user = User.objects.create_user(data['email'], data['password'])
-            UserProfile.objects.create_profile(user, data['first_name'], data['last_name'])
-            return Response(status=status.HTTP_201_CREATED)
+            try:
+                user = User.objects.create_user(data['email'], data['password'])
+                UserProfile.objects.create_profile(user, data['first_name'], data['last_name'])
+                return Response(status=status.HTTP_201_CREATED)
+            except:
+                return Response(status=status.HTTP_403_FORBIDDEN)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserProfileView(APIView):
