@@ -1,6 +1,6 @@
 from django.db import models
-from users.models import User
-from .managers import ServerManager, MessageManager
+from users.models import User, UserProfile
+from .managers import ServerManager, MessageManager, LabelManager
 from backend.settings import MEDIA_ROOT
 import os
 
@@ -39,6 +39,26 @@ class Server(models.Model):
     def update(self, **kwargs):
         for item in kwargs.items():
             self.__dict__[item[0]] = item[1]
+        self.save()
+
+    def add_users(self, tags):
+        users = []
+        for i in range(len(tags)):
+            try:
+                users.append(UserProfile.objects.get(tag=tags[i]).user)
+            except:
+                pass
+        self.users.add(*users)
+        self.save()
+
+    def remove_users(self, tags):
+        users = []
+        for i in range(len(tags)):
+            try:
+                users.append(UserProfile.objects.get(tag=tags[i]).user)
+            except:
+                pass
+        self.users.remove(*users)
         self.save()
 
 class Message(models.Model):
@@ -95,3 +115,5 @@ class Label(models.Model):
         choices=COLOR_TYPE_CHOICES,
         default=NO_COLOR
     )
+
+    objects = LabelManager()
