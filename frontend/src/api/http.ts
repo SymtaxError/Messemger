@@ -27,15 +27,20 @@ export const resultRefresh = async (): Promise<void> => {
             ? `${localStorage.getItem("refresh")}`
             : ""
     };
+    const headers = {
+        "Content-Type": "application/json; charset=UTF-8"
+    };
     const response = await fetch(
         `${backendURL}/auth/jwt/refresh/`, // Сюда адрес для проверки временного токена
-        {method: "POST", body: JSON.stringify(bodyForCheck), mode: "cors"}
+        {method: "POST", body: JSON.stringify(bodyForCheck), mode: "cors", headers: headers}
     );
     const state = response.status;
     const result: RefreshUnit = JSON.parse(await response.text());
     if (state === 200) {
         localStorage.setItem("access", result.access);
         localStorage.setItem("refresh", result.refresh);
+        await UserStore.getUser()
+
     } else {
         console.log("want redirect");
         // window.location.replace("localhost:3000/login");
@@ -66,8 +71,6 @@ const request = async <T>(
 
     if (status === 401) {
         await resultRefresh();
-    } else if (status === 400) {
-        console.log("логин-пароль")
     }
 
     if (status !== 200)
@@ -96,13 +99,13 @@ export const http = {
     }
 };
 
-export const registerRequest = async (user: RegisterUnit): Promise<void> => {
+export const registerRequest = async (user: RegisterUnit): Promise<number> => {
     const args = {};
-    await http.post("/users/register/", args, JSON.stringify(user));
-    return;
+    const response = await http.post("/users/register/", args, JSON.stringify(user));
+    return response.code;
 };
 
-export const loginRequest = async (email: string, password: string): Promise<void> => {
+export const loginRequest = async (email: string, password: string): Promise<number> => {
     const args = {};
     const wrappedResponse = await http.post<RefreshUnit>("/auth/jwt/login/", args, JSON.stringify({
         "email": email,
@@ -112,9 +115,14 @@ export const loginRequest = async (email: string, password: string): Promise<voi
         localStorage.setItem("access", wrappedResponse.body.access);
         localStorage.setItem("refresh", wrappedResponse.body.refresh);
         await UserStore.getUser();
-    } else
-        alert("Неправильный логин/пароль");
-    return;
+    }
+    return wrappedResponse.code;
+};
+
+export const changeUserInfo = async (first_name: string, last_name: string, email: string, image: string): Promise<number> => {
+    const args = {};
+    const response = await http.put("/users/profile/", args, JSON.stringify({first_name: first_name, last_name: last_name, email: email, picture: image}));
+    return response.code;
 };
 
 export const createGroupChat = async (name: string, users: string[]): Promise<void> => {

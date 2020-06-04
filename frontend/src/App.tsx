@@ -31,17 +31,23 @@ export const App: React.FC = () => {
         <div className={styles.app}>
             <Header/>
             <Switch location={location}>
-                <Route path="/login"
-                       component={Login}/>
-                <Route path="/todo"
-                       component={Todo}/>
+                <PrivateRoute condition={true}
+                              path="/login"
+                              component={Login}/>
+                {/*<Route path="/login"*/}
+                {/*       component={Login}/>*/}
+                <PrivateRoute condition={true}
+                              path="/todo"
+                              component={Todo}/>
                 <PrivateRoute condition={true}
                               path="/chat"
                               component={Messemger}/>
-                <Route path="/profile"
-                       component={Profile}/>
-                <Route path="/home"
-                       component={Home}/>
+                <PrivateRoute condition={true}
+                              path="/profile"
+                              component={Profile}/>
+                <PrivateRoute condition={true}
+                              path="/home"
+                              component={Home}/>
                 <Route exact path="/">
                     <Redirect to="/home"/>
                 </Route>

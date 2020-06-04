@@ -8,8 +8,11 @@ import {ChatStore, MessageType} from "store/chatListStore";
 import plusImg from "img/plus.png"
 import {createGroupChat, getMessagesRequest} from "api/http";
 import {ChatType} from "../api/models/chatType";
+import {AddChatComponent} from "../components/addChatComponent";
 
 export const Messemger: React.FC = () => {
+
+    const [isCreate, setIsCreate] = useState(false)
 
     const [
         chatList
@@ -23,6 +26,7 @@ export const Messemger: React.FC = () => {
 
     return (
         <div className={styles.body}>
+            <AddChatComponent/>
             <div className={styles.leftBarOpen}>
                 <div className={styles.leftBarHeader}>
                     <div className={styles.leftBarText}>Список чатов</div>
