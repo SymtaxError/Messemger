@@ -26,10 +26,10 @@ interface MessageContent {
     id: number
 }
 
-interface MessageType {
+interface       MessageType {
     owner: string
     // owner_tag: string
-    content: MessageContent
+    params: MessageContent
 }
 
 interface ChatStore extends Store<ChatListStore> {
@@ -51,7 +51,7 @@ export const ChatStore = (() => {
 
     store.addMessage = createEvent<MessageType>("push message to chat");
     store.on(store.addMessage, ((state, payload) => {
-        const chat = state.chats.find(a => a.id === payload.content.id);
+        const chat = state.chats.find(a => a.id === payload.params.id);
         if (!chat)
             return state;
         const editedChat = {...chat, messages: [...chat.messages, payload]} as ChatType;
