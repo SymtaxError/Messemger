@@ -1,6 +1,6 @@
 from django.db import models
 from servers.models import Server, Label
-from users.models import User
+from users.models import User, UserProfile
 from .managers import DeskManager
 
 class Desk(models.Model):
@@ -18,8 +18,29 @@ class Desk(models.Model):
     )
     objects = DeskManager()
     users = models.ManyToManyField(User, verbose_name='users')
+    
     def edit_title(self, new_title):
         self.__dict__['title'] = new_title
+        self.save()
+
+    def add_users(self, tags):
+        users = []
+        for i in range(len(tags)):
+            try:
+                users.append(UserProfile.objects.get(tag=tags[i]).user)
+            except:
+                pass
+        self.users.add(*users)
+        self.save()
+
+    def remove_users(self, tags):
+        users = []
+        for i in range(len(tags)):
+            try:
+                users.append(UserProfile.objects.get(tag=tags[i]).user)
+            except:
+                pass
+        self.users.remove(*users)
         self.save()
 
 class Table(models.Model):
