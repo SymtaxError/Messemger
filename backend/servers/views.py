@@ -7,13 +7,19 @@ from users.models import UserProfile
 import servers.methods
 
 class ServerView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    """Analyses given requests connected with servers and returns response"""
+
+    permission_classes = [permissions.IsAuthenticated] 
+    """ Only authenticated users can interact with servers """
+   
     def get(self, request):
+        """ Returns serialized list of users' servers"""
         user = request.user
         servers = ServerSerializer(user.server_set.all(), many=True)
         return Response(servers.data, status=status.HTTP_200_OK)
 
     def post(self, request):
+        """ Creates a new server """
         serializer = ServerSerializer(data=request.data)
         if serializer.is_valid():
             data = serializer.validated_data
@@ -34,6 +40,8 @@ class ServerView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):
+        """ Deletes an existing server if user that has sent a request
+        is its' owner"""
         id = int(request.GET.get('chat_id'))
         if servers.methods.is_owner(request, id):
             request.user.server_set.get(id=id).delete()
@@ -41,6 +49,7 @@ class ServerView(APIView):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
     def put(self, request):
+        """ Updates server fields if user is in the chat """
         id = int(request.GET.get('chat_id'))
         if servers.methods.server_has_user(request, id):
             text_data = {}
@@ -61,9 +70,14 @@ class ServerView(APIView):
 
 
 class MessageView(APIView):
+    """Analyses given requests connected with messages and returns response"""
+
     permission_classes = [permissions.IsAuthenticated]
+    """Only authenticated users can interact with messages"""
 
     def get(self, request):
+        """ Returns a list of messages (requested amount from the message with
+        the certain id) if user is in the chat"""
         chat_id = int(request.GET.get('chat_id'))
         count = int(request.GET.get('count'))
         start = int(request.GET.get('start')) - 1
@@ -79,6 +93,7 @@ class MessageView(APIView):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
     def post(self, request):
+        """ Creates a new message if user is in the chat """
         chat_id = int(request.GET.get('chat_id'))
         if servers.methods.server_has_user(request, chat_id):
             query_set = {}
@@ -101,8 +116,13 @@ class MessageView(APIView):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
 class LabelView(APIView):
+    """Analyses given requests connected with labels and returns response"""
+
     permission_classes = [permissions.IsAuthenticated]
+    """ Only authenticated users can interact with labels"""
     def post(self, request):
+        """ Creates a new label for the certain message or adds an existing
+        one to the list of message labels if user is in the chat"""
         message_id = int(request.GET.get('message_id'))
         print(request.user, message_id)
         if request.user in Message.objects.get(id=message_id).server.users.all():
@@ -126,6 +146,7 @@ class LabelView(APIView):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
     def delete(self, request):
+        """ Unfastens a label from the message if user is in the chat """
         message_id = int(request.GET.get('message_id'))
         label_id = int(request.GET.get('label_id'))
         if request.user in Message.objects.get(id=message_id).server.users.all():
