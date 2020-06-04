@@ -47,7 +47,7 @@ export const Chat: React.FC<ChatProps> = props => {
             <div className={styles.content}>
                 {
                     chat.messages.map((unit, key) => {
-                        return (unit.owner === user.first_name)
+                        return (unit.params.owner_tag === user.tag)
                             ? < MyMessage
                                 unit={unit}
                                 key={`message-unit-${key}`
@@ -60,7 +60,7 @@ export const Chat: React.FC<ChatProps> = props => {
                 }
             </div>
             <div className={styles.enter}>
-                <textarea className={styles.sendArea} onChange={a => setPendingMsg(a.target.value)} placeholder="Напишите сообщение..."/>
+                <textarea className={styles.sendArea} onChange={a => setPendingMsg(a.target.value)} value={pendingMsg} placeholder="Напишите сообщение..."/>
                 <button className={styles.sendButton} onClick={() => sendMessage(pendingMsg, connection)}>Отправить</button>
             </div>
         </div>
