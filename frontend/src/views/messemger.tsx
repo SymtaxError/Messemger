@@ -4,12 +4,15 @@ import {ChatMin} from "components/chatMin"
 import {Chat} from "components/chat"
 import {RightBar} from "../components/rightBar";
 import {useMappedStore} from "../utils/store";
-import {ChatStore} from "store/chatListStore";
+import {ChatStore, MessageType} from "store/chatListStore";
 import plusImg from "img/plus.png"
-import {createGroupChat} from "api/http";
+import {createGroupChat, getMessagesRequest} from "api/http";
 import {ChatType} from "../api/models/chatType";
+import {AddChatComponent} from "../components/addChatComponent";
 
 export const Messemger: React.FC = () => {
+
+    const [isCreate, setIsCreate] = useState(false)
 
     const [
         chatList
@@ -23,6 +26,7 @@ export const Messemger: React.FC = () => {
 
     return (
         <div className={styles.body}>
+            <AddChatComponent/>
             <div className={styles.leftBarOpen}>
                 <div className={styles.leftBarHeader}>
                     <div className={styles.leftBarText}>Список чатов</div>
@@ -37,7 +41,12 @@ export const Messemger: React.FC = () => {
                 </div>
                 {
                     (chatList?.length)
-                        ? chatList.map((unit, key) => <ChatMin unit={unit} key={`chatMin-unit-${key}`} onClick={() => setSelectedChat(unit)}/>)
+                        ? chatList.map((unit, key) => <ChatMin unit={unit} key={`chatMin-unit-${key}`} onClick={async () => {
+                            setSelectedChat(unit);
+                            const response = await getMessagesRequest(unit.id);
+                            if (response)
+                                ChatStore.getMessages(response);
+                        }}/>)
                         : <div className={styles.leftBarText}>У Вас нет чатов!</div>
                 }
             </div>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 import styles from "components/chat.module.css"
 import menuImg from "img/tripleMenu.png"
 import { MyMessage }from "./messageComponent";
@@ -8,6 +8,7 @@ import {UserStore} from "../store/user";
 import {ChatType} from "../api/models/chatType";
 import {sendWSMessage} from "../webSockets/messageWS";
 import {ChatStore} from "../store/chatListStore";
+import {AddChatComponent} from "./addChatComponent";
 
 interface ChatProps {
     chat?: ChatType
@@ -47,7 +48,7 @@ export const Chat: React.FC<ChatProps> = props => {
             <div className={styles.content}>
                 {
                     chat.messages.map((unit, key) => {
-                        return (unit.owner === user.first_name)
+                        return (unit.params.owner_tag === user.tag)
                             ? < MyMessage
                                 unit={unit}
                                 key={`message-unit-${key}`
@@ -60,7 +61,7 @@ export const Chat: React.FC<ChatProps> = props => {
                 }
             </div>
             <div className={styles.enter}>
-                <textarea className={styles.sendArea} onChange={a => setPendingMsg(a.target.value)} placeholder="Напишите сообщение..."/>
+                <textarea className={styles.sendArea} onChange={a => setPendingMsg(a.target.value)} value={pendingMsg} placeholder="Напишите сообщение..."/>
                 <button className={styles.sendButton} onClick={() => sendMessage(pendingMsg, connection)}>Отправить</button>
             </div>
         </div>

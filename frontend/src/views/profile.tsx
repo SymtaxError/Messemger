@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import styles from "views/profile.module.css"
 import {UserStore} from "store/user";
 import {useMappedStore} from "utils/store";
+import {useHistory} from "react-router";
 
 export const Profile: React.FC = () => {
 
@@ -14,6 +15,8 @@ export const Profile: React.FC = () => {
     const [userName, setUserName] = useState(user.first_name);
     const [userSurname, setUserSurname] = useState(user.last_name);
     const [userEmail, setUserEmail] = useState(user.email);
+
+    const history = useHistory();
 
     return (
         <div className={styles.body}>
@@ -40,7 +43,15 @@ export const Profile: React.FC = () => {
                         <input className={styles.settingInput}
                                value={userEmail}
                                onChange={a => setUserEmail(a.target.value)}/>
-                        <button className={styles.exitButton}>Выйти</button>
+                        <button className={styles.changeButton} onClick={() => {
+                            alert ("В будущих версиях :)")
+                        }}>Изменить данные</button>
+                        <button className={styles.exitButton} onClick={() => {
+                            UserStore.setUser({tag: "", first_name: "", email: "",last_name: "" });
+                            localStorage.setItem("access", "");
+                            localStorage.setItem("refresh", "");
+                            history.push("/login");
+                        }}>Выйти</button>
                     </div>
                 </div>
             </div>
