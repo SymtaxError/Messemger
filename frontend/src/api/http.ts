@@ -123,7 +123,7 @@ export const changeUserInfo = async (first_name: string, last_name: string, emai
     const args = {};
     const response = await http.put("/users/profile/", args, JSON.stringify({first_name: first_name, last_name: last_name, email: email, picture: image}));
     return response.code;
-}
+};
 
 export const createGroupChat = async (name: string, users: string[]): Promise<void> => {
     const args = {};

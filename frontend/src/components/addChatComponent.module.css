@@ -1,0 +1,66 @@
+.body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -200px;
+    height: 300px;
+    width: 400px;
+    background-color: #b77986;
+    border: 3px solid #63465a;
+    border-radius: 7px;
+    box-sizing: border-box;
+}
+
+.createChat {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header {
+    background-color: #63465a;
+    width: 100%;
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    height: 35px;
+    padding-bottom: 5px;
+    color: white;
+    font-size: 20px;
+}
+
+.block {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.smallBlock {
+    width: 100%;
+    height: 35px;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.choiceOne {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    border: 2px solid #63465A;
+    justify-content: center;
+    align-items: center;
+    background-color: #63465a;
+}
+
+.wickedOne {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    border: 2px solid #63465A;
+    justify-content: center;
+    align-items: center;
+    background-color: #9b6992;
+}

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 import styles from "components/chat.module.css"
 import menuImg from "img/tripleMenu.png"
 import { MyMessage }from "./messageComponent";
@@ -8,6 +8,7 @@ import {UserStore} from "../store/user";
 import {ChatType} from "../api/models/chatType";
 import {sendWSMessage} from "../webSockets/messageWS";
 import {ChatStore} from "../store/chatListStore";
+import {AddChatComponent} from "./addChatComponent";
 
 interface ChatProps {
     chat?: ChatType
