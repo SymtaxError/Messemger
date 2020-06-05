@@ -1,4 +1,4 @@
-import {MessageType} from "./messageType";
+import {MessageType} from "store/chatListStore";
 
 export interface ChatType {
     id: number

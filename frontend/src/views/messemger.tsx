@@ -4,13 +4,16 @@ import {ChatMin} from "components/chatMin"
 import {Chat} from "components/chat"
 import {RightBar} from "../components/rightBar";
 import {useMappedStore} from "../utils/store";
-import {ChatStore} from "store/chatListStore";
+import {ChatStore, MessageType} from "store/chatListStore";
 import plusImg from "img/plus.png"
 import deletewhiteImg from "img/deletewhite.png";
 import {createGroupChat} from "api/http";
 import {ChatType} from "../api/models/chatType";
+import {AddChatComponent} from "components/addChatComponent";
 
 export const Messemger: React.FC = () => {
+
+    const [isCreate, setIsCreate] = useState(false);
 
     const [
         chatList
@@ -22,6 +25,7 @@ export const Messemger: React.FC = () => {
 
     return (
         <div className={styles.body}>
+            {isCreate ? <AddChatComponent/> : undefined}
             <div className={styles.leftBarOpen}>
                 <div className={styles.leftBarHeader}>
                     <div className={styles.leftBarText}>чат1</div>
@@ -43,13 +47,20 @@ export const Messemger: React.FC = () => {
                 <div className={styles.leftBarHeader}>
                     <img src={plusImg} className={styles.leftBarImg} alt={""}
                          onClick={
-                             async () => {
-                                 await createGroupChat("test1", ["first#1"])
-                                     .then(() => ChatStore.updateChatList());
-                             }
+                             () => setIsCreate(!isCreate)
                          }
                     />
                 </div>
+
+                {
+                    (chatList?.length)
+                        ? chatList.map((unit, key) => <ChatMin unit={unit} key={`chatMin-unit-${key}`}
+                                                               onClick={async () => {
+                                                                   setSelectedChat(unit);
+                                                                   ChatStore.getMessagesForChat(unit.id);
+                                                               }}/>)
+                        : <div className={styles.leftBarText}>У Вас нет чатов!</div>
+                }
             </div>
             <div className={styles.chatField}>
                 

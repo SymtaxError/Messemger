@@ -8,7 +8,6 @@ interface PrivateRouteProps extends RouteProps{
 export const PrivateRoute: React.FC<PrivateRouteProps> = x => {
     const redirectPath = "/login";
     if (!x.condition) {
-        alert("Nelzya");
         return <Redirect to={ redirectPath } />;
     }
     else
