@@ -31,12 +31,11 @@ export const Todo: React.FC = () => {
                 {preparedColumns.map((unit, key) =>
                     <TodoMiniature unit={unit}
                                    key={`TodoMiniature-unit-${key}`}
-                                   onClick={() => {setSelectedTodo(unit); alert("sd")}}
+                                   onClick={() => setSelectedTodo(unit)}
                     />)}
             </div>
 
             {/*а это то, где все показывается*/}
-            {console.log(selectedTodo)}
             {
                 selectedTodo
                     ? <TodoList unit={selectedTodo}>asd</TodoList>
