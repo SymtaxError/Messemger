@@ -6,9 +6,13 @@ from backend.settings import MEDIA_ROOT, AUTH_USER_MODEL
 import os
 
 def get_upload_path(instance, filename):
+    """Describes the path where loaded images are saved."""
     return os.path.join(MEDIA_ROOT, 'users', str(instance.user.email), 'avatars', filename)
 
 class User(AbstractBaseUser):
+    """User is a basic model that is used for registration and authorization.
+    It has email, password, is_superuser fields and a special manager for 
+    interacting with stored in db objects."""
     email = models.EmailField(verbose_name='email address', unique=True)
     password = models.CharField(verbose_name='password', max_length=128)
     is_superuser = models.BooleanField(default=False)
@@ -24,19 +28,26 @@ class User(AbstractBaseUser):
         verbose_name_plural = 'users'
 
     def get_username(self):
+        """ Returns part of user email before '@' - his username."""
         username = self.email[:self.email.find('@')]
         return username
 
     def email_user(self, subject, message, from_email=None, **kwargs):
+        """ Allows writing an email to user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
     def __str__(self):
+        """ Returns string representation of user - its full name."""
         return UserProfile.objects.get(user=self).get_full_name()
 
     def get_tag(self):
         return UserProfile.objects.get(user=self).tag
 
 class UserProfile(models.Model):
+    """ UserProfile is an extended model for storing information about users.
+    It has such fields as user, first_name, date_joined, tag (a unique 
+    identifier), avatar, status, friends. Interacting with objects stored in
+    database is provided by ProfileManager."""
     user = models.OneToOneField(
         AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -59,13 +70,16 @@ class UserProfile(models.Model):
     objects = ProfileManager()
 
     def get_full_name(self):
+        """ Returns first_name plus last_name."""
         full_name = f"{self.first_name} {self.last_name}"
         return full_name
 
     def update_tag(self):
+        """ Allows updating users tag if his username was edited."""
         self.tag = self.user.get_username() + '#' + str(self.user.id)
         self.save()
 
     def update_status(self, new_status):
+        """ Allows updating user status."""
         self.status = new_status
         self.save()
