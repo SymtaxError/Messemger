@@ -9,14 +9,19 @@ from todos.methods import desk_has_user, is_owner
 from users.models import UserProfile
 
 class DeskListView(APIView):
+    """Analyses given requests connected with todo desks and returns response"""
+
     permission_classes = [permissions.IsAuthenticated]
+    """ Only authenticated users can interact with servers """
 
     def get(self, request):
+        """ Returns serialized list of users' todo lists"""
         user = request.user
         desks = DeskListSerializer(user.desk_set.all(), many=True)
         return Response(desks.data, status=status.HTTP_200_OK)
 
     def post(self, request):
+        """ Creates a new todo desk """
         try:
             serializer = DeskSerializer(request.data)
             data = serializer.data
@@ -33,6 +38,8 @@ class DeskListView(APIView):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
     def put(self, request):
+        """ Updates an existing todo list title if user that
+        has sent a request is its' owner """
         desk_id = int(request.GET.get('desk_id'))
         if desk_has_user(request, desk_id):
             text_data = {}
@@ -47,8 +54,13 @@ class DeskListView(APIView):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
 class DeskMembersModerateView(APIView):
+    """Analyses given requests connected with todo desks users and returns response"""
+
     permission_classes = [permissions.IsAuthenticated]
+    """ Only authenticated users can interact with servers """
+
     def get(self, request, desk_id):
+        """ Returns serialized list of todo lists' users"""
         user = request.user
         if desk_has_user(request, desk_id):
             users = user.desk_set.get(id=desk_id).users.all()
@@ -61,6 +73,7 @@ class DeskMembersModerateView(APIView):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
     def post(self, request, desk_id):
+        """ Adding user(s) to todo list """
         user = request.user
         if desk_has_user(request, desk_id):
             desk = Desk.objects.get(id=desk_id)
@@ -71,6 +84,7 @@ class DeskMembersModerateView(APIView):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
     def put(self, request, desk_id):
+        """ Removes user(s) of todo list """
         if desk_has_user(request, desk_id) and is_owner(request, desk_id):
             desk = Desk.objects.get(id=desk_id)
             tags = request.data['tags']
