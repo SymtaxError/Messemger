@@ -6,9 +6,12 @@ from .serializers import NewsPostSerializer
 from .models import NewsPost
 
 class NewsPostView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    """Analyses given requests connected with newspost and returns response."""
+    permission_classes = [permissions.IsAuthenticated] #: Only authenticated users can interact with news posts.
     
     def get(self, request):
+        """Returns a list of requested count news posts from requested 
+        start number or an error if request is incorrect."""
         count = int(request.GET.get('count'))
         start = int(request.GET.get('start')) - 1
         try:
@@ -26,6 +29,7 @@ class NewsPostView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
     
     def post(self, request):
+        """ Allows superusers create new news posts."""
         user = request.user
         print(user.is_superuser)
         if user.is_superuser:
@@ -51,6 +55,7 @@ class NewsPostView(APIView):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
     def delete(self, request):
+        """ Allows superusers delete requested post."""
         post_id = int(request.GET.get('post_id'))
         if request.user.is_superuser:
             NewsPost.objects.get(id=post_id).delete()
@@ -58,6 +63,7 @@ class NewsPostView(APIView):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
     def put(self, request):
+        """Allows superusers update news posts."""
         post_id = int(request.GET.get('post_id'))
         if request.user.is_superuser:
             query_set = {}

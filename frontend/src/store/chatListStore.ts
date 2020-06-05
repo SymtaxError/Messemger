@@ -1,7 +1,27 @@
 import {createEffect, createEvent, createStore, Effect, Event, Store} from "effector";
 import {ChatType} from "api/models/chatType";
-import {getChatList} from "api/http";
+import {getMessagesRequest, http} from "api/http";
 import {replaceOrPush} from "utils/misc/arrays";
+
+export const getChatList2 = async (): Promise<ChatType[]> => {
+    const args = {};
+    const response = await http.get("/servers/list/", args);
+    return response.body as unknown as ChatType[]
+};
+
+export const getChatList = async (): Promise<ChatType[]> => {
+    const headers = {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": (localStorage.getItem("access") !== "undefined")
+            ? `JWT ${localStorage.getItem("access")}`
+            : ""
+    };
+    const response = await fetch(
+        "http://localhost:8000/servers/list/",
+        {method: "GET", headers: headers, mode: "cors"}
+    );
+    return JSON.parse(await response.text()) as unknown as ChatType[];
+};
 
 interface ChatListStore {
     chats: ChatType[]
@@ -36,9 +56,11 @@ interface ChatStore extends Store<ChatListStore> {
     setChats: Event<ChatType[]>
     addChat: Event<ChatType>
     addMessage: Event<MessageType>
-    getMessages: Event<MessageType[]>
+    setMessages: Event<MessageType[]>
     updateChatList: Effect<void, ChatType[]>
     createChat: Effect<ChatInit, ChatType>
+    getMessagesForChat: Effect<number, MessageType[]>
+    clearChatList: Event<void>
 }
 
 export const ChatStore = (() => {
@@ -50,9 +72,12 @@ export const ChatStore = (() => {
     store.addChat = createEvent<ChatType>("add single chat");
     store.on(store.addChat, ((state, payload) => ({...state, chats: [...state.chats, payload]})));
 
-    store.getMessages = createEvent<MessageType[]>("put messages by request onclick");
-    store.on(store.getMessages, ((state, payload) => {
-        if (!payload)
+    store.clearChatList = createEvent<void>("add single chat");
+    store.on(store.clearChatList, ((state) => ({...state, chats: []})));
+
+    store.setMessages = createEvent<MessageType[]>("put messages by request onclick");
+    store.on(store.setMessages, ((state, payload) => {
+        if (!payload?.length)
             return state;
         const chat = state.chats.find(a => a.id === payload[0].params.chat_id);
         const editedChat = {...chat, messages: []} as ChatType; // Стираю все
@@ -84,6 +109,20 @@ export const ChatStore = (() => {
     });
     store.createChat.done.watch(a => store.addChat(a.result));
 
+    store.getMessagesForChat = createEffect({
+        name: "get messages for chat by id",
+        handler: async (id: number): Promise<MessageType[]> => {
+            const response = await getMessagesRequest(id);
+            if (response?.length)
+                return response;
+            else throw Error("error geting mesages");
+        }
+    });
+    store.getMessagesForChat.done.watch(a => {
+        console.log("store updated with new messages", a.result);
+        store.setMessages(a.result);
+    });
+
     store.updateChatList = createEffect({
         name: "update chat list",
         handler: async (): Promise<ChatType[]> => {
@@ -97,6 +136,7 @@ export const ChatStore = (() => {
     store.updateChatList.done.watch(result => {
         const token = localStorage.getItem("access");
         if (token) {
+            store.clearChatList();
             result.result.forEach(a => store.createChat({
                 ...a,
                 token: token,
@@ -116,9 +156,6 @@ export const ChatStore = (() => {
                 }
             }));
         }
-
-        console.log("yay chats");
-        console.log(result);
     });
 
     store.updateChatList();

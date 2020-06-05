@@ -10,7 +10,7 @@
     height: 40px;
     display: flex;
     flex-flow: row nowrap;
-    background-color: #bc43ff;
+    background-color: #CE7386;
     color: white;
     align-items: center;
     justify-content: space-between;
@@ -55,7 +55,7 @@
 
 .msgContent {
     max-width: 45%;
-    background-color: #7030a0;
+    background-color: #EB9C9C;
     display: flex;
     flex-flow: column nowrap;
     color: white;

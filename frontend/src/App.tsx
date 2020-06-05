@@ -14,6 +14,7 @@ import {useMappedStore} from "utils/store";
 import {UserStore} from "store/user";
 import {PrivateRoute} from "PrivateRoute";
 import {Profile} from "./views/profile";
+import {AddChatComponent} from "./components/addChatComponent";
 
 export const App: React.FC = () => {
 
@@ -22,8 +23,6 @@ export const App: React.FC = () => {
     ] = useMappedStore(UserStore, x => [
         x.user
     ]);
-
-    console.log(user);
 
     const location = useLocation();
 

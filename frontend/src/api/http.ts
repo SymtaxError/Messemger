@@ -1,7 +1,7 @@
 import {RegisterUnit} from "./models/register";
 import {UserStore} from "../store/user";
 import {ChatType} from "./models/chatType";
-import {MessageType} from "store/chatListStore";
+import {ChatStore, MessageType} from "store/chatListStore";
 
 export const backendURL = "api";
 
@@ -125,15 +125,10 @@ export const changeUserInfo = async (first_name: string, last_name: string, emai
     return response.code;
 };
 
-export const createGroupChat = async (name: string, users: string[]): Promise<void> => {
+export const createGroupChat = async (name: string, users?: string): Promise<void> => {
     const args = {};
-    await http.post("/servers/list/", args, JSON.stringify({name: name}));
-};
-
-export const getChatList = async (): Promise<ChatType[]> => {
-    const args = {};
-    const response = await http.get("/servers/list/", args);
-    return response.body as unknown as ChatType[]
+    await http.post("/servers/list/", args, JSON.stringify({name: name, users: users}));
+    ChatStore.updateChatList();
 };
 
 export const getMessagesRequest = async (id: number): Promise<MessageType[]> => {
