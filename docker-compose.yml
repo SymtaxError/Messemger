@@ -6,8 +6,7 @@ services:
         context: ./backend
         dockerfile: Dockerfile
       command: sh -c "sleep 5 && python3 manage.py makemigrations &&
-        python3 manage.py migrate && gunicorn --bind 0.0.0.0:8000 backend.wsgi:application
-        && daphne -p 8001 backend.asgi"
+        python3 manage.py migrate && daphne -p 8001 backend.asgi:application"
       env_file:
         - ./.env
       volumes:
