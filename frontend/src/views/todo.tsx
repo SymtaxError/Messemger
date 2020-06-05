@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import styles from "views/todo.module.css";
 import deletewhiteImg from "img/deletewhite.png";
 import {preparedColumns, TodoType} from "api/models/todoModel";
-import {TodoList} from "../components/todo/todoList";
+import {TodoList} from "components/todo/todoList";
 
 interface TodoMinProps {
     unit: TodoType
@@ -39,7 +39,7 @@ export const Todo: React.FC = () => {
             {
                 selectedTodo
                     ? <TodoList unit={selectedTodo}>asd</TodoList>
-                    : <div>Ничего нет</div>
+                    : <div className={styles.other}>Ничего нет</div>
             }
         </div>);
-}
+};
