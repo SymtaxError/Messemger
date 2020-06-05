@@ -1,13 +1,17 @@
 import React from 'react';
 import styles from "components/todo/card.module.css";
 import doneImg from "../../img/done.png";
-import notdoneImg from "img/notdone.png";
 import deleteImg from "img/delete.png";
+import {CardType} from "../../api/models/todoModel";
 
-export const Card: React.FC = unit => {
+interface CardProps {
+    unit: CardType
+}
 
+export const Card: React.FC<CardProps> = unit => {
     return (
         <div className={styles.card}>
+            asd
             <div className={styles.done}>
                 <img src={doneImg} className={styles.doneImg} alt={""}/>
             </div>

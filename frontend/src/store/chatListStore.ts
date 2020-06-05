@@ -48,7 +48,7 @@ interface MessageContent {
 }
 
 export interface MessageType {
-    user: string
+    owner: string
     params: MessageContent
 }
 
@@ -143,7 +143,7 @@ export const ChatStore = (() => {
                 onMessage: a => {
                     const buf: MessageType = JSON.parse(a.data);
                     const temp = {
-                        user: buf.user,
+                        user: buf.owner,
                         params: {
                             text: buf.params.text,
                             chat_id: buf.params.chat_id,
