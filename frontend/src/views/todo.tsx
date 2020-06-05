@@ -7,6 +7,8 @@ import notdoneImg from "img/notdone.png";
 import deleteImg from "img/delete.png";
 import deletewhiteImg from "img/deletewhite.png";
 import addImg from "img/add.png";
+import {Column} from "../components/column";
+import {Card} from "../components/card";
 
 
 export const Todo: React.FC = () => {
@@ -39,56 +41,7 @@ export const Todo: React.FC = () => {
                     </div>
                 </div>
                 <div className={styles.mainPart}>
-                    <div className={styles.column}>
-                        <div className={styles.headOfColumn}>Длинное название столбца</div>
-                        <div className={styles.card}>
-                            <div className={styles.done}>
-                                <img src={doneImg} className={styles.doneImg} alt={""}/>
-                            </div>
-                            <div className={styles.task}>Задача 1</div>
-                            <div className={styles.delete}>
-                                <img src={deleteImg} className={styles.deleteImg} alt={""}/>
-                            </div>
-                        </div>
-                        <div className={styles.card}>
-                            <div className={styles.done}>
-                                <img src={doneImg} className={styles.doneImg} alt={""}/>
-                            </div>
-                            <div className={styles.task}>Задача 2</div>
-                            <div className={styles.delete}>
-                                <img src={deleteImg} className={styles.deleteImg} alt={""}/>
-                            </div>
-                        </div>
-                        <div className={styles.card}>
-                            <div className={styles.notDone}>
-                                <img src={notdoneImg} className={styles.notdoneImg} alt={""}/>
-                            </div>
-                            <div className={styles.task}>Задача 3</div>
-                            <div className={styles.delete}>
-                                <img src={deleteImg} className={styles.deleteImg} alt={""}/>
-                            </div>
-                        </div>
-                        <div className={styles.addCard}>
-                            <img src={addImg} className={styles.addImg} alt={""}/>
-                        </div>
-                        <div className={styles.deleteColumn}>Удалить колонку</div>
-                    </div>
-                    <div className={styles.column}>
-                        <div className={styles.headOfColumn}>Обычное название</div>
-                        <div className={styles.card}>
-                            <div className={styles.notDone}>
-                                <img src={notdoneImg} className={styles.notdoneImg} alt={""}/>
-                            </div>
-                            <div className={styles.task}>Задача 1.1</div>
-                            <div className={styles.delete}>
-                                <img src={deleteImg} className={styles.deleteImg} alt={""}/>
-                            </div>
-                        </div>
-                        <div className={styles.addCard}>
-                            <img src={addImg} className={styles.addImg} alt={""}/>
-                        </div>
-                        <div className={styles.deleteColumn}>Удалить колонку</div>
-                    </div>
+                    <Column/><Card/>/
                     <div className={styles.addColumn}>
                         Добавить карточку
                         <img src={addImg} className={styles.addImg} alt={""}/>

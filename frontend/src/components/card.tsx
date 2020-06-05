@@ -4,7 +4,7 @@ import doneImg from "../img/done.png";
 import notdoneImg from "img/notdone.png";
 import deleteImg from "img/delete.png";
 
-export const RightBar: React.FC = () => {
+export const Card: React.FC = () => {
 
     return (
         <div className={styles.card}>

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from "components/column.module.css";
 import addImg from "img/add.png";
 
-export const RightBar: React.FC = () => {
+export const Column: React.FC = () => {
 
     return (
         <div className={styles.column}>
