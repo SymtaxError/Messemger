@@ -111,3 +111,9 @@
     background-color: #E7A295;
     border-radius: 8px;
 }
+
+.addImg {
+    height: 20px;
+    width: 20px;
+    margin-left: auto;
+}
