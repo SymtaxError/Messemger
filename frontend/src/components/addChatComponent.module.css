@@ -7,7 +7,7 @@
     height: 300px;
     width: 400px;
     background-color: #b77986;
-    border: 3px solid #63465a;
+    border: 5px solid #533b4c;
     border-radius: 7px;
     box-sizing: border-box;
 }
@@ -27,15 +27,41 @@
     display: flex;
     place-items: center;
     justify-content: center;
-    height: 35px;
+    height: 32px;
     padding-bottom: 5px;
     color: white;
     font-size: 20px;
+    font-weight: 700;
+    border-bottom: 2px solid #533b4c;
 }
 
 .block {
+    width: 100%;
+    height: 105px;
     display: flex;
     flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.blockUp {
+    text-align: center;
+    /*margin-bottom: 10px;*/
+    border-radius: 5px;
+    border: 2px solid #533b4c;
+    background-color: #63465a;
+    width: 250px;
+    height: 25px;
+    font-size: 18px;
+    color: white;
+}
+
+.blockInput {
+    height: 25px;
+    width: 200px;
+    border: 2px solid #63465a;
+    border-top: none;
+    background-color: #e7a295;
 }
 
 .smallBlock {
@@ -49,18 +75,29 @@
     width: 50%;
     height: 100%;
     display: flex;
-    border: 2px solid #63465A;
+    border: 2px solid #533b4c;
     justify-content: center;
     align-items: center;
     background-color: #63465a;
+    color: white;
 }
 
 .wickedOne {
     width: 50%;
     height: 100%;
     display: flex;
-    border: 2px solid #63465A;
+    border: 2px solid #533b4c;
     justify-content: center;
     align-items: center;
-    background-color: #9b6992;
+    background-color: #e7a295;
+}
+
+.createButton {
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    background-color: #e7a295;
+    border-top: 4px solid #533b4c;
+    font-size: 20px;
+    font-weight: 600;
 }

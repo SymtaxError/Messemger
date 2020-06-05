@@ -3,36 +3,49 @@
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    background-color: #FFE1E1;
+    background-color: white;
 }
 
-.listOfLists {
+.listOfDesks {
     height: 100%;
     min-width: 250px;
     max-width: 250px;
-    background-color: #B77986;
+    background-color: #63465A;
     box-sizing: border-box;
 }
 
-.list1 {
+.desk1 {
+    padding: 5px;
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
     justify-content: center;
     height: 40px;
     width: 100%;
-    border-bottom: 2px solid #63465A;
+    border-top: 2px solid #E8E8E8;
+    /*border-bottom: 2px solid #E8E8E8;*/
 }
 
-.nameOfList {
+.nameOfDesk {
+    display: table-cell;
+    /*border: solid cornflowerblue;*/
+    padding-top: 3%;
     padding-left: 10px;
     padding-right: 10px;
+    width: 80%;
     font-size: 16px;
-    font-weight: 500;
-    color: #363636;
-    justify-content: center;
+    font-weight: 400;
+    color: #E8E8E8;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.deletewhiteImg {
+    margin-left: auto;
+    padding-right: 10px;
+    padding-top: 5px;
+    height: 25px;
+    width: 25px;
 }
 
 .plusImg {
@@ -51,7 +64,7 @@
 .head {
     display: flex;
     flex-flow: row nowrap;
-    background-color: #F4C5A8;
+    background-color: #F6CCBC; /*#C89CBA;*/
     height: 30px;
     width: 100%;
     border-bottom: 2px solid #63465A;
@@ -89,67 +102,7 @@
     box-sizing: border-box;
 }
 
-.card {
-    display: flex;
-    flex-flow: column nowrap;
-    width: 200px;
-    padding: 20px;
-    background-color: #E7A295;
-    border-radius: 8px;
-    margin-right: 20px;
-}
-
-.headOfCard {
-    width: 100%;
-    height: 25px;
-    border-bottom: 3px solid #63465A;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 15px;
-}
-
-.point {
-    display: flex;
-    flex-flow: row nowrap;
-    border-bottom: 1px solid #63465A;
-    margin-bottom: 5px;
-}
-
-.doneImg {
-    height: 20px;
-    width: 20px;
-}
-
-.notdoneImg {
-    height: 20px;
-    width: 20px;
-}
-
-.task {
-    width: 80%;
-    padding-left: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.deleteImg {
-    height: 20px;
-    width: 20px;
-}
-
-.addPoint {
-    margin-left: auto;
-}
-
-.addImg {
-    height: 20px;
-    width: 20px;
-    margin-left: auto;
-}
-
-.addCard {
+.addColumn {
     display: flex;
     flex-flow: row nowrap;
     width: 200px;
@@ -157,4 +110,10 @@
     padding: 15px;
     background-color: #E7A295;
     border-radius: 8px;
+}
+
+.addImg {
+    height: 20px;
+    width: 20px;
+    margin-left: auto;
 }
