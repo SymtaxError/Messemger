@@ -7,15 +7,15 @@ from .models import Message, Server
 
 @database_sync_to_async
 def get_full_name(instance):
-    #: async function; returns full username from ws scope
+    #: Async function; returns full username from ws scope.
     return instance.scope['user'].profile.get_full_name()
 
 class NotificationConsumer(AsyncWebsocketConsumer):
-    """ NotificationConsumer is class that provides full
+    """ NotificationConsumer is a class that provides full
     async Websockets functionality for notifications from every
-    project resource: chats, todos and other"""
+    project resource: chats, todos, etc."""
     async def connect(self):
-        #: function for establish connection with authorized user
+        """Function to establish connection with authorized user."""
         self.location = self.scope['query_string'].decode().split('&')[1][9:]
         if not (type(self.scope['user']) == AnonymousUser):
             await self.join_all_chats()
@@ -25,7 +25,7 @@ class NotificationConsumer(AsyncWebsocketConsumer):
             await self.disconnect(3000)
 
     async def disconnect(self, close_code):
-        #: function for disconnect ws connection
+        """Function to close ws connection."""
         if not (type(self.scope['user']) == AnonymousUser):
             for id in await self.get_chat_list():
                 if self.location == ('chat_' + str(id)):
@@ -64,18 +64,18 @@ class NotificationConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_add('desk_' + str(todo.id), self.channel_name)
 
     async def receive(self, text_data):
-        #: function for listen for all events
+        """Function to listen for all events."""
         text_data = json.loads(text_data)
         await self.change_location(text_data)
 
     async def change_location(self, text_data):
-        #: function for get current user location on website
+        """Function to get current user location on website."""
         await self.channel_layer.group_discard(self.location, self.channel_name)
         self.location = text_data['location']
         await self.channel_layer.group_add(self.location, self.channel_name)
 
     async def chat_message(self, data):
-        #: function for listen for messages from chats
+        """Function to listen for messages from chats."""
         await self.send(text_data=json.dumps({
             'location': 'chat_' + str(data['params']['chat_id']),
             'action' : 'chat_message',
@@ -87,10 +87,10 @@ class NotificationConsumer(AsyncWebsocketConsumer):
         pass
 
 class ChatConsumer(AsyncWebsocketConsumer):
-    """ ChatConsumer is class that provides full
-    async Websockets functionality for chats """
+    """ ChatConsumer is a class that provides full
+    async Websockets functionality for chats. """
     async def connect(self):
-        #: function for establish connection with authorized user
+        """Function to establish connection with authorized user."""
         if not (type(self.scope['user']) == AnonymousUser):
             self.chat_id = self.scope['url_route']['kwargs']['id']
             self.group_name = 'chat_' + str(self.chat_id)
@@ -102,7 +102,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.disconnect(3000)
 
     async def disconnect(self, close_code):
-        #: function for disconnect ws connection
+        """Function to close ws connection."""
         if (await self.server_has_user()):
             await self.channel_layer.group_discard(self.group_name, self.channel_name)
         await self.close()
@@ -116,7 +116,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def server_has_user(self):
-        #: checks if user in requested server
+        """Checks if user is in requested server."""
         try:
             self.server.users.get(email=self.scope['user'].email)
             return True
@@ -125,12 +125,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def save_message(self):
-        #: funtion for save recieved message to db
+        """Function to save recieved message to db."""
         message = Message(server=self.server, owner=self.scope['user'], text=self.message_text)
         message.save()
 
     async def receive(self, text_data):
-        #: function for recieve messages
+        """Function to recieve messages."""
         text_data = json.loads(text_data)
         action = text_data['action']
         params = text_data['params']
@@ -148,7 +148,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
 
     async def chat_message(self, data):
-        #: sends chat message to other chat's member
+        #: Sends chat message to other chat members.
         data['params']['chat_id'] = self.chat_id
         await self.send(text_data=json.dumps({
             'action': 'chat_message',
