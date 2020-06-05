@@ -48,7 +48,7 @@ interface MessageContent {
 }
 
 export interface MessageType {
-    user: string
+    owner: string
     params: MessageContent
 }
 
@@ -61,6 +61,7 @@ interface ChatStore extends Store<ChatListStore> {
     createChat: Effect<ChatInit, ChatType>
     getMessagesForChat: Effect<number, MessageType[]>
     clearChatList: Event<void>
+    clearChatMessages: Event<number>
 }
 
 export const ChatStore = (() => {
@@ -75,14 +76,11 @@ export const ChatStore = (() => {
     store.clearChatList = createEvent<void>("add single chat");
     store.on(store.clearChatList, ((state) => ({...state, chats: []})));
 
-    store.setMessages = createEvent<MessageType[]>("put messages by request onclick");
-    store.on(store.setMessages, ((state, payload) => {
-        if (!payload?.length)
-            return state;
-        const chat = state.chats.find(a => a.id === payload[0].params.chat_id);
-        const editedChat = {...chat, messages: []} as ChatType; // Стираю все
-        payload.forEach(a => store.addMessage(a));
-        return ({...state, chats: replaceOrPush<ChatType>(state.chats, chat, editedChat)});
+    store.clearChatMessages =  createEvent<number>("clear messages from one chat");
+    store.on(store.clearChatMessages, ((state, payload) => {
+        const chat = state.chats.find(a => a.id === payload);
+        const editedChat = {...chat, messages: []} as ChatType;
+        return({...state, chats: replaceOrPush<ChatType>(state.chats, chat, editedChat)})
     }));
 
     store.addMessage = createEvent<MessageType>("push message to chat");
@@ -112,6 +110,7 @@ export const ChatStore = (() => {
     store.getMessagesForChat = createEffect({
         name: "get messages for chat by id",
         handler: async (id: number): Promise<MessageType[]> => {
+            store.clearChatMessages(id);
             const response = await getMessagesRequest(id);
             if (response?.length)
                 return response;
@@ -120,7 +119,7 @@ export const ChatStore = (() => {
     });
     store.getMessagesForChat.done.watch(a => {
         console.log("store updated with new messages", a.result);
-        store.setMessages(a.result);
+        a.result.forEach(a => store.addMessage(a))
     });
 
     store.updateChatList = createEffect({
@@ -143,7 +142,7 @@ export const ChatStore = (() => {
                 onMessage: a => {
                     const buf: MessageType = JSON.parse(a.data);
                     const temp = {
-                        user: buf.user,
+                        owner: buf.owner,
                         params: {
                             text: buf.params.text,
                             chat_id: buf.params.chat_id,

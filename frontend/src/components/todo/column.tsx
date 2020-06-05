@@ -14,7 +14,9 @@ export const Column: React.FC<ColumnProps> = x => {
         <div className={styles.column}>
             <div className={styles.headOfColumn}>{x.unit.columnTitle}</div>
             {
-                x.unit.cards.map((unit, key) => <Card unit={unit} key={`Card-unit-${key}`}/>)
+                x.unit.cards.length
+                    ? x.unit.cards.map((unit, key) => <Card unit={unit} key={`Card-unit-${key}`}/>)
+                    : <div>Еще нет карточек</div>
             }
             <div className={styles.addCard}>
                 <img src={addImg} className={styles.addImg} alt={""}/>

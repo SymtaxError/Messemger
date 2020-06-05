@@ -45,7 +45,6 @@ export const Chat: React.FC<ChatProps> = props => {
                 </div>
                 <img src={menuImg} className={styles.headerImg} alt={""}/>
             </div>
-            <div>{chat.messages}</div>
             <div className={styles.content}>
                 {
                     chat.messages.map((unit, key) => {

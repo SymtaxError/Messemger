@@ -9,7 +9,6 @@ interface CardProps {
 }
 
 export const Card: React.FC<CardProps> = x => {
-
     return (
         <div className={styles.card}>
             <div className={styles.done}>

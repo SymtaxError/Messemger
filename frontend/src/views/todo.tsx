@@ -39,7 +39,7 @@ export const Todo: React.FC = () => {
             <div className={styles.other}>
                 {
                     selectedTodo
-                        ? <TodoList unit={selectedTodo}>asd</TodoList>
+                        ? <TodoList unit={selectedTodo}/>
                         : <div/>
                 }
             </div>

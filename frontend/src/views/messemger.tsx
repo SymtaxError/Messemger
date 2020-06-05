@@ -40,7 +40,7 @@ export const Messemger: React.FC = () => {
                         ? chatList.map((unit, key) => <ChatMin unit={unit} key={`chatMin-unit-${key}`}
                                                                onClick={async () => {
                                                                    setSelectedChat(unit);
-                                                                   ChatStore.getMessagesForChat(unit.id);
+                                                                   await ChatStore.getMessagesForChat(unit.id);
                                                                }}/>)
                         : <div className={styles.leftBarText}>У Вас нет чатов!</div>
                 }

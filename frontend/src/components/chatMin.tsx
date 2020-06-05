@@ -19,8 +19,6 @@ export const ChatMin: React.FC<chatMinComponentProps> = x => {
                 {x.unit.name}
             </div>
             <img src={arrowImg} className={styles.arrowImg} alt={""}/>
-
-
         </div>
     )
 };
