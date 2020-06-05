@@ -28,30 +28,13 @@ export const Messemger: React.FC = () => {
             {isCreate ? <AddChatComponent/> : undefined}
             <div className={styles.leftBarOpen}>
                 <div className={styles.leftBarHeader}>
-                    <div className={styles.leftBarText}>чат1</div>
-                    <div className={styles.deleteDesk}>
-                        <img src={deletewhiteImg} className={styles.deletewhiteImg}/>
-                    </div>
-                </div>
-                <div className={styles.leftBarHeader}>
-                    <div className={styles.leftBarText}>чат2</div>
-                    <div className={styles.deleteDesk}>
-                        <img src={deletewhiteImg} className={styles.deletewhiteImg}/>
-                    </div>
-                </div>
-                {
-                    (chatList?.length)
-                        ? chatList.map((unit, key) => <ChatMin unit={unit} key={`chatMin-unit-${key}`} onClick={() => setSelectedChat(unit)}/>)
-                        : <div className={styles.leftBarText}>У Вас нет чатов!</div>
-                }
-                <div className={styles.leftBarHeader}>
+                    <div className={styles.leftBarText}>Ваши диалоги и конференции</div>
                     <img src={plusImg} className={styles.leftBarImg} alt={""}
                          onClick={
                              () => setIsCreate(!isCreate)
                          }
                     />
                 </div>
-
                 {
                     (chatList?.length)
                         ? chatList.map((unit, key) => <ChatMin unit={unit} key={`chatMin-unit-${key}`}
@@ -61,11 +44,9 @@ export const Messemger: React.FC = () => {
                                                                }}/>)
                         : <div className={styles.leftBarText}>У Вас нет чатов!</div>
                 }
-            </div>
-            <div className={styles.chatField}>
-                
-            </div>
 
+
+            </div>
             <Chat chat={selectedChat}/>
             <div className={styles.rightBar}>
                 <RightBar/>
