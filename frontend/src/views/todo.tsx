@@ -39,7 +39,7 @@ export const Todo: React.FC = () => {
             {
                 selectedTodo
                     ? <TodoList unit={selectedTodo}>asd</TodoList>
-                    : <div>Ничего нет</div>
+                    : <div className={styles.other}>Ничего нет</div>
             }
         </div>);
 };
