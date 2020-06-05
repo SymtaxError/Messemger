@@ -3,6 +3,7 @@
     flex-flow: row nowrap;
     border-bottom: 1px solid #63465A;
     margin-bottom: 5px;
+    height: auto;
 }
 
 .doneImg {

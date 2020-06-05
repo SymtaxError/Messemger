@@ -12,7 +12,6 @@ export const TodoList: React.FC<TodoListProps> = x => {
     return (
         <div>
             <div className={styles.other}>
-                {/*хэдер бади*/}
                 <div className={styles.head}>
                     <div className={styles.deskName}>{x.unit.todoTitle}</div>
                     <div className={styles.team}>
@@ -26,7 +25,7 @@ export const TodoList: React.FC<TodoListProps> = x => {
                         x.unit.columns.map((unit, key) => <Column unit={unit} key={`Column-unit-${key}`}/>)
                     }
                     <div className={styles.addColumn}>
-                        Добавить колонку
+                        Добавить столбик
                         <img src={addImg} className={styles.addImg} alt={""}/>
                     </div>
                 </div>
