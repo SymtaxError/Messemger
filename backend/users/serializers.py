@@ -3,7 +3,7 @@ from .models import User
 
 class UserSerializer(serializers.Serializer):
     """ Given and expected format of user representation is
-    email, password, first name and last name
+    email, password, first name and last name.
     """
     email = serializers.EmailField()
     password = serializers.CharField(max_length=128)
@@ -12,7 +12,7 @@ class UserSerializer(serializers.Serializer):
 
 class ProfileSerializer(serializers.Serializer):
     """ Given and expected format of user's profile representation is
-    email, first name, last name, tag and status
+    email, first name, last name, tag and status.
     """
     email = serializers.EmailField()
     first_name = serializers.CharField(max_length=30)

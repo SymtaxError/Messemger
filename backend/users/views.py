@@ -5,9 +5,11 @@ from .serializers import UserSerializer, ProfileSerializer
 from .models import User, UserProfile
 
 class UserRegistrationView(APIView):
+    """Provides users registration."""
     authentication_classes = []
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.AllowAny] #: Every user can create an account.
     def post(self, request):
+        """ Allows creating an account if request data is correct."""
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             data = serializer.validated_data
@@ -20,8 +22,10 @@ class UserRegistrationView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserProfileView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    """ Provides interacting with user profiles."""
+    permission_classes = [permissions.IsAuthenticated] #: Only authenticated users can interact with profiles.
     def get(self, request):
+        """Allows viewing profile of a requested user."""
         user = request.user
         data = {
             'email': user.email,
