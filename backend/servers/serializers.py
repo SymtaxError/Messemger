@@ -5,7 +5,7 @@ from users.models import UserProfile
 
 class ServerSerializer(serializers.Serializer):
     """ Given and expected format of servers representation is:
-    id, name, type_chat, tag and picture
+    id, name, type_chat, tag and picture.
     """
 
     id = serializers.IntegerField(required=False)
@@ -17,7 +17,7 @@ class ServerSerializer(serializers.Serializer):
 class MessageSerializer(serializers.Serializer):
     """ Given and expected format of messages representation is
     owner, owner_tag, text, date_published (year, month, day, hour, minute),
-    labels(id, text, color)        
+    labels(id, text, color).
     """
 
     owner = serializers.CharField(max_length=60)
@@ -27,7 +27,7 @@ class MessageSerializer(serializers.Serializer):
     labels = serializers.SerializerMethodField()
 
     def get_labels(self, obj):
-        """ Creates a message labels representation"""
+        """ Creates a message labels representation."""
         label_set = {}
         for label in obj.labels.all():
             label_set[label.id] = (label.text, label.color) 
@@ -35,7 +35,7 @@ class MessageSerializer(serializers.Serializer):
 
 
     def get_date_published(self, obj):
-        """Creates a message publishing date representation"""
+        """Creates a message publishing date representation."""
         datetime = parse_datetime(str(obj.date_published))
         date = {
             'year': datetime.year,
@@ -47,12 +47,12 @@ class MessageSerializer(serializers.Serializer):
         return date
     
     def get_owner_tag(self, obj):
-        """Gets message owner tag"""
+        """Gets message owner tag."""
         return obj.owner.profile.tag
 
 class LabelSerializer(serializers.Serializer):
     """Given and expected format of label representation is
-    text and color
+    text and color.
     """
 
     text = serializers.CharField(max_length=30)
@@ -60,7 +60,7 @@ class LabelSerializer(serializers.Serializer):
 
 class ServerMemberSerializer(serializers.Serializer):
     """Representation of users in chat:
-    first_name, last_name, tag, avatar
+    first_name, last_name, tag, avatar.
     """
 
     first_name = serializers.CharField(max_length=30)

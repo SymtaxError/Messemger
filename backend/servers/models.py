@@ -5,7 +5,7 @@ from backend.settings import MEDIA_ROOT
 import os
 
 def get_upload_path(instance, filename):
-    """ Describes path where loaded images are saved """
+    """ Describes path where loaded images are saved. """
     return os.path.join(MEDIA_ROOT, 'servers', str(instance.id), 'avatars', filename)
 
 class Server(models.Model):
@@ -44,17 +44,18 @@ class Server(models.Model):
     objects = ServerManager()
     
     def update(self, **kwargs):
-        #: Funcion to update data stored in objects' fields
+        #: Funcion to update data stored in object fields.
         for item in kwargs.items():
             self.__dict__[item[0]] = item[1]
         self.save()
 
 class Message(models.Model):
-    """Message model is used on servers for users communication.
+    """ Message model is used on servers for users communication.
     It has id, server, where it is posted, owner, text, publishing date 
     (date_published) and labels. It has a special manager that provides 
     creation of an object. All messages are sorted by publishing date.
-    String representation of message is its text field"""
+    String representation of message is its text field.
+    """
     id = models.AutoField(primary_key=True, unique=True)
     server = models.ForeignKey(
         Server, 
