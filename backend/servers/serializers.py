@@ -20,11 +20,23 @@ class MessageSerializer(serializers.Serializer):
     labels(id, text, color).
     """
 
+    action = serializers.SerializerMethodField()
     owner = serializers.CharField(max_length=60)
-    owner_tag = serializers.SerializerMethodField()
-    text = serializers.CharField(max_length=280)
-    date_published = serializers.SerializerMethodField()
-    labels = serializers.SerializerMethodField()
+    params = serializers.SerializerMethodField()
+    def get_action(self, obj):
+        return "chat_message"
+    def get_params(self, obj):
+        params = {
+            "text": obj.text,
+            "owner_tag": obj.owner.profile.tag,
+            "chat_id": obj.server.id
+        }
+        return params
+
+    # owner_tag = serializers.SerializerMethodField()
+    # text = serializers.CharField(max_length=280)
+    # date_published = serializers.SerializerMethodField()
+    # labels = serializers.SerializerMethodField()
 
     def get_labels(self, obj):
         """ Creates a message labels representation."""

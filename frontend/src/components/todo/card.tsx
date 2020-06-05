@@ -11,7 +11,6 @@ interface CardProps {
 export const Card: React.FC<CardProps> = x => {
     return (
         <div className={styles.card}>
-            asd
             <div className={styles.done}>
                 <img src={doneImg} className={styles.doneImg} alt={""}/>
             </div>

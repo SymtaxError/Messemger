@@ -21,6 +21,7 @@ export const TodoList: React.FC<TodoListProps> = x => {
                 </div>
                 {/*Основное*/}
                 <div className={styles.mainPart}>
+                    {console.log("render1.5")}
                     {
                         x.unit.columns.map((unit, key) => <Column unit={unit} key={`Column-unit-${key}`}/>)
                     }
