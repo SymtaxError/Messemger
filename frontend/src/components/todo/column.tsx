@@ -1,14 +1,17 @@
 import React from 'react';
-import styles from "components/column.module.css";
+import styles from "components/todo/column.module.css";
 import addImg from "img/add.png";
+import {ColumnType} from "api/models/todoModel";
 
-export const Column: React.FC = () => {
+interface ColumnProps {
+    unit: ColumnType
+}
+
+export const Column: React.FC<ColumnProps> = x => {
 
     return (
         <div className={styles.column}>
-            <div className={styles.headOfColumn}>Длинное название столбца</div>
-
-
+            <div className={styles.headOfColumn}>{x.unit.columnTitle}</div>
             <div className={styles.addCard}>
                 <img src={addImg} className={styles.addImg} alt={""}/>
             </div>
