@@ -1,0 +1,29 @@
+.card {
+    display: flex;
+    flex-flow: row nowrap;
+    border-bottom: 1px solid #63465A;
+    margin-bottom: 5px;
+}
+
+.doneImg {
+    height: 20px;
+    width: 20px;
+}
+
+.notdoneImg {
+    height: 20px;
+    width: 20px;
+}
+
+.task {
+    width: 80%;
+    padding-left: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.deleteImg {
+    height: 20px;
+    width: 20px;
+}

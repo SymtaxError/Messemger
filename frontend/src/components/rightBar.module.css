@@ -1,6 +1,7 @@
 .rightBar {
-    background-color: #cecece;
+    background-color: #63465A;
     width: 300px;
     height: 100%;
     border-left: 2px solid white;
+    border-top: 2px solid white;
 }
