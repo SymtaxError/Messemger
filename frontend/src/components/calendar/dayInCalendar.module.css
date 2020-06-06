@@ -1,0 +1,23 @@
+.day {
+    display: flex;
+    flex-flow: column nowrap;
+    border-right: 2px solid #63465A;
+    width: 14%;
+}
+
+.dayHeader {
+    display: flex;
+    flex-flow: row nowrap;
+    height: 40px;
+    background-color: #F6CCBC;
+    border-bottom: 2px solid #63465A;
+}
+
+.date {
+    padding: 10px;
+}
+
+.dayOfTheWeek {
+    margin-left: auto;
+    padding: 10px;
+}

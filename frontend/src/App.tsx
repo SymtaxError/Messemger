@@ -14,6 +14,7 @@ import {useMappedStore} from "utils/store";
 import {UserStore} from "store/user";
 import {PrivateRoute} from "PrivateRoute";
 import {Profile} from "./views/profile";
+import {Calendar} from "./views/calendar";
 import {AddChatComponent} from "./components/addChatComponent";
 
 export const App: React.FC = () => {
@@ -47,6 +48,9 @@ export const App: React.FC = () => {
                 <PrivateRoute condition={true}
                               path="/home"
                               component={Home}/>
+                <PrivateRoute condition={true}
+                              path="/calendar"
+                              component={Calendar}/>
                 <Route exact path="/">
                     <Redirect to="/home"/>
                 </Route>
