@@ -15,6 +15,7 @@ export const Profile: React.FC = () => {
     const [userName, setUserName] = useState(user.first_name);
     const [userSurname, setUserSurname] = useState(user.last_name);
     const [userEmail, setUserEmail] = useState(user.email);
+    const [userTag, setUserTag] = useState(user.tag);
 
     const history = useHistory();
 
@@ -43,6 +44,10 @@ export const Profile: React.FC = () => {
                         <input className={styles.settingInput}
                                value={userEmail}
                                onChange={a => setUserEmail(a.target.value)}/>
+                        <div>Тэг пользователя</div>
+                        <input className={styles.settingInput}
+                               value={userTag}
+                               onChange={a => setUserTag(a.target.value)}/>
                         <button className={styles.changeButton} onClick={() => {
                             alert ("В будущих версиях :)")
                         }}>Изменить данные</button>

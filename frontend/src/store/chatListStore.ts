@@ -112,9 +112,9 @@ export const ChatStore = (() => {
         handler: async (id: number): Promise<MessageType[]> => {
             store.clearChatMessages(id);
             const response = await getMessagesRequest(id);
-            if (response?.length)
-                return response;
-            else throw Error("error geting mesages");
+            // if (response?.length)
+            //     return response;
+            return response;
         }
     });
     store.getMessagesForChat.done.watch(a => {
