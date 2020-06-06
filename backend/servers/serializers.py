@@ -24,8 +24,11 @@ class MessageSerializer(serializers.Serializer):
     owner = serializers.CharField(max_length=60)
     params = serializers.SerializerMethodField()
     def get_action(self, obj):
+        """ Returns type of action on server."""
         return "chat_message"
+    
     def get_params(self, obj):
+        """Returns text, owner_tag and chat_id."""
         params = {
             "text": obj.text,
             "owner_tag": obj.owner.profile.tag,
@@ -58,9 +61,9 @@ class MessageSerializer(serializers.Serializer):
         }
         return date
     
-    def get_owner_tag(self, obj):
-        """Gets message owner tag."""
-        return obj.owner.profile.tag
+    #def get_owner_tag(self, obj):
+       # """Gets message owner tag."""
+       # return obj.owner.profile.tag
 
 class LabelSerializer(serializers.Serializer):
     """Given and expected format of label representation is
