@@ -1,4 +1,4 @@
-import React, {ReactNode, useState} from 'react';
+import React, {ReactNode, useState, useRef} from 'react';
 import styles from "components/chat.module.css"
 import menuImg from "img/tripleMenu.png"
 import { MyMessage }from "./messageComponent";
@@ -13,6 +13,8 @@ import {AddChatComponent} from "./addChatComponent";
 interface ChatProps {
     chat?: ChatType
 }
+
+const scrollToRef = (ref: any) => window.scrollTo(0, ref.current.offsetTop);
 
 export const Chat: React.FC<ChatProps> = props => {
 

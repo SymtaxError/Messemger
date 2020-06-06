@@ -10,6 +10,7 @@ import deletewhiteImg from "img/deletewhite.png";
 import {createGroupChat} from "api/http";
 import {ChatType} from "../api/models/chatType";
 import {AddChatComponent} from "components/addChatComponent";
+import {UsersInChatStore} from "../store/UsersInChatStore";
 
 export const Messemger: React.FC = () => {
 
@@ -21,6 +22,11 @@ export const Messemger: React.FC = () => {
         x.chats
     ]);
 
+    const [
+        usersList
+    ] = useMappedStore(UsersInChatStore, x => [
+        x.users
+    ]);
     const [selectedChat, setSelectedChat] = useState<ChatType>();
 
     return (
@@ -41,15 +47,14 @@ export const Messemger: React.FC = () => {
                                                                onClick={async () => {
                                                                    setSelectedChat(unit);
                                                                    await ChatStore.getMessagesForChat(unit.id);
+                                                                   await UsersInChatStore.getUsers(unit.id);
                                                                }}/>)
                         : <div className={styles.leftBarText}>У Вас нет чатов!</div>
                 }
-
-
             </div>
             <Chat chat={selectedChat}/>
             <div className={styles.rightBar}>
-                <RightBar/>
+                <RightBar users={usersList}/>
             </div>
         </div>
     )

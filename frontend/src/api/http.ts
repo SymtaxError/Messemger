@@ -2,6 +2,7 @@ import {RegisterUnit} from "./models/register";
 import {UserStore} from "../store/user";
 import {ChatType} from "./models/chatType";
 import {ChatStore, MessageType} from "store/chatListStore";
+import {UserUnit} from "./models/user";
 
 export const backendURL = "http://localhost:8000";
 
@@ -135,6 +136,12 @@ export const getMessagesRequest = async (id: number): Promise<MessageType[]> => 
     const response = await http.get("/servers/messages/", args);
     return response.body as unknown as MessageType[]
 };
+
+export const getUsersInChatRequest = async (id: number): Promise<UserUnit[]> => {
+    const args = {};
+    const response = await http.get(`/servers/${id}/members`, args);
+    return response.body as unknown as UserUnit[]
+}
 
 
 // export const deleteChat = async (): Promise<> => {
