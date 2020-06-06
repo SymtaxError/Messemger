@@ -19,13 +19,12 @@ export const UsersInChatStore = (() => {
     const store = createStore<UsersInChat>(initialData) as UsersInChatStore;
 
     store.setUsers = createEvent<UserUnit[]>("save all users");
-    store.on(store.setUsers, ((state, payload) => ({ ...state, user: payload })));
+    store.on(store.setUsers, ((state, payload) => ({ ...state, users: payload })));
 
     store.getUsers = createEffect({
         name: "getUser",
         handler: async (id: number): Promise<UserUnit[]> => {
             const response = await getUsersInChatRequest(id);
-            console.log("Users List: ", response);
             return response as unknown as Promise<UserUnit[]>;
         }
     });
