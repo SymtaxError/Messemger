@@ -3,7 +3,7 @@ import styles from "views/home.module.css";
 
 export const Home: React.FC = () => {
     return(
-        <div>
+        <div className={styles.body}>
             asd
         </div>
     )
