@@ -3,7 +3,11 @@ import styles from "components/addChatComponent.module.css"
 import {createGroupChat} from "../api/http";
 import {ChatStore} from "../store/chatListStore";
 
-export const AddChatComponent: React.FC = () => {
+interface AddChatComponentProps {
+    endFunction: () => void
+}
+
+export const AddChatComponent: React.FC<AddChatComponentProps> = x => {
 
     const [isConference, setIsConference] = useState(false);
     const [chatName, setChatName] = useState("");
@@ -49,9 +53,12 @@ export const AddChatComponent: React.FC = () => {
                         await createGroupChat(chatName, dialogTag);
                         ChatStore.updateChatList();
                     }
+                    x.endFunction();
+                    x.endFunction();
                 }}
                 >Готово
                 </div>
+
             </div>
         </div>
     )

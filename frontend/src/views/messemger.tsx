@@ -31,7 +31,7 @@ export const Messemger: React.FC = () => {
 
     return (
         <div className={styles.body}>
-            {isCreate ? <AddChatComponent/> : undefined}
+            {isCreate ? <AddChatComponent endFunction={() => setIsCreate(!isCreate)}/> : undefined}
             <div className={styles.leftBarOpen}>
                 <div className={styles.leftBarHeader}>
                     <div className={styles.leftBarText}>Ваши диалоги и конференции</div>
