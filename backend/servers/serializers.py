@@ -5,14 +5,21 @@ from users.models import UserProfile
 
 class ServerSerializer(serializers.Serializer):
     """ Given and expected format of servers representation is:
-    id, name, type_chat, tag and picture.
+    id, name, type_chat, tag(s) and picture.
     """
 
-    id = serializers.IntegerField(required=False)
+    id = serializers.IntegerField(read_only=True, required=False)
     name = serializers.CharField(max_length=100)
-    type_chat = serializers.CharField(max_length=1, required=False)
+    type_chat = serializers.CharField(max_length=1, read_only=True, required=False)
     tag = serializers.CharField(max_length=128, required=False)
     picture = serializers.ImageField(required=False)
+    # tags = serializers.SerializerMethodField()
+
+    # def get_tags(self, obj):
+    #     if "tags" in obj.keys():
+    #         return obj.tags
+    #     else:
+    #         return []
 
 class MessageSerializer(serializers.Serializer):
     """ Given and expected format of messages representation is
@@ -23,6 +30,7 @@ class MessageSerializer(serializers.Serializer):
     action = serializers.SerializerMethodField()
     owner = serializers.CharField(max_length=60)
     params = serializers.SerializerMethodField()
+
     def get_action(self, obj):
         """ Returns type of action on server."""
         return "chat_message"
@@ -32,7 +40,8 @@ class MessageSerializer(serializers.Serializer):
         params = {
             "text": obj.text,
             "owner_tag": obj.owner.profile.tag,
-            "chat_id": obj.server.id
+            "chat_id": obj.server.id,
+            "date_published": str(obj.date_published) + ' UTC'
         }
         return params
 
