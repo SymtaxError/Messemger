@@ -10,7 +10,7 @@
 .profile {
     display: flex;
     flex-flow: column nowrap;
-    place-content: center;
+    place-content: flex-start;
     align-items: center;
 }
 

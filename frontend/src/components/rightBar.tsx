@@ -14,7 +14,7 @@ const RightBarElement: React.FC<RightBarElementProps> = x => {
     return (
         <div className={styles.RightBarElement}>
             <div className={styles.userData}>{x.user.first_name} {x.user.last_name}</div>
-            <div>{x.user.tag}</div>
+            <div className={styles.userData}>{x.user.tag}</div>
         </div>
     )
 };

@@ -1,12 +1,39 @@
 import {createEffect, createEvent, createStore, Effect, Event, Store} from "effector";
 import {ChatType} from "api/models/chatType";
-import {getMessagesRequest, http} from "api/http";
+import {backendURL, getMessagesRequest, http} from "api/http";
 import {replaceOrPush} from "utils/misc/arrays";
+import {UserStore} from "./user";
 
-export const getChatList2 = async (): Promise<ChatType[]> => {
-    const args = {};
-    const response = await http.get("/servers/list/", args);
-    return response.body as unknown as ChatType[]
+interface RefreshUnit {
+    access: string
+    refresh: string
+}
+
+const resultRefresh = async (): Promise<void> => {
+    const bodyForCheck = {
+        "refresh": (localStorage.getItem("refresh") !== "undefined")
+            ? `${localStorage.getItem("refresh")}`
+            : ""
+    };
+    const headers = {
+        "Content-Type": "application/json; charset=UTF-8"
+    };
+    const response = await fetch(
+        `${backendURL}/auth/jwt/refresh/`, // Сюда адрес для проверки временного токена
+        {method: "POST", body: JSON.stringify(bodyForCheck), mode: "cors", headers: headers}
+    );
+    const state = response.status;
+    const result: RefreshUnit = JSON.parse(await response.text());
+    if (state === 200) {
+        localStorage.setItem("access", result.access);
+        localStorage.setItem("refresh", result.refresh);
+        await UserStore.getUser()
+
+    } else {
+        console.log("want redirect");
+        // window.location.replace("localhost:3000/login");
+    }
+    return;
 };
 
 export const getChatList = async (): Promise<ChatType[]> => {
@@ -20,6 +47,9 @@ export const getChatList = async (): Promise<ChatType[]> => {
         "http://localhost:8000/servers/list/",
         {method: "GET", headers: headers, mode: "cors"}
     );
+    if (response.status === 401) {
+        await resultRefresh();
+    }
     return JSON.parse(await response.text()) as unknown as ChatType[];
 };
 

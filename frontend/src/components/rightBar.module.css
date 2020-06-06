@@ -14,7 +14,10 @@
     border-bottom: 2px solid white;
     display: flex;
     flex-flow: column nowrap;
+    justify-content: space-around;
 }
 
 .userData {
+    padding-left: 5px;
+    color: white;
 }
