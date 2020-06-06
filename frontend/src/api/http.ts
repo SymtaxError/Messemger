@@ -141,8 +141,7 @@ export const getUsersInChatRequest = async (id: number): Promise<UserUnit[]> => 
     const args = {};
     const response = await http.get(`/servers/${id}/members`, args);
     return response.body as unknown as UserUnit[]
-}
-
+};
 
 // export const deleteChat = async (): Promise<> => {
 //     const args = {};
