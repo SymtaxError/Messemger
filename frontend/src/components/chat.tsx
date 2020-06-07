@@ -8,7 +8,7 @@ import {UserStore} from "../store/user";
 import {ChatType} from "../api/models/chatType";
 import {sendWSMessage} from "../webSockets/messageWS";
 import {ChatStore} from "../store/chatListStore";
-import {AddChatComponent} from "./addChatComponent";
+import {AddUserComponent} from "./addUserComponent";
 
 interface ChatProps {
     chat?: ChatType
@@ -26,7 +26,8 @@ export const Chat: React.FC<ChatProps> = props => {
     const [chats] = useMappedStore(ChatStore, x => [x.chats]);
     const chat = chats.find(a => a.id === props.chat?.id);
 
-    const [pendingMsg, setPendingMsg] = useState("");
+    const [pendingMsg, setPendingMsg] = useState<string>("");
+    const [isAddUsers, setIsAddUsers] = useState<boolean>(false);
 
 
     const sendMessage = (msg: string, ws: WebSocket): void => {
@@ -41,11 +42,22 @@ export const Chat: React.FC<ChatProps> = props => {
 
     return (
         <div className={styles.chat}>
+            {
+                isAddUsers
+                    ? <AddUserComponent chatId={props.chat?.id}
+                                        closeFunction={() => setIsAddUsers(!isAddUsers)}
+                                        endFunction={() => alert()}/>
+                    : undefined
+            }
             <div className={styles.header}>
                 <div className={styles.headerName}>
                     {chat.name}
                 </div>
-                <img src={menuImg} className={styles.headerImg} alt={""}/>
+                <img src={menuImg}
+                     className={styles.headerImg}
+                     alt={""}
+                     onClick={() => setIsAddUsers(!isAddUsers)}
+                />
             </div>
             <div className={styles.content}>
                 {
