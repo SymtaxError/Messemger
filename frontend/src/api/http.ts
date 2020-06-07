@@ -120,9 +120,9 @@ export const loginRequest = async (email: string, password: string): Promise<num
     return wrappedResponse.code;
 };
 
-export const changeUserInfo = async (first_name: string, last_name: string, email: string, image: string): Promise<number> => {
+export const changeUserInfo = async (first_name: string, last_name: string, email: string): Promise<number> => {
     const args = {};
-    const response = await http.put("/users/profile/", args, JSON.stringify({first_name: first_name, last_name: last_name, email: email, picture: image}));
+    const response = await http.put("/users/profile/", args, JSON.stringify({first_name: first_name, last_name: last_name, email: email}));
     return response.code;
 };
 

@@ -47,8 +47,13 @@ export const Profile: React.FC = () => {
                                onChange={a => setUserTag(a.target.value)} disabled/>
                         <button className={styles.changeButton} onClick={async() => {
                             console.log(userName, userSurname, userEmail, userTag);
-                            changeUserInfo(userName, userSurname, userEmail, userTag);
-                        }}>Изменить данные
+                            const response = await changeUserInfo(userName, userSurname, userEmail);
+                            if (response === 200)
+                                alert ("Данные изменены!");
+                            else
+                                alert("Упс! Что-то пошло не так :( \n Проверьте данные.")
+                        }}>
+                            Изменить данные
                         </button>
                         <button className={styles.exitButton} onClick={() => {
                             UserStore.setUser({tag: "", first_name: "", email: "", last_name: "", is_superuser: false});
