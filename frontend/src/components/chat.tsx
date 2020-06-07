@@ -48,7 +48,7 @@ export const Chat: React.FC<ChatProps> = props => {
     const connection = chat.connection;
 
     return (
-        <div className={styles.chat} ref={ref}>
+        <div className={styles.chat}>
             {
                 isAddUsers
                     ? <AddUserComponent chatId={props.chat?.id}
