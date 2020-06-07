@@ -80,6 +80,8 @@
     align-items: end;
     padding-top: 5px;
     text-align: right;
+    color: #3ffc9e;
+    font-size: 10px;
 }
 
 .enter {
