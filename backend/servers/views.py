@@ -31,7 +31,7 @@ class ServerView(APIView):
                 server.save()
                 return Response(status=status.HTTP_201_CREATED)
             except:
-                if 'tag' in data.keys():
+                if data['tag'] != '':
                     return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
                 else:
                     server = Server.objects.create_server(data['name'],
