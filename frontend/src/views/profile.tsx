@@ -47,7 +47,7 @@ export const Profile: React.FC = () => {
                             alert ("В будущих версиях :)")
                         }}>Изменить данные</button>
                         <button className={styles.exitButton} onClick={() => {
-                            UserStore.setUser({tag: "", first_name: "", email: "",last_name: "" });
+                            UserStore.setUser({tag: "", first_name: "", email: "",last_name: "", is_superuser: false});
                             localStorage.setItem("access", "");
                             localStorage.setItem("refresh", "");
                             history.push("/login");

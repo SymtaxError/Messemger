@@ -42,7 +42,7 @@ export const AddUserComponent: React.FC<AddUserComponentProps> = x => {
                                  addUserList(a);
                              }
                          }}/>
-                    <div className={styles.headerText} onClick={x.closeFunction}>Добавить участника</div>
+                    <div className={styles.headerText} onClick={x.closeFunction}>Добавить участника [x]</div>
                     <img src={plusImg} className={styles.oneMoreUser} onClick={() => addUserList([...userList, ""])}/>
                 </div>
                 {

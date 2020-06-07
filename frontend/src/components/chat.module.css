@@ -3,6 +3,9 @@
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
+    /* чтобы было скролл */
+    overflow: auto;
+    height: 500px;
 }
 
 .header {

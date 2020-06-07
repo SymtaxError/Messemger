@@ -1,4 +1,4 @@
-import React, {ReactNode, useState, useRef} from 'react';
+import React, {ReactNode, useState, useRef, MutableRefObject, useEffect, RefObject} from 'react';
 import styles from "components/chat.module.css"
 import menuImg from "img/tripleMenu.png"
 import {MyMessage} from "./messageComponent";
@@ -14,17 +14,26 @@ interface ChatProps {
     chat?: ChatType
 }
 
-const scrollToRef = (ref: any) => window.scrollTo(0, ref.current.offsetTop);
-
 export const Chat: React.FC<ChatProps> = props => {
+    const ref = useRef<HTMLDivElement>(null);
+    const scroll = (ref: RefObject<HTMLDivElement>) => {
+        ref.current?.scrollTo(0, 999999999) //похуй ахахаа
+    };
 
     const [
         user
     ] = useMappedStore(UserStore, x => [
         x.user
     ]);
+
     const [chats] = useMappedStore(ChatStore, x => [x.chats]);
     const chat = chats.find(a => a.id === props.chat?.id);
+
+    useEffect(() => {
+        // идк, но по-моему, каждый раз когда у тебя будет обновляться чат, у тебя будет вызываться юзэффект
+        // давай провериим так
+        scroll(ref);
+    }, [chat]);
 
     const [pendingMsg, setPendingMsg] = useState<string>("");
     const [isAddUsers, setIsAddUsers] = useState<boolean>(false);
@@ -36,12 +45,12 @@ export const Chat: React.FC<ChatProps> = props => {
     };
 
     if (!chat)
-        return <div/>;
+        return <div/>
 
     const connection = chat.connection;
 
     return (
-        <div className={styles.chat}>
+        <div className={styles.chat} ref={ref}>
             {
                 isAddUsers
                     ? <AddUserComponent chatId={props.chat?.id}
@@ -49,6 +58,7 @@ export const Chat: React.FC<ChatProps> = props => {
                                         endFunction={() => alert()}/>
                     : undefined
             }
+
             <div className={styles.header}>
                 <div className={styles.headerName}>
                     {chat.name}
@@ -63,7 +73,7 @@ export const Chat: React.FC<ChatProps> = props => {
                         : undefined
                 }
             </div>
-            <div className={styles.content}>
+            <div className={styles.content} ref={ref}>
                 {
                     chat.messages.map((unit, key) => {
                         return (unit.params.owner_tag === user.tag)
