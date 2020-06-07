@@ -143,6 +143,12 @@ export const getUsersInChatRequest = async (id: number): Promise<UserUnit[]> => 
     return response.body as unknown as UserUnit[]
 };
 
+export const addUsersToChatRequest = async (id: number, body: string[]): Promise<number> => {
+    const args={};
+    const response = await http.post(`/servers/${id}/members/`, args, JSON.stringify(body));
+    return response.code;
+};
+
 // export const deleteChat = async (): Promise<> => {
 //     const args = {};
 //     await http.delete("/servers/list/добавь парамс(?chat_id={id})", args);
