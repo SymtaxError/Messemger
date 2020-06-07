@@ -42,7 +42,7 @@ export const Profile: React.FC = () => {
                         <div>Тэг пользователя</div>
                         <input className={styles.settingInput}
                                value={userTag}
-                               onChange={a => setUserTag(a.target.value)}/>
+                               onChange={a => setUserTag(a.target.value)} disabled/>
                         <button className={styles.changeButton} onClick={() => {
                             alert ("В будущих версиях :)")
                         }}>Изменить данные</button>

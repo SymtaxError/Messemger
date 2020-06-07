@@ -42,7 +42,6 @@ export const Header: React.FC = () => {
                     <div className={styles.imgLabel}>Новости</div>
                 </div>
                 <div className={styles.imgBlock} onClick={() => {
-                    ChatStore.updateChatList();
                     history.push("/chat");
                 }}>
                     <img src={messagerImg} className={styles.headerImg} alt={""}/>
