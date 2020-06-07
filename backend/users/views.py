@@ -40,3 +40,30 @@ class UserProfileView(APIView):
             return Response(profile.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def put(self, request):
+        """ Updates user profile fields. """
+        try:
+            user = request.user
+            text_data = {
+                'tag' : user.profile.tag
+            }
+            for item in request.data.items():
+                text_data[item[0]] = item[1]
+            if 'email' not in text_data.keys():
+                text_data['email'] = user.email
+            if 'first_name' not in text_data.keys():
+                text_data['first_name'] = user.profile.first_name
+            if 'last_name' not in text_data.keys():
+                text_data['last_name'] = user.profile.last_name
+            files = {}
+            for item in request.FILES.items():
+                files[item[0]] = item[1]
+            serializer = ProfileSerializer(data={**text_data, **files})
+            if serializer.is_valid():
+                user.profile.update(**serializer.validated_data)
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response(status=status.HTTP_403_FORBIDDEN)
