@@ -35,6 +35,7 @@ class UserProfileView(APIView):
         }
         if user.profile.status != None:
             data['status'] = user.profile.status
+        data['is_superuser'] = user.is_superuser
         profile = ProfileSerializer(data=data)
         if profile.is_valid():
             return Response(profile.data, status=status.HTTP_200_OK)
