@@ -1,0 +1,16 @@
+.user {
+    height: 45px;
+    border-bottom: 2px solid white;
+}
+
+.name {
+    color: white;
+    padding-top: 2px;
+    padding-left: 7px;
+    width: 100%;
+}
+
+.tag {
+    padding-left: 7px;
+    color: #AFAFAF;
+}
