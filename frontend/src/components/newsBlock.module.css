@@ -1,0 +1,20 @@
+.newsBlock {
+    background-color: #E0C4B9;
+    border-radius: 7px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.header {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 25px;
+    color: #63465A;
+    border-bottom: 2px solid #63465A;
+}
+
+.content {
+    padding: 20px;
+}
