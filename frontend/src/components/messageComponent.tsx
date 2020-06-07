@@ -13,7 +13,7 @@ export const AnMessage: React.FC<messageComponentProps> = x => {
             <div className={styles.msgContentAnother}>
                 <div className={styles.msgAuthor}>{x.unit.owner}</div>
                 <div className={styles.msgText}>{x.unit.params.text}</div>
-                <div className={styles.msgDate}>{date}</div>
+                <div className={styles.msgDateAnother}>{date}</div>
             </div>
         </div>
     )
