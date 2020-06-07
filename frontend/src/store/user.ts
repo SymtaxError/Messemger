@@ -73,7 +73,6 @@ export const UserStore = (() => {
         name: "getUser",
         handler: async (): Promise<UserUnit> => {
             const response = await userDataRequest();
-            console.log(response);
             return response;
         }
     });
