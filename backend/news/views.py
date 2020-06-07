@@ -36,7 +36,7 @@ class NewsPostView(APIView):
             query_set = {}
             for item in request.data.items():
                 query_set[item[0]] = item[1]
-            query_set['author'] = str(user)
+            query_set['author'] = user.profile.get_full_name()
             serializer = NewsPostSerializer(data=query_set)
             if serializer.is_valid():
                 data = serializer.validated_data
