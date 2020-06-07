@@ -17,7 +17,7 @@ interface ChatProps {
 export const Chat: React.FC<ChatProps> = props => {
     const ref = useRef<HTMLDivElement>(null);
     const scroll = (ref: RefObject<HTMLDivElement>) => {
-        ref.current?.scrollTo(0, ref.current.offsetTop)
+        ref.current?.scrollTo(0, 999999999) //похуй ахахаа
     };
 
     const [
@@ -25,13 +25,15 @@ export const Chat: React.FC<ChatProps> = props => {
     ] = useMappedStore(UserStore, x => [
         x.user
     ]);
-    useEffect(() => {
-        if (ref)
-            scroll(ref);
-    }, []);
 
     const [chats] = useMappedStore(ChatStore, x => [x.chats]);
     const chat = chats.find(a => a.id === props.chat?.id);
+
+    useEffect(() => {
+        // идк, но по-моему, каждый раз когда у тебя будет обновляться чат, у тебя будет вызываться юзэффект
+        // давай провериим так
+        scroll(ref);
+    }, [chat]);
 
     const [pendingMsg, setPendingMsg] = useState<string>("");
     const [isAddUsers, setIsAddUsers] = useState<boolean>(false);
@@ -43,7 +45,7 @@ export const Chat: React.FC<ChatProps> = props => {
     };
 
     if (!chat)
-        return <div/>;
+        return <div/>
 
     const connection = chat.connection;
 
@@ -56,11 +58,7 @@ export const Chat: React.FC<ChatProps> = props => {
                                         endFunction={() => alert()}/>
                     : undefined
             }
-            <img
-                src={
-                    "https://cdn.pixabay.com/photo/2018/11/15/22/52/wolf-3818343_960_720.jpg"
-                }
-            />
+
             <div className={styles.header}>
                 <div className={styles.headerName}>
                     {chat.name}
@@ -75,7 +73,7 @@ export const Chat: React.FC<ChatProps> = props => {
                         : undefined
                 }
             </div>
-            <div className={styles.content}>
+            <div className={styles.content} ref={ref}>
                 {
                     chat.messages.map((unit, key) => {
                         return (unit.params.owner_tag === user.tag)
