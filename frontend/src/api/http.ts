@@ -96,7 +96,7 @@ export const http = {
         return request(path, args, "DELETE");
     },
     put: async <T>(path: string, args: Record<string, string>, body?: string): Promise<WrappedResponse<T>> => {
-        return request(path, args, "PUT");
+        return request(path, args, "PUT", body);
     }
 };
 

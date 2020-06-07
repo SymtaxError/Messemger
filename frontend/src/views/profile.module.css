@@ -41,11 +41,13 @@
 
 .settingsBlock {
     display: flex;
-    flex-flow: row nowrap;
-    grid-template-columns: 1fr 4fr;
-    grid-column-gap: 100px;
+    flex-flow: row wrap;
     justify-content: flex-start;
     margin-top: 20px;
+}
+
+.settingsBlock > *:not(:last-child) {
+    margin-right: 100px;
 }
 
 .settingsMain {
