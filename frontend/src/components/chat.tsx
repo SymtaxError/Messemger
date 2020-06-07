@@ -43,7 +43,7 @@ export const Chat: React.FC<ChatProps> = props => {
     };
 
     if (!chat)
-        return <div/>
+        return <div/>;
 
     const connection = chat.connection;
 

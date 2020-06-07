@@ -1,12 +1,16 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import styles from "views/profile.module.css"
 import {UserStore} from "store/user";
 import {useMappedStore} from "utils/store";
 import {useHistory} from "react-router";
 import {changeUserInfo} from "../api/http";
+import {UserUnit} from "../api/models/user";
+
+interface SettingsProps {
+    unit: UserUnit
+}
 
 export const Profile: React.FC = () => {
-
 
     const [
         user
@@ -14,19 +18,26 @@ export const Profile: React.FC = () => {
         x.user
     ]);
 
+    const history = useHistory();
+
     const [userName, setUserName] = useState(user.first_name);
     const [userSurname, setUserSurname] = useState(user.last_name);
     const [userEmail, setUserEmail] = useState(user.email);
     const [userTag, setUserTag] = useState(user.tag);
 
-    const history = useHistory();
+    useEffect(() => {
+        setUserName(user.first_name);
+        setUserSurname(user.last_name);
+        setUserEmail(user.email);
+        setUserTag(user.tag);
+    }, [user]);
 
     return (
         <div className={styles.body}>
             <div className={styles.profile}>
                 <div className={styles.settingsBlock}>
                     <div className={styles.settingsSite}>
-                        Основные настройки
+                        <div>Основные настройки</div>
                     </div>
                     <div className={styles.settingsMain}>
                         <div className={styles.settingsLabel}>Имя</div>
@@ -45,11 +56,11 @@ export const Profile: React.FC = () => {
                         <input className={styles.settingInput}
                                value={userTag}
                                onChange={a => setUserTag(a.target.value)} disabled/>
-                        <button className={styles.changeButton} onClick={async() => {
+                        <button className={styles.changeButton} onClick={async () => {
                             console.log(userName, userSurname, userEmail, userTag);
                             const response = await changeUserInfo(userName, userSurname, userEmail);
                             if (response === 200)
-                                alert ("Данные изменены!");
+                                alert("Данные изменены!");
                             else
                                 alert("Упс! Что-то пошло не так :( \n Проверьте данные.")
                         }}>
