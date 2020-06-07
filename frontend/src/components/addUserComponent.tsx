@@ -54,7 +54,7 @@ export const AddUserComponent: React.FC<AddUserComponentProps> = x => {
                 }
                 <div className={styles.createButton} onClick={async () => {
                     if (x.chatId) {
-                        const responseCode = await addUsersToChatRequest(x.chatId, userList);
+                        const responseCode = await addUsersToChatRequest(x.chatId, {tags: userList});
                         if (responseCode !== 201)
                             alert("Неправильно введены данные о пользователе!");
                         else UsersInChatStore.getUsers(x.chatId);
