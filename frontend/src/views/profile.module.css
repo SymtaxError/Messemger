@@ -40,7 +40,8 @@
 }
 
 .settingsBlock {
-    display: grid;
+    display: flex;
+    flex-flow: row nowrap;
     grid-template-columns: 1fr 4fr;
     grid-column-gap: 100px;
     justify-content: flex-start;
@@ -70,7 +71,7 @@
     height: 35px;
     width: 70px;
     background-color: #bb2816;
-    border-color: #bb2816;
+    border-color: #9b2516;
     border-style: solid;
     border-radius: 4px;
     font-size: 18px;
