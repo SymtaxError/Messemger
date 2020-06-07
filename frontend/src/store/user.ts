@@ -7,7 +7,7 @@ interface RefreshUnit {
     refresh: string
 }
 
-const resultRefresh = async (): Promise<void> => {
+const resultRefresh = async (): Promise<UserUnit> => {
     const bodyForCheck = {
         "refresh": (localStorage.getItem("refresh") !== "undefined")
             ? `${localStorage.getItem("refresh")}`
@@ -25,13 +25,10 @@ const resultRefresh = async (): Promise<void> => {
     if (state === 200) {
         localStorage.setItem("access", result.access);
         localStorage.setItem("refresh", result.refresh);
-        await UserStore.getUser()
-
-    } else {
-        console.log("want redirect");
-        // window.location.replace("localhost:3000/login");
+        const response = userDataRequest();
+        return response;
     }
-    return;
+    return response as unknown as UserUnit;
 };
 
 export const userDataRequest = async (): Promise<UserUnit> => {
@@ -46,7 +43,7 @@ export const userDataRequest = async (): Promise<UserUnit> => {
         {method: "GET", headers: headers, mode: "cors"}
     );
     if (response.status === 401)
-        await resultRefresh();
+        return resultRefresh();
     return JSON.parse(await response.text()) as unknown as UserUnit;
 };
 

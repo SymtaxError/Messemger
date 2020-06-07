@@ -150,21 +150,8 @@ export const addUsersToChatRequest = async (id: number, body: string[]): Promise
     return response.code;
 };
 
-// export const deleteChat = async (): Promise<> => {
-//     const args = {};
-//     await http.delete("/servers/list/добавь парамс(?chat_id={id})", args);
-// };
-//
-// export const changeChatName = async(): Promise<> => {
-//     const args = {};
-//     //В body name: string - новое имя
-//     //В парамс - chat id как в deleteChat
-//     await http.put("/servers/list/")
-// };
-//
-// export const changeChatAvatar = async(): Promise<> => {
-//     const args = {};
-//     //в body - picture - файл
-//     //В парамс - как выше
-//     await http.put("servers/list/")
-// }
+export const sendNewRequest = async (title: string, text: string): Promise<void> => {
+    const args={};
+    await http.post(`/news/`, args, JSON.stringify({title: title, text: text}));
+    console.log(JSON.stringify({title: title, text: text}));
+};

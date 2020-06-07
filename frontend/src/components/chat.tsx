@@ -17,7 +17,7 @@ interface ChatProps {
 export const Chat: React.FC<ChatProps> = props => {
     const ref = useRef<HTMLDivElement>(null);
     const scroll = (ref: RefObject<HTMLDivElement>) => {
-        ref.current?.scrollTo(0, 999999999) //похуй ахахаа
+        ref.current?.scrollTo(0, 999999999)
     };
 
     const [
@@ -30,8 +30,6 @@ export const Chat: React.FC<ChatProps> = props => {
     const chat = chats.find(a => a.id === props.chat?.id);
 
     useEffect(() => {
-        // идк, но по-моему, каждый раз когда у тебя будет обновляться чат, у тебя будет вызываться юзэффект
-        // давай провериим так
         scroll(ref);
     }, [chat]);
 
