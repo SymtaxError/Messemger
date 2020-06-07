@@ -31,9 +31,12 @@ class ServerView(APIView):
                 server.save()
                 return Response(status=status.HTTP_201_CREATED)
             except:
-                server = Server.objects.create_server(data['name'],
-                    creator=request.user, type_chat='C')
-                return Response(status=status.HTTP_201_CREATED)
+                if 'tag' in data.keys():
+                    return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+                else:
+                    server = Server.objects.create_server(data['name'],
+                        creator=request.user, type_chat='C')
+                    return Response(status=status.HTTP_201_CREATED)
             else:
                 return Response(statis=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
