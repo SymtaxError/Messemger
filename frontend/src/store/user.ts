@@ -55,7 +55,7 @@ interface UserData {
 }
 
 const initialData: UserData = {
-    user: {email: "", first_name: "", last_name: "", tag: ""}
+    user: {email: "", first_name: "", last_name: "", tag: "", is_superuser: false}
 };
 
 interface UserStore extends Store<UserData> {

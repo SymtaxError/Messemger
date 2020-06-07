@@ -1,4 +1,4 @@
-import React, {ReactNode, useState, useRef} from 'react';
+import React, {ReactNode, useState, useRef, MutableRefObject, useEffect, RefObject} from 'react';
 import styles from "components/chat.module.css"
 import menuImg from "img/tripleMenu.png"
 import {MyMessage} from "./messageComponent";
@@ -14,15 +14,22 @@ interface ChatProps {
     chat?: ChatType
 }
 
-const scrollToRef = (ref: any) => window.scrollTo(0, ref.current.offsetTop);
-
 export const Chat: React.FC<ChatProps> = props => {
+    const ref = useRef<HTMLDivElement>(null);
+    const scroll = (ref: RefObject<HTMLDivElement>) => {
+        ref.current?.scrollTo(0, ref.current.offsetTop)
+    };
 
     const [
         user
     ] = useMappedStore(UserStore, x => [
         x.user
     ]);
+    useEffect(() => {
+        if (ref)
+            scroll(ref);
+    }, []);
+
     const [chats] = useMappedStore(ChatStore, x => [x.chats]);
     const chat = chats.find(a => a.id === props.chat?.id);
 
@@ -41,7 +48,7 @@ export const Chat: React.FC<ChatProps> = props => {
     const connection = chat.connection;
 
     return (
-        <div className={styles.chat}>
+        <div className={styles.chat} ref={ref}>
             {
                 isAddUsers
                     ? <AddUserComponent chatId={props.chat?.id}
@@ -49,6 +56,11 @@ export const Chat: React.FC<ChatProps> = props => {
                                         endFunction={() => alert()}/>
                     : undefined
             }
+            <img
+                src={
+                    "https://cdn.pixabay.com/photo/2018/11/15/22/52/wolf-3818343_960_720.jpg"
+                }
+            />
             <div className={styles.header}>
                 <div className={styles.headerName}>
                     {chat.name}

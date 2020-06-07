@@ -126,9 +126,10 @@ export const changeUserInfo = async (first_name: string, last_name: string, emai
     return response.code;
 };
 
-export const createGroupChat = async (name: string, user?: string): Promise<void> => {
+export const createGroupChat = async (name: string, user?: string): Promise<number> => {
     const args = {};
-    await http.post("/servers/list/", args, JSON.stringify({name: name, tag: user}));
+    const response = await http.post("/servers/list/", args, JSON.stringify({name: name, tag: user}));
+    return response.code;
 };
 
 export const getMessagesRequest = async (id: number): Promise<MessageType[]> => {
