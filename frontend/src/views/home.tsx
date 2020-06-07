@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from "views/home.module.css";
 import {NewsBlock} from "components/newsBlock";
 import {NewsStore} from "../store/newsStore";
 import {useMappedStore} from "../utils/store";
-import {UsersInChatStore} from "../store/UsersInChatStore";
 import {UserStore} from "../store/user";
+import {sendNewRequest} from "../api/http";
 
 export const Home: React.FC = () => {
 
@@ -21,11 +21,35 @@ export const Home: React.FC = () => {
         x.news
     ]);
 
+    const [title, setTitle] = useState<string>("");
+    const [text, setText] = useState<string>("");
+
     return (
         <div className={styles.body}>
             {
-                userData.user.is_superuser
-                    ? <div>as</div>
+                !userData.user.is_superuser // убрать отрицание!
+                    ?
+                    (<div className={styles.superUserInput}>
+                        <input className={styles.superUserHeader}
+                               placeholder={"Заголовок"}
+                               value={title}
+                               onChange={a => setTitle(a.target.value)}/>
+                        <textarea className={styles.superUserArea}
+                                  placeholder={"Важное сообщение!"}
+                                  value={text}
+                                  onChange={a => setText(a.target.value)}/>
+                        <div className={styles.superUserSend}
+                             onClick={async () => {
+                                 if (text && title) {
+                                     await sendNewRequest(title, text)
+                                         .then(() => NewsStore.getNews());
+                                     setTitle("");
+                                     setText("");
+                                 }
+                             }}>
+                            Отправить
+                        </div>
+                    </div>)
                     : undefined
             }
 

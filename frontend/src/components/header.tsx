@@ -2,27 +2,25 @@ import React, {ReactNode} from "react";
 import styles from "components/header.module.css";
 import homeImg from "img/home.png";
 import todoImg from "img/todo.png";
-import calendarImg from "img/calendar.png";
 import userImg from "img/user.png";
 import messagerImg from "img/messager.png"
 import {useHistory} from "react-router-dom";
 import {useMappedStore} from "../utils/store";
 import {UserStore} from "../store/user";
 import {ChatStore} from "../store/chatListStore";
+import {UserUnit} from "../api/models/user";
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+    user: UserUnit
+}
 
-    const [
-        user
-    ] = useMappedStore(UserStore, x => [
-        x.user
-    ]);
+export const Header: React.FC<HeaderProps> = (y) => {
 
-    let history = useHistory();
+    const history = useHistory();
 
     const profileElement: ReactNode = (
         <div className={styles.imgBlockRight} onClick={() => history.push("/profile")}>
-            <div className={styles.imgLabelRight}>{user.first_name}</div>
+            <div className={styles.imgLabelRight}>{y.user.first_name}</div>
             <img  src={userImg} className={styles.headerImg} alt={""}/>
         </div>
     );
@@ -55,7 +53,7 @@ export const Header: React.FC = () => {
                 </div>
             </div>
             <div className={styles.secondBlock}>
-                {user.first_name ? profileElement : loginElement}
+                {y.user.first_name ? profileElement : loginElement}
             </div>
         </div>
     );

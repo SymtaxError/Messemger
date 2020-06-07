@@ -3,8 +3,10 @@ import styles from "views/profile.module.css"
 import {UserStore} from "store/user";
 import {useMappedStore} from "utils/store";
 import {useHistory} from "react-router";
+import {changeUserInfo} from "../api/http";
 
 export const Profile: React.FC = () => {
+
 
     const [
         user
@@ -43,15 +45,18 @@ export const Profile: React.FC = () => {
                         <input className={styles.settingInput}
                                value={userTag}
                                onChange={a => setUserTag(a.target.value)} disabled/>
-                        <button className={styles.changeButton} onClick={() => {
-                            alert ("В будущих версиях :)")
-                        }}>Изменить данные</button>
+                        <button className={styles.changeButton} onClick={async() => {
+                            console.log(userName, userSurname, userEmail, userTag);
+                            changeUserInfo(userName, userSurname, userEmail, userTag);
+                        }}>Изменить данные
+                        </button>
                         <button className={styles.exitButton} onClick={() => {
-                            UserStore.setUser({tag: "", first_name: "", email: "",last_name: "", is_superuser: false});
+                            UserStore.setUser({tag: "", first_name: "", email: "", last_name: "", is_superuser: false});
                             localStorage.setItem("access", "");
                             localStorage.setItem("refresh", "");
                             history.push("/login");
-                        }}>Выйти</button>
+                        }}>Выйти
+                        </button>
                     </div>
                 </div>
             </div>
