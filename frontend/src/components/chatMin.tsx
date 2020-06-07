@@ -13,7 +13,7 @@ export const ChatMin: React.FC<chatMinComponentProps> = x => {
     return (
         <div className={styles.dialog} onClick={x.onClick}>
             <div className={styles.dialogImg}>
-                {x.unit.picture}
+                {x.unit.type_chat}
             </div>
             <div className={styles.dialogContent}>
                 {x.unit.name}

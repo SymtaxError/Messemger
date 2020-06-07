@@ -39,7 +39,7 @@ export const Header: React.FC = () => {
             <div className={styles.firstBlock}>
                 <div className={styles.imgBlock} onClick={() => history.push("/home")}>
                     <img src={homeImg} className={styles.headerImg} alt={""}/>
-                    <div className={styles.imgLabel}>Home</div>
+                    <div className={styles.imgLabel}>Новости</div>
                 </div>
                 <div className={styles.imgBlock} onClick={() => {
                     ChatStore.updateChatList();
@@ -52,11 +52,6 @@ export const Header: React.FC = () => {
                 <div className={styles.imgBlock} onClick={() => history.push("/todo")}>
                     <img src={todoImg} className={styles.headerImg} alt={""}/>
                     <div className={styles.imgLabel}>План</div>
-                </div>
-
-                <div className={styles.imgBlock} onClick={() => history.push("/calendar")}>
-                    <img src={calendarImg} className={styles.headerImg} alt={""}/>
-                    <div className={styles.imgLabel}>Calendar</div>
                 </div>
             </div>
             <div className={styles.secondBlock}>

@@ -3,6 +3,7 @@ import {ChatType} from "api/models/chatType";
 import {backendURL, getMessagesRequest, http} from "api/http";
 import {replaceOrPush} from "utils/misc/arrays";
 import {UserStore} from "./user";
+import {DateType} from "../api/models/dateType";
 
 interface RefreshUnit {
     access: string
@@ -29,9 +30,6 @@ const resultRefresh = async (): Promise<void> => {
         localStorage.setItem("refresh", result.refresh);
         await UserStore.getUser()
 
-    } else {
-        console.log("want redirect");
-        // window.location.replace("localhost:3000/login");
     }
     return;
 };
@@ -75,6 +73,7 @@ interface MessageContent {
     text: string
     owner_tag: string
     chat_id: number
+    date_published: string
 }
 
 export interface MessageType {
@@ -171,17 +170,8 @@ export const ChatStore = (() => {
                 token: token,
                 onMessage: a => {
                     const buf: MessageType = JSON.parse(a.data);
-                    const temp = {
-                        owner: buf.owner,
-                        params: {
-                            text: buf.params.text,
-                            chat_id: buf.params.chat_id,
-                            owner_tag: buf.params.owner_tag
-                        }
-                    };
-                    // Попробуем вернуть temp, если все-таки не парсится нормально, ага?
                     console.log(buf);
-                    store.addMessage(buf)
+                    store.addMessage(buf);
                 }
             }));
         }
