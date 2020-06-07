@@ -20,3 +20,4 @@ class ProfileSerializer(serializers.Serializer):
     tag = serializers.CharField(max_length=128)
     status = serializers.CharField(max_length=1000, required=False)
     avatar = serializers.ImageField(required=False)
+    is_superuser = serializers.BooleanField(required=False)
