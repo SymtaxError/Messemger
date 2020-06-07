@@ -34,8 +34,6 @@ export const App: React.FC = () => {
                 <PrivateRoute condition={true}
                               path="/login"
                               component={Login}/>
-                {/*<Route path="/login"*/}
-                {/*       component={Login}/>*/}
                 <PrivateRoute condition={true}
                               path="/todo"
                               component={Todo}/>

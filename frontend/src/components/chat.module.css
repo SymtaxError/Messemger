@@ -104,10 +104,10 @@
     font-size: 18px;
     border: none;
     border-radius: 3px;
-    background-color: #b748ff;
+    background-color: #ce7386;
     transition: background-color 0.4s;
 }
 
 .sendButton:hover {
-    background-color: #7030a0;
+    background-color: #63465a;
 }

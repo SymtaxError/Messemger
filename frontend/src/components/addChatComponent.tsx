@@ -54,7 +54,6 @@ export const AddChatComponent: React.FC<AddChatComponentProps> = x => {
                         ChatStore.updateChatList();
                     }
                     x.endFunction();
-                    x.endFunction();
                 }}
                 >Готово
                 </div>
