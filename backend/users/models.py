@@ -83,3 +83,16 @@ class UserProfile(models.Model):
         """ Allows updating user status."""
         self.status = new_status
         self.save()
+
+    def update(self, **kwargs):
+        """Allows updating information about user."""
+        for item in kwargs.items():
+            if item[0] == 'email':
+                self.user.email = item[1]
+                self.user.save()
+                self.update_tag()
+            elif item[0] == 'tag':
+                continue
+            else:
+                self.__dict__[item[0]] = item[1]
+        self.save()

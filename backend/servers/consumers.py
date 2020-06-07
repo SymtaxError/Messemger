@@ -129,6 +129,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = Message(server=self.server, owner=self.scope['user'], text=self.message_text)
         message.save()
 
+    @database_sync_to_async
+    def get_owner_tag(self):
+        """ Function to get user tag from scope """
+        return self.scope['user'].profile.tag
+
+    @database_sync_to_async
+    def get_date_published(self):
+        """ Function to get message date published """
+        message = Message.objects.filter(server_id=self.chat_id, owner=self.scope['user'])[0]
+        return str(message.date_published) + ' UTC'
+
     async def receive(self, text_data):
         """Function to recieve messages."""
         text_data = json.loads(text_data)
@@ -150,8 +161,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, data):
         #: Sends chat message to other chat members.
         data['params']['chat_id'] = self.chat_id
+        data['params']['owner_tag'] = await self.get_owner_tag()
+        data['params']['date_published'] = await self.get_date_published()
         await self.send(text_data=json.dumps({
             'action': 'chat_message',
-            'user': data['user'],
+            'owner': data['user'],
             'params': data['params']
         }))
