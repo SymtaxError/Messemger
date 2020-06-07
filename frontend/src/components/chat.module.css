@@ -74,14 +74,7 @@
 }
 
 .msgAuthor {
-    color: #656565;
-    padding-left: 5px;
-    border-bottom: 1px solid white;
-    font-weight: 600;
-}
-
-.msgAuthorAnother {
-    color: #d2d2d2;
+    color: white;
     padding-left: 5px;
     border-bottom: 1px solid white;
     font-weight: 600;

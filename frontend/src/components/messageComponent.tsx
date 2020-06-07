@@ -11,7 +11,7 @@ export const AnMessage: React.FC<messageComponentProps> = x => {
     return (
         <div className={styles.anotherMsg}>
             <div className={styles.msgContentAnother}>
-                <div className={styles.msgAuthorAnother}>{x.unit.owner}</div>
+                <div className={styles.msgAuthor}>{x.unit.owner}</div>
                 <div className={styles.msgText}>{x.unit.params.text}</div>
                 <div className={styles.msgDateAnother}>{date}</div>
             </div>
