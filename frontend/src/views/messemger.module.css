@@ -26,6 +26,7 @@
     place-items: center;
     border-top: 2px solid white;
     box-sizing: border-box;
+    border-bottom: 2px solid white;
 }
 
 .leftBarImg {

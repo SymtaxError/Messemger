@@ -1,7 +1,7 @@
 import React, {ReactNode, useState, useRef} from 'react';
 import styles from "components/chat.module.css"
 import menuImg from "img/tripleMenu.png"
-import { MyMessage }from "./messageComponent";
+import {MyMessage} from "./messageComponent";
 import {AnMessage} from "./messageComponent";
 import {useMappedStore} from "../utils/store";
 import {UserStore} from "../store/user";
@@ -36,7 +36,7 @@ export const Chat: React.FC<ChatProps> = props => {
     };
 
     if (!chat)
-        return <div />;
+        return <div/>;
 
     const connection = chat.connection;
 
@@ -53,11 +53,15 @@ export const Chat: React.FC<ChatProps> = props => {
                 <div className={styles.headerName}>
                     {chat.name}
                 </div>
-                <img src={menuImg}
-                     className={styles.headerImg}
-                     alt={""}
-                     onClick={() => setIsAddUsers(!isAddUsers)}
-                />
+                {
+                    (props.chat?.type_chat === "C")
+                        ? <img src={menuImg}
+                               className={styles.headerImg}
+                               alt={""}
+                               onClick={() => setIsAddUsers(!isAddUsers)}
+                        />
+                        : undefined
+                }
             </div>
             <div className={styles.content}>
                 {
@@ -75,8 +79,10 @@ export const Chat: React.FC<ChatProps> = props => {
                 }
             </div>
             <div className={styles.enter}>
-                <textarea className={styles.sendArea} onChange={a => setPendingMsg(a.target.value)} value={pendingMsg} placeholder="Напишите сообщение..."/>
-                <button className={styles.sendButton} onClick={() => sendMessage(pendingMsg, connection)}>Отправить</button>
+                <textarea className={styles.sendArea} onChange={a => setPendingMsg(a.target.value)} value={pendingMsg}
+                          placeholder="Напишите сообщение..."/>
+                <button className={styles.sendButton} onClick={() => sendMessage(pendingMsg, connection)}>Отправить
+                </button>
             </div>
         </div>
     )
