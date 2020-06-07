@@ -96,7 +96,7 @@ export const http = {
         return request(path, args, "DELETE");
     },
     put: async <T>(path: string, args: Record<string, string>, body?: string): Promise<WrappedResponse<T>> => {
-        return request(path, args, "PUT");
+        return request(path, args, "PUT", body);
     }
 };
 
@@ -120,9 +120,9 @@ export const loginRequest = async (email: string, password: string): Promise<num
     return wrappedResponse.code;
 };
 
-export const changeUserInfo = async (first_name: string, last_name: string, email: string, image: string): Promise<number> => {
+export const changeUserInfo = async (first_name: string, last_name: string, email: string): Promise<number> => {
     const args = {};
-    const response = await http.put("/users/profile/", args, JSON.stringify({first_name: first_name, last_name: last_name, email: email, picture: image}));
+    const response = await http.put("/users/profile/", args, JSON.stringify({first_name: first_name, last_name: last_name, email: email}));
     return response.code;
 };
 
@@ -144,7 +144,7 @@ export const getUsersInChatRequest = async (id: number): Promise<UserUnit[]> => 
     return response.body as unknown as UserUnit[]
 };
 
-export const addUsersToChatRequest = async (id: number, body: string[]): Promise<number> => {
+export const addUsersToChatRequest = async (id: number, body: Record<string, string[]>): Promise<number> => {
     const args={};
     const response = await http.post(`/servers/${id}/members/`, args, JSON.stringify(body));
     return response.code;

@@ -27,7 +27,7 @@ export const Home: React.FC = () => {
     return (
         <div className={styles.body}>
             {
-                !userData.user.is_superuser // убрать отрицание!
+                userData.user.is_superuser
                     ?
                     (<div className={styles.superUserInput}>
                         <input className={styles.superUserHeader}
