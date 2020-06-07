@@ -56,7 +56,7 @@ export const AddChatComponent: React.FC<AddChatComponentProps> = x => {
                         console.log("dtag", dialogTag)
                         const response = await createGroupChat(chatName, dialogTag);
                         ChatStore.updateChatList();
-                        if (response !== 200)
+                        if (response !== 201)
                             alert("Упс! Какие-то данные неправильные :(")
                     }
                     x.endFunction();
