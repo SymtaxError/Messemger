@@ -11,7 +11,7 @@ class ServerSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True, required=False)
     name = serializers.CharField(max_length=100)
     type_chat = serializers.CharField(max_length=1, read_only=True, required=False)
-    tag = serializers.CharField(max_length=128, required=False)
+    tag = serializers.CharField(max_length=128, required=False, allow_blank=True)
     picture = serializers.ImageField(required=False)
     # tags = serializers.SerializerMethodField()
 

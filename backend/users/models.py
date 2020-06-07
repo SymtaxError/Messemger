@@ -88,8 +88,10 @@ class UserProfile(models.Model):
         """Allows updating information about user."""
         for item in kwargs.items():
             if item[0] == 'email':
-                self.user.email = item[1]
-                self.user.save()
+                user = self.user
+                user.email = item[1]
+                user.save()
+                print(user.email)
                 self.update_tag()
             elif item[0] == 'tag':
                 continue

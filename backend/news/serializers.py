@@ -11,7 +11,7 @@ class NewsPostSerializer(serializers.Serializer):
     author = serializers.CharField(max_length=60)
     author_tag = serializers.SerializerMethodField()
     title = serializers.CharField(max_length=100)
-    text = serializers.CharField(max_length=512)
+    text = serializers.CharField(max_length=4294967296)
     date_published = serializers.SerializerMethodField()
 
     def get_date_published(self, obj):
