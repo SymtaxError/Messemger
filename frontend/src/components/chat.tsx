@@ -8,7 +8,7 @@ import {UserStore} from "../store/user";
 import {ChatType} from "../api/models/chatType";
 import {sendWSMessage} from "../webSockets/messageWS";
 import {ChatStore} from "../store/chatListStore";
-import {AddUserComponent} from "./addUserComponent";
+import {AddUserComponent} from "components/addUserComponent";
 
 interface ChatProps {
     chat?: ChatType
