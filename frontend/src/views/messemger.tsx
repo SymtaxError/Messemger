@@ -54,7 +54,10 @@ export const Messemger: React.FC = () => {
             </div>
             <Chat chat={selectedChat}/>
             <div className={styles.rightBar}>
-                <RightBar users={usersList}/>
+                {selectedChat
+                    ? <RightBar users={usersList}/>
+                    : <div/>
+                }
             </div>
         </div>
     )
