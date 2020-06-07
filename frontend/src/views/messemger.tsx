@@ -9,7 +9,6 @@ import plusImg from "img/plus.png"
 import {ChatType} from "../api/models/chatType";
 import {AddChatComponent} from "components/addChatComponent";
 import {UsersInChatStore} from "../store/UsersInChatStore";
-import {AddUserComponent} from "../components/addUserComponent";
 
 export const Messemger: React.FC = () => {
 
@@ -31,7 +30,6 @@ export const Messemger: React.FC = () => {
     return (
         <div className={styles.body}>
             {isCreate ? <AddChatComponent endFunction={() => setIsCreate(!isCreate)}/> : undefined}
-
             <div className={styles.leftBarOpen}>
                 <div className={styles.leftBarHeader}>
                     <div className={styles.leftBarText}>Ваши диалоги и конференции</div>

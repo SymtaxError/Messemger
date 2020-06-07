@@ -54,5 +54,7 @@ export const NewsStore = (() => {
     store.getNews.done.watch(result => {
         store.setNews(result.result);
     });
+
+    store.getNews();
     return store;
 })();
