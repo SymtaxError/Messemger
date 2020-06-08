@@ -25,7 +25,7 @@ const resultRefresh = async (): Promise<UserUnit> => {
     if (state === 200) {
         localStorage.setItem("access", result.access);
         localStorage.setItem("refresh", result.refresh);
-        const response = userDataRequest();
+        const response = finalDataRequest();
         return response;
     }
     return response as unknown as UserUnit;
@@ -44,6 +44,20 @@ export const userDataRequest = async (): Promise<UserUnit> => {
     );
     if (response.status === 401)
         return resultRefresh();
+    return JSON.parse(await response.text()) as unknown as UserUnit;
+};
+
+export const finalDataRequest = async (): Promise<UserUnit> => {
+    const headers = {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": (localStorage.getItem("access") !== "undefined")
+            ? `JWT ${localStorage.getItem("access")}`
+            : ""
+    };
+    const response = await fetch(
+        `http://localhost:8000/users/profile/`,
+        {method: "GET", headers: headers, mode: "cors"}
+    );
     return JSON.parse(await response.text()) as unknown as UserUnit;
 };
 

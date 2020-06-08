@@ -7,7 +7,7 @@ export const Card: React.FC = () => {
     return (
         <div className={styles.card}>
             <div className={styles.content}>Уроки</div>
-            <img src={moreImg} className={styles.moreImg}/>
+            <img src={moreImg} className={styles.moreImg} alt={""}/>
         </div>
     )
 };

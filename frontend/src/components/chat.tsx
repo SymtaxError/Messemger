@@ -1,4 +1,4 @@
-import React, {ReactNode, useState, useRef, MutableRefObject, useEffect, RefObject} from 'react';
+import React, {useState, useRef, useEffect, RefObject} from 'react';
 import styles from "components/chat.module.css"
 import menuImg from "img/tripleMenu.png"
 import {MyMessage} from "./messageComponent";

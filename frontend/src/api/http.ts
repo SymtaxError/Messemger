@@ -1,7 +1,6 @@
 import {RegisterUnit} from "./models/register";
 import {UserStore} from "../store/user";
-import {ChatType} from "./models/chatType";
-import {ChatStore, MessageType} from "store/chatListStore";
+import {MessageType} from "store/chatListStore";
 import {UserUnit} from "./models/user";
 
 export const backendURL = "http://localhost:8000";
@@ -42,9 +41,6 @@ export const resultRefresh = async (): Promise<void> => {
         localStorage.setItem("refresh", result.refresh);
         await UserStore.getUser()
 
-    } else {
-        console.log("want redirect");
-        // window.location.replace("localhost:3000/login");
     }
     return;
 };
@@ -153,5 +149,4 @@ export const addUsersToChatRequest = async (id: number, body: Record<string, str
 export const sendNewRequest = async (title: string, text: string): Promise<void> => {
     const args={};
     await http.post(`/news/`, args, JSON.stringify({title: title, text: text}));
-    console.log(JSON.stringify({title: title, text: text}));
 };

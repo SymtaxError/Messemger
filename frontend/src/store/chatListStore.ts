@@ -1,8 +1,7 @@
 import {createEffect, createEvent, createStore, Effect, Event, Store} from "effector";
 import {ChatType} from "api/models/chatType";
-import {backendURL, getMessagesRequest} from "api/http";
+import {getMessagesRequest} from "api/http";
 import {replaceOrPush} from "utils/misc/arrays";
-import {UserStore} from "./user";
 
 export const getChatList = async (): Promise<ChatType[]> => {
     const headers = {
@@ -108,20 +107,16 @@ export const ChatStore = (() => {
         handler: async (id: number): Promise<MessageType[]> => {
             store.clearChatMessages(id);
             const response = await getMessagesRequest(id);
-            // if (response?.length)
-            //     return response;
             return response;
         }
     });
     store.getMessagesForChat.done.watch(a => {
-        console.log("store updated with new messages", a.result);
         a.result.forEach(a => store.addMessage(a))
     });
 
     store.updateChatList = createEffect({
         name: "update chat list",
         handler: async (): Promise<ChatType[]> => {
-            console.log("At begin of update: ", store);
             return await getChatList();
         }
     });
@@ -138,12 +133,10 @@ export const ChatStore = (() => {
                 token: token,
                 onMessage: a => {
                     const buf: MessageType = JSON.parse(a.data);
-                    console.log(buf);
                     store.addMessage(buf);
                 }
             }));
         }
-        console.log("At the end of update: ", store);
     });
 
     store.updateChatList();

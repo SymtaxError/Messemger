@@ -34,6 +34,7 @@ export const AddUserComponent: React.FC<AddUserComponentProps> = x => {
             <div className={styles.addUser}>
                 <div className={styles.header}>
                     <img src={minusImg}
+                         alt={""}
                          className={styles.oneLessUser}
                          onClick={() => {
                              if (userList.length > 1) {
@@ -43,7 +44,7 @@ export const AddUserComponent: React.FC<AddUserComponentProps> = x => {
                              }
                          }}/>
                     <div className={styles.headerText} onClick={x.closeFunction}>Добавить участника [x]</div>
-                    <img src={plusImg} className={styles.oneMoreUser} onClick={() => addUserList([...userList, ""])}/>
+                    <img src={plusImg} className={styles.oneMoreUser} onClick={() => addUserList([...userList, ""])} alt={""}/>
                 </div>
                 {
                     userList.length
