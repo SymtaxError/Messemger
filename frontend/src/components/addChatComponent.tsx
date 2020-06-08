@@ -53,7 +53,6 @@ export const AddChatComponent: React.FC<AddChatComponentProps> = x => {
                 }
                 <div className={styles.createButton} onClick={async () => {
                     if (chatName) {
-                        console.log("dtag", dialogTag)
                         const response = await createGroupChat(chatName, dialogTag);
                         ChatStore.updateChatList();
                         if (response !== 201)
