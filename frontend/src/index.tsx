@@ -3,10 +3,14 @@ import ReactDOM from 'react-dom';
 import 'index.css';
 import {App} from 'App';
 import * as serviceWorker from 'serviceWorker';
-import {Login} from "./views/login";
+import {HashRouter, Route} from "react-router-dom";
+
+const Root: React.FC = () => <HashRouter hashType={"slash"}>
+    <Route path="/" component={App}/>
+</HashRouter>;
 
 ReactDOM.render(
-    <App/>,
+    <Root/>,
     document.getElementById('root')
 );
 

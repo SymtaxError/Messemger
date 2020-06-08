@@ -1,0 +1,108 @@
+.body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    place-content: center;
+    box-sizing: border-box;
+}
+
+.profile {
+    display: flex;
+    flex-flow: column nowrap;
+    place-content: flex-start;
+    align-items: center;
+}
+
+.avatarBlock {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    place-content: space-between;
+    align-content: center;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-right: 25px;
+    border-top: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.settingsSite {
+    font-weight: 900;
+    padding-left: 20px;
+}
+
+.avatarImg {
+    width: 150px;
+    height: 150px;
+    background-color: cornflowerblue;
+}
+
+.settingsBlock {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+
+.settingsBlock > *:not(:last-child) {
+    margin-right: 100px;
+}
+
+.settingsMain {
+    display: flex;
+    flex-flow: column nowrap;
+    place-items: flex-start;
+}
+
+.settingInput {
+    height: 27px;
+    width: 230px;
+    font-weight: 400;
+    font-size: 15px;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    background-color: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.exitButton {
+    margin-top: 10px;
+    height: 35px;
+    width: 70px;
+    background-color: #bb2816;
+    border-color: #9b2516;
+    border-style: solid;
+    border-radius: 4px;
+    font-size: 18px;
+    white-space: nowrap;
+    color: white;
+    transition: 0.5s;
+}
+
+.exitButton:hover {
+    background-color: #9b2516;
+    border-color: #9b2516;
+    transition: 0.5s;
+}
+
+.changeButton {
+    margin-top: 10px;
+    height: 35px;
+    width: auto;
+    background-color: green;
+    border-color: darkgreen;
+    border-style: solid;
+    border-radius: 4px;
+    font-size: 18px;
+    white-space: nowrap;
+    color: white;
+    transition: 0.5s;
+}
+
+.changeButton:hover {
+    background-color: darkgreen;
+    transition: 0.5s;
+}

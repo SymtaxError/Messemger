@@ -1,0 +1,134 @@
+.body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: white;
+}
+
+.listOfDesks {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    place-items: center;
+    height: 100%;
+    min-width: 250px;
+    max-width: 250px;
+    background-color: #63465A;
+    box-sizing: border-box;
+}
+
+.desk1 {
+    padding: 5px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    height: 40px;
+    width: 100%;
+    border-top: 2px solid #E8E8E8;
+    /*border-bottom: 2px solid #E8E8E8;*/
+}
+
+.nameOfDesk {
+    display: table-cell;
+    /*border: solid cornflowerblue;*/
+    padding-top: 3%;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 80%;
+    font-size: 20px;
+    font-weight: 400;
+    color: #E8E8E8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.deletewhiteImg {
+    margin-left: auto;
+    padding-right: 10px;
+    padding-top: 5px;
+    height: 25px;
+    width: 25px;
+}
+
+.plusImg {
+    margin-left: auto;
+    padding-right: 10px;
+    height: 25px;
+    width: 25px;
+}
+
+.other {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.head {
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: #F6CCBC; /*#C89CBA;*/
+    height: 30px;
+    width: 100%;
+    border-bottom: 2px solid #63465A;
+    overflow: hidden;
+}
+
+.deskName {
+    height: 100%;
+    width: 250px;
+    padding: 3px;
+    border-right: 2px solid #63465A;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.team {
+    display: flex;
+    flex-flow: row nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.teammate {
+    padding: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mainPart {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.addColumn {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 200px;
+    height: 20px;
+    padding: 15px;
+    background-color: #E7A295;
+    border-radius: 8px;
+}
+
+.addImg {
+    height: 20px;
+    width: 20px;
+    margin-left: auto;
+}
+
+.signImg {
+    width: 90%;
+}

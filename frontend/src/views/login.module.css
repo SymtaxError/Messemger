@@ -4,20 +4,30 @@
     place-content: center;
     flex-direction: row-reverse;
     flex-wrap: wrap;
+    align-items: center;
     min-width: 400px;
-    padding-top: 100px;
     background-color: white;
+}
+
+.body > *:not(:last-child) {
+    margin-left: 100px;
 }
 
 .info {
     /*background-color: cornflowerblue;*/
+    border-right: 2px solid #63465A;
+    border-left: 2px solid #63465A;
+    padding: 10px;
+    margin-right: 20px;
+    font-size: 30px;
     min-width: 400px;
     width: 30%;
 
 }
 
 .sign {
-    border: 1px solid lightgray;
+    /*border: 1px solid lightgray;*/
+    background-color: #E0C4B9;
     border-radius: 7px;
     width: 400px;
     display: flex;
@@ -25,7 +35,7 @@
 }
 
 .signHeader {
-    border-bottom: 2px solid lightgray;
+    border-bottom: 2px solid #63465A;
     height: 35px;
     display: flex;
     justify-content: center;
@@ -34,7 +44,7 @@
 }
 
 .signHeader:hover {
-    border-bottom: 2px solid #7030a0;
+    border-bottom: 2px solid #63465A;
     transition: 0.5s;
 }
 
@@ -93,8 +103,8 @@
     margin-top: 20px;
     height: 30px;
     width: 100%;
-    background-color: forestgreen;
-    border: 1px solid darkgreen;
+    background-color: #63465A;
+    border: 1px solid #32202C;
     border-radius: 5px;
     color: white;
     margin-bottom: 20px;

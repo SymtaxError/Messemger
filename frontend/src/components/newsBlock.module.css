@@ -1,0 +1,28 @@
+.newsBlock {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+
+    background-color: #E0C4B9;
+
+    border-radius: 5px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.header {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 25px;
+    color: #63465A;
+    border-bottom: 2px solid #63465A;
+    word-wrap: break-word;
+}
+
+.content {
+    white-space: pre-line;
+    padding: 20px;
+    word-wrap: break-word;
+}
