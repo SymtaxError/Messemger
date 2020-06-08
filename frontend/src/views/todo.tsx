@@ -15,7 +15,7 @@ const TodoMiniature: React.FC<TodoMinProps> = x => {
         <div className={styles.desk1} onClick={x.onClick}>
             <div className={styles.nameOfDesk}>{x.unit.todoTitle}</div>
             <div className={styles.deleteDesk}>
-                <img src={deletewhiteImg} className={styles.deletewhiteImg}/>
+                <img src={deletewhiteImg} className={styles.deletewhiteImg} alt={""}/>
             </div>
         </div>
     )
@@ -35,7 +35,7 @@ export const Todo: React.FC = () => {
                                    onClick={() => setSelectedTodo(unit)}
                     />)
                 }
-                <img className={styles.signImg} src={SignImg}/>
+                <img className={styles.signImg} src={SignImg} alt={""}/>
             </div>
 
             <div className={styles.other}>

@@ -1,7 +1,6 @@
 import {RegisterUnit} from "./models/register";
 import {UserStore} from "../store/user";
-import {ChatType} from "./models/chatType";
-import {ChatStore, MessageType} from "store/chatListStore";
+import {MessageType} from "store/chatListStore";
 import {UserUnit} from "./models/user";
 
 export const backendURL = "http://localhost:8000";
