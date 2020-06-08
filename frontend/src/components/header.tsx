@@ -40,6 +40,7 @@ export const Header: React.FC<HeaderProps> = (y) => {
                     <div className={styles.imgLabel}>Новости</div>
                 </div>
                 <div className={styles.imgBlock} onClick={() => {
+                    ChatStore.clearChatList();
                     ChatStore.updateChatList();
                     history.push("/chat");
                 }}>

@@ -108,13 +108,10 @@ export const ChatStore = (() => {
         handler: async (id: number): Promise<MessageType[]> => {
             store.clearChatMessages(id);
             const response = await getMessagesRequest(id);
-            // if (response?.length)
-            //     return response;
             return response;
         }
     });
     store.getMessagesForChat.done.watch(a => {
-        console.log("store updated with new messages", a.result);
         a.result.forEach(a => store.addMessage(a))
     });
 
@@ -143,7 +140,6 @@ export const ChatStore = (() => {
                 }
             }));
         }
-        console.log("At the end of update: ", store);
     });
 
     store.updateChatList();
