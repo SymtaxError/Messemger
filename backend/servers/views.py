@@ -125,7 +125,6 @@ class LabelView(APIView):
         """ Creates a new label for the certain message or adds an existing
         one to the list of message labels if user is in the chat."""
         message_id = int(request.GET.get('message_id'))
-        print(request.user, message_id)
         if request.user in Message.objects.get(id=message_id).server.users.all():
             serializer = LabelSerializer(data=request.data)
             if serializer.is_valid():
