@@ -5,6 +5,7 @@
     padding-top: 40px;
     padding-bottom: 20px;
     place-content: center;
+    box-sizing: border-box;
 }
 
 .profile {
@@ -39,11 +40,14 @@
 }
 
 .settingsBlock {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-column-gap: 100px;
+    display: flex;
+    flex-flow: row wrap;
     justify-content: flex-start;
     margin-top: 20px;
+}
+
+.settingsBlock > *:not(:last-child) {
+    margin-right: 100px;
 }
 
 .settingsMain {
@@ -69,7 +73,7 @@
     height: 35px;
     width: 70px;
     background-color: #bb2816;
-    border-color: #bb2816;
+    border-color: #9b2516;
     border-style: solid;
     border-radius: 4px;
     font-size: 18px;

@@ -16,7 +16,10 @@ export const AddChatComponent: React.FC<AddChatComponentProps> = x => {
     return (
         <div className={styles.body}>
             <div className={styles.createChat}>
-                <div className={styles.header}>Создать чат</div>
+                <div className={styles.header}
+                     onClick={x.endFunction}>
+                    Создать чат [x]
+                </div>
                 <div className={styles.block}>
                     <div className={styles.blockUp}>Название чата</div>
                     <input className={styles.blockInput}
@@ -50,8 +53,11 @@ export const AddChatComponent: React.FC<AddChatComponentProps> = x => {
                 }
                 <div className={styles.createButton} onClick={async () => {
                     if (chatName) {
-                        await createGroupChat(chatName, dialogTag);
+                        console.log("dtag", dialogTag)
+                        const response = await createGroupChat(chatName, dialogTag);
                         ChatStore.updateChatList();
+                        if (response !== 201)
+                            alert("Упс! Какие-то данные неправильные :(")
                     }
                     x.endFunction();
                 }}

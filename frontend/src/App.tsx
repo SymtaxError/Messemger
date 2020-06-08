@@ -15,7 +15,6 @@ import {UserStore} from "store/user";
 import {PrivateRoute} from "PrivateRoute";
 import {Profile} from "./views/profile";
 import {Calendar} from "./views/calendar";
-import {AddChatComponent} from "./components/addChatComponent";
 
 export const App: React.FC = () => {
 
@@ -29,7 +28,7 @@ export const App: React.FC = () => {
 
     return (
         <div className={styles.app}>
-            <Header/>
+            <Header user={user}/>
             <Switch location={location}>
                 <PrivateRoute condition={true}
                               path="/login"

@@ -4,8 +4,10 @@
     overflow: hidden;
 
     background-color: #E0C4B9;
-    border-radius: 7px;
-    width: 400px;
+
+    border-radius: 5px;
+    width: 600px;
+    display: flex;
     flex-direction: column;
     margin-bottom: 20px;
 }
@@ -20,6 +22,7 @@
 }
 
 .content {
+    white-space: pre-line;
     padding: 20px;
     word-wrap: break-word;
 }

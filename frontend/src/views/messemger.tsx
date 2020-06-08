@@ -4,10 +4,8 @@ import {ChatMin} from "components/chatMin"
 import {Chat} from "components/chat"
 import {RightBar} from "../components/rightBar";
 import {useMappedStore} from "../utils/store";
-import {ChatStore, MessageType} from "store/chatListStore";
+import {ChatStore} from "store/chatListStore";
 import plusImg from "img/plus.png"
-import deletewhiteImg from "img/deletewhite.png";
-import {createGroupChat} from "api/http";
 import {ChatType} from "../api/models/chatType";
 import {AddChatComponent} from "components/addChatComponent";
 import {UsersInChatStore} from "../store/UsersInChatStore";
