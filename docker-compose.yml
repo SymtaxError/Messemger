@@ -5,7 +5,7 @@ services:
       build:
         context: ./backend
         dockerfile: Dockerfile
-      command: sh -c "sleep 5 && python3 manage.py makemigrations && python3 manage.py migrate && daphne -b 0.0.0.0 -p 8001 backend.asgi:application & gunicorn --bind 0.0.0.0:8000 backend.wsgi:application"
+      command: sh -c "python3 manage.py makemigrations && python3 manage.py migrate && daphne -b 0.0.0.0 -p 8001 backend.asgi:application & gunicorn --bind 0.0.0.0:8000 backend.wsgi:application"
       env_file:
         - ./.env
       volumes:
@@ -13,6 +13,7 @@ services:
       depends_on:
         - db
         - redis
+      restart: always
     redis:
       image: redis:alpine
       command: redis-server

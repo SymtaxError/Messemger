@@ -12,7 +12,7 @@ export const getChatList = async (): Promise<ChatType[]> => {
             : ""
     };
     const response = await fetch(
-        "http://localhost:8000/servers/list/",
+        "api/servers/list/",
         {method: "GET", headers: headers, mode: "cors"}
     );
     return JSON.parse(await response.text()) as unknown as ChatType[];

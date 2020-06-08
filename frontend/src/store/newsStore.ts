@@ -8,7 +8,7 @@ export const getNewsRequest = async (): Promise<NewType[]> => {
             : ""
     };
     const response = await fetch(
-        "http://localhost:8000/news/?count=20&start=1",
+        "api/news/?count=20&start=1",
         {method: "GET", headers: headers, mode: "cors"}
     );
     return JSON.parse(await response.text()) as unknown as NewType[];
