@@ -31,7 +31,6 @@ class NewsPostView(APIView):
     def post(self, request):
         """ Allows superusers create new news posts."""
         user = request.user
-        print(user.is_superuser)
         if user.is_superuser:
             query_set = {}
             for item in request.data.items():
