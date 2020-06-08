@@ -1,12 +1,12 @@
 from django.test import RequestFactory, TestCase
 from users.models import User, UserProfile
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .views import ServerView
+from .views import NewsPostView
 
-class TestServers(TestCase):
+class TestNews(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        user = User.objects.create_user(email='test@test.ru', password='12345')
+        user = User.objects.create_superuser(email='test@test.ru', password='12345')
         UserProfile.objects.create_profile(user, 'Ilia', 'Muravev')
 
         user = User.objects.create_user(email='test1@test.ru', password='qwerty')
@@ -17,31 +17,32 @@ class TestServers(TestCase):
         response = TokenObtainPairView.as_view()(request)
         return response.data['access']
 
-    def test_user_can_create_group_chat(self):
+    def test_superuser_can_post_news(self):
         payload = {
             'email': 'test@test.ru',
             'password': '12345'
         }
         auth_token = self.get_access_token(payload)
-        data = {
-            'name': 'My awesome conference'
+        topic = {
+            'title': 'Summertime!!!',
+            'text': 'Today is the first day of summer. My congratulations!'
         }
-        request = self.factory.post('/servers/list/', data=data)
+        request = self.factory.post('/news/', data=topic)
         request.META['HTTP_AUTHORIZATION'] = 'JWT {}'.format(auth_token)
-        response = ServerView.as_view()(request)
+        response = NewsPostView.as_view()(request)
         self.assertEqual(response.status_code, 201)
 
-    def test_user_can_create_dialog(self):
+    def test_common_user_can_not_post_news(self):
         payload = {
             'email': 'test1@test.ru',
             'password': 'qwerty'
         }
         auth_token = self.get_access_token(payload)
-        data = {
-            'name': 'OUR dialog',
-            'tag': 'test#1'
+        topic = {
+            'title': 'Summertime!!!',
+            'text': 'Today is the first day of summer. My congratulations!'
         }
-        request = self.factory.post('/servers/list/', data=data)
+        request = self.factory.post('/news/', data=topic)
         request.META['HTTP_AUTHORIZATION'] = 'JWT {}'.format(auth_token)
-        response = ServerView.as_view()(request)
-        self.assertEqual(response.status_code, 201)
+        response = NewsPostView.as_view()(request)
+        self.assertEqual(response.status_code, 403)

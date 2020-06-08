@@ -1,11 +1,11 @@
 from django.test import RequestFactory, TestCase
-from .views import CustomerRegistrationView
+from .views import UserRegistrationView
 
-class RegistrationTest(TestCase):
+class TestRegistration(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
 
-    def test_details(self):
+    def test_user_can_sign_up(self):
         payload = {
             'email': 'test@test.ru',
             'password': '12345',
@@ -13,5 +13,5 @@ class RegistrationTest(TestCase):
             'last_name': 'Muravev'
         }
         request = self.factory.post('/register/', data=payload)
-        response = CustomerRegistrationView.as_view()(request)
+        response = UserRegistrationView.as_view()(request)
         self.assertEqual(response.status_code, 201)
