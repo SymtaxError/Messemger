@@ -121,6 +121,7 @@ export const ChatStore = (() => {
     store.updateChatList = createEffect({
         name: "update chat list",
         handler: async (): Promise<ChatType[]> => {
+            console.log("At begin of update: ", store);
             return await getChatList();
         }
     });
@@ -142,6 +143,7 @@ export const ChatStore = (() => {
                 }
             }));
         }
+        console.log("At the end of update: ", store);
     });
 
     store.updateChatList();
