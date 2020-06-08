@@ -6,6 +6,10 @@ export const Home: React.FC = () => {
     return(
         <div className={styles.body}>
             <NewsBlock/>
+            <NewsBlock/>
+            <NewsBlock/>
+            <NewsBlock/>
+            <NewsBlock/>
         </div>
     )
 };

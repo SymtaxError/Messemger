@@ -1,8 +1,12 @@
 .body {
-    width: 100%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
     /*height: 100%;*/
     display: flex;
     padding-top: 20px;
-    flex-flow: column nowrap;
-    align-items: center;
+    align-items: flex-start;
+
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }
