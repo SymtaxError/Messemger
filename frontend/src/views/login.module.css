@@ -4,10 +4,13 @@
     place-content: center;
     flex-direction: row-reverse;
     flex-wrap: wrap;
-    align-items: flex-start;
+    align-items: center;
     min-width: 400px;
-    padding-top: 100px;
     background-color: white;
+}
+
+.body > *:not(:last-child) {
+    margin-left: 100px;
 }
 
 .info {
