@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-
+import SignImg from "img/sign.png"
 import styles from "views/todo.module.css";
 import deletewhiteImg from "img/deletewhite.png";
 import {preparedColumns, TodoType} from "api/models/todoModel";
@@ -23,19 +23,21 @@ const TodoMiniature: React.FC<TodoMinProps> = x => {
 
 export const Todo: React.FC = () => {
 
-    const [selectedTodo, setSelectedTodo] = useState<TodoType>();
+    const [selectedTodo, setSelectedTodo] = useState<TodoType>(preparedColumns[0]);
 
     return (
         <div className={styles.body}>
-            <div className={styles.listOfDesks}> {/* Это столбик слева */}
-                {preparedColumns.map((unit, key) =>
+            <div className={styles.listOfDesks}>
+                {
+                    preparedColumns.map((unit, key) =>
                     <TodoMiniature unit={unit}
                                    key={`TodoMiniature-unit-${key}`}
                                    onClick={() => setSelectedTodo(unit)}
-                    />)}
+                    />)
+                }
+                <img src={SignImg}/>
             </div>
 
-            {/*а это то, где все показывается*/}
             <div className={styles.other}>
                 {
                     selectedTodo

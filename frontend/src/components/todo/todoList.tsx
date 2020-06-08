@@ -14,14 +14,10 @@ export const TodoList: React.FC<TodoListProps> = x => {
             <div className={styles.other}>
                 <div className={styles.head}>
                     <div className={styles.deskName}>{x.unit.todoTitle}</div>
-                    <div className={styles.team}>
-                        {/*<div className={styles.teammate}>Ростя</div>*/}
-                        {/*<div className={styles.teammate}>Юля</div>*/}
-                    </div>
+                    <div className={styles.team}/>
                 </div>
                 {/*Основное*/}
                 <div className={styles.mainPart}>
-                    {console.log("render1.5")}
                     {
                         x.unit.columns.map((unit, key) => <Column unit={unit} key={`Column-unit-${key}`}/>)
                     }

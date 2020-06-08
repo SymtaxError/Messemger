@@ -3,10 +3,8 @@ import styles from "components/header.module.css";
 import homeImg from "img/home.png";
 import todoImg from "img/todo.png";
 import userImg from "img/user.png";
-import messagerImg from "img/messager.png"
+import messegerImg from "img/messeger.png"
 import {useHistory} from "react-router-dom";
-import {useMappedStore} from "../utils/store";
-import {UserStore} from "../store/user";
 import {ChatStore} from "../store/chatListStore";
 import {UserUnit} from "../api/models/user";
 
@@ -40,11 +38,10 @@ export const Header: React.FC<HeaderProps> = (y) => {
                     <div className={styles.imgLabel}>Новости</div>
                 </div>
                 <div className={styles.imgBlock} onClick={() => {
-                    ChatStore.clearChatList();
                     ChatStore.updateChatList();
                     history.push("/chat");
                 }}>
-                    <img src={messagerImg} className={styles.headerImg} alt={""}/>
+                    <img src={messegerImg} className={styles.headerImg} alt={""}/>
                     <div className={styles.imgLabel}>Сообщения</div>
                 </div>
 

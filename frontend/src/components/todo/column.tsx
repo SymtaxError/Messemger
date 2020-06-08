@@ -21,7 +21,7 @@ export const Column: React.FC<ColumnProps> = x => {
             <div className={styles.addCard}>
                 <img src={addImg} className={styles.addImg} alt={""}/>
             </div>
-            <div className={styles.deleteColumn}>Удалить колонку</div>
+            <div className={styles.deleteColumn}>Удалить столбик</div>
         </div>
     )
 };
