@@ -57,7 +57,6 @@ export const Profile: React.FC = () => {
                                value={userTag}
                                onChange={a => setUserTag(a.target.value)} disabled/>
                         <button className={styles.changeButton} onClick={async () => {
-                            console.log(userName, userSurname, userEmail, userTag);
                             const response = await changeUserInfo(userName, userSurname, userEmail);
                             if (response === 200)
                                 alert("Данные изменены!");

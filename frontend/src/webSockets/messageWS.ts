@@ -1,4 +1,3 @@
-import {backendURL} from "../api/http";
 //
 // export const msgSocket = new WebSocket(`ws://localhost:8000/servers/chat/1/?${localStorage.getItem("access")}`);
 //

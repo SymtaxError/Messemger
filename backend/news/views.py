@@ -16,7 +16,6 @@ class NewsPostView(APIView):
         start = int(request.GET.get('start')) - 1
         try:
             query_set = NewsPost.objects.all()[start : start + count]
-            print(NewsPost.objects.all()[start : start + count])
             serializer = NewsPostSerializer(
                 query_set, 
                 many=True

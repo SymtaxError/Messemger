@@ -1,5 +1,4 @@
 import styles from "components/calendar/dayInCalendar.module.css";
-import moreImg from "img/more.png";
 import {Card} from "./card";
 import React from "react";
 

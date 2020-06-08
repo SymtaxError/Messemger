@@ -2,6 +2,7 @@ import React, {CSSProperties, ReactNode, useState} from 'react';
 import styles from "views/login.module.css";
 import {loginRequest, registerRequest} from "api/http"
 import {useHistory} from "react-router";
+import Logo from "img/Logo.png"
 
 
 export const Login: React.FC = () => {
@@ -120,12 +121,6 @@ export const Login: React.FC = () => {
     return (
         <div className={styles.body} style={window.innerWidth < 450 ? stylesSmallWindow : undefined}>
             {isSignIn ? signInElement : registerElement}
-
-            <div className={styles.info}>
-                Info about out super mega website of doom
-                You need to make a good style for a text like this, huh
-                And probably a big text for the Name
-            </div>
-
+            <img src={Logo} alt={""}/>
         </div>);
 }

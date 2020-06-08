@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False, unique=True)),
                 ('title', models.CharField(max_length=100)),
-                ('text', models.CharField(max_length=4294967296)),
+                ('text', models.CharField(max_length=32000)),
                 ('date_published', models.DateTimeField(auto_now_add=True, verbose_name='date published')),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='author')),
             ],
