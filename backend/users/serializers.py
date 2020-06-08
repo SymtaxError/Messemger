@@ -12,10 +12,12 @@ class UserSerializer(serializers.Serializer):
 
 class ProfileSerializer(serializers.Serializer):
     """ Given and expected format of user's profile representation is
-    email, first name, last name, tag and status.
+    email, first name, last name, tag, status and avatar.
     """
     email = serializers.EmailField()
     first_name = serializers.CharField(max_length=30)
     last_name = serializers.CharField(max_length=30)
     tag = serializers.CharField(max_length=128)
     status = serializers.CharField(max_length=1000, required=False)
+    avatar = serializers.ImageField(required=False)
+    is_superuser = serializers.BooleanField(required=False)

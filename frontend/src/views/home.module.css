@@ -1,0 +1,53 @@
+.body {
+    width: 100%;
+    /*height: 100%;*/
+    display: flex;
+    padding-top: 20px;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+.superUserInput {
+    width: 650px;
+    height: 300px;
+    border: 5px solid #533b4c;
+    border-radius: 5px;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.superUserHeader {
+    height: 35px;
+    font-size: 26px;
+    display: flex;
+    text-align: center;
+    background-color: #63465a;
+    border: none;
+    color: white;
+    border-bottom: 5px solid #533b4c;
+}
+
+.superUserArea {
+    width: calc(100% - 2px);
+    height: 100%;
+    resize: none;
+    border: none;
+    font-size: 18px;
+}
+
+.superUserSend {
+    height: 35px;
+    font-size: 26px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: #e7a295;
+    border: none;
+    border-top: 5px solid #533b4c;
+    transition: 1s;
+}
+
+.superUserSend:hover {
+    background-color: #63465a;
+    color: white
+}

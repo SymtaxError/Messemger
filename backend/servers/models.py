@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import User
+from users.models import User, UserProfile
 from .managers import ServerManager, MessageManager, LabelManager
 from backend.settings import MEDIA_ROOT
 import os
@@ -47,6 +47,16 @@ class Server(models.Model):
         #: Funcion to update data stored in object fields.
         for item in kwargs.items():
             self.__dict__[item[0]] = item[1]
+        self.save()
+
+    def add_users(self, tags):
+        users = []
+        for i in range(len(tags)):
+            try:
+                users.append(UserProfile.objects.get(tag=tags[i]).user)
+            except:
+                pass
+        self.users.add(*users)
         self.save()
 
 class Message(models.Model):

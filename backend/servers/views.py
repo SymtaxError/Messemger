@@ -86,7 +86,8 @@ class MessageView(APIView):
                 server = Server.objects.get(id=chat_id)
                 query_set = server.message_set.all()[start: start + count]
                 serializer = MessageSerializer(query_set, many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                data = serializer.data[::-1]
+                return Response(data, status=status.HTTP_200_OK)
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:

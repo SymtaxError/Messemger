@@ -2,6 +2,7 @@ import {RegisterUnit} from "./models/register";
 import {UserStore} from "../store/user";
 import {ChatType} from "./models/chatType";
 import {ChatStore, MessageType} from "store/chatListStore";
+import {UserUnit} from "./models/user";
 
 export const backendURL = "api";
 
@@ -95,7 +96,7 @@ export const http = {
         return request(path, args, "DELETE");
     },
     put: async <T>(path: string, args: Record<string, string>, body?: string): Promise<WrappedResponse<T>> => {
-        return request(path, args, "PUT");
+        return request(path, args, "PUT", body);
     }
 };
 
@@ -119,16 +120,16 @@ export const loginRequest = async (email: string, password: string): Promise<num
     return wrappedResponse.code;
 };
 
-export const changeUserInfo = async (first_name: string, last_name: string, email: string, image: string): Promise<number> => {
+export const changeUserInfo = async (first_name: string, last_name: string, email: string): Promise<number> => {
     const args = {};
-    const response = await http.put("/users/profile/", args, JSON.stringify({first_name: first_name, last_name: last_name, email: email, picture: image}));
+    const response = await http.put("/users/profile/", args, JSON.stringify({first_name: first_name, last_name: last_name, email: email}));
     return response.code;
 };
 
-export const createGroupChat = async (name: string, users?: string): Promise<void> => {
+export const createGroupChat = async (name: string, user?: string): Promise<number> => {
     const args = {};
-    await http.post("/servers/list/", args, JSON.stringify({name: name, users: users}));
-    ChatStore.updateChatList();
+    const response = await http.post("/servers/list/", args, JSON.stringify({name: name, tag: user}));
+    return response.code;
 };
 
 export const getMessagesRequest = async (id: number): Promise<MessageType[]> => {
@@ -137,22 +138,20 @@ export const getMessagesRequest = async (id: number): Promise<MessageType[]> => 
     return response.body as unknown as MessageType[]
 };
 
+export const getUsersInChatRequest = async (id: number): Promise<UserUnit[]> => {
+    const args = {};
+    const response = await http.get(`/servers/${id}/members`, args);
+    return response.body as unknown as UserUnit[]
+};
 
-// export const deleteChat = async (): Promise<> => {
-//     const args = {};
-//     await http.delete("/servers/list/добавь парамс(?chat_id={id})", args);
-// };
-//
-// export const changeChatName = async(): Promise<> => {
-//     const args = {};
-//     //В body name: string - новое имя
-//     //В парамс - chat id как в deleteChat
-//     await http.put("/servers/list/")
-// };
-//
-// export const changeChatAvatar = async(): Promise<> => {
-//     const args = {};
-//     //в body - picture - файл
-//     //В парамс - как выше
-//     await http.put("servers/list/")
-// }
+export const addUsersToChatRequest = async (id: number, body: Record<string, string[]>): Promise<number> => {
+    const args={};
+    const response = await http.post(`/servers/${id}/members/`, args, JSON.stringify(body));
+    return response.code;
+};
+
+export const sendNewRequest = async (title: string, text: string): Promise<void> => {
+    const args={};
+    await http.post(`/news/`, args, JSON.stringify({title: title, text: text}));
+    console.log(JSON.stringify({title: title, text: text}));
+};

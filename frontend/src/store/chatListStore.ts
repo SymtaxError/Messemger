@@ -1,13 +1,8 @@
 import {createEffect, createEvent, createStore, Effect, Event, Store} from "effector";
 import {ChatType} from "api/models/chatType";
-import {getMessagesRequest, http} from "api/http";
+import {backendURL, getMessagesRequest} from "api/http";
 import {replaceOrPush} from "utils/misc/arrays";
-
-export const getChatList2 = async (): Promise<ChatType[]> => {
-    const args = {};
-    const response = await http.get("/servers/list/", args);
-    return response.body as unknown as ChatType[]
-};
+import {UserStore} from "./user";
 
 export const getChatList = async (): Promise<ChatType[]> => {
     const headers = {
@@ -45,10 +40,11 @@ interface MessageContent {
     text: string
     owner_tag: string
     chat_id: number
+    date_published: string
 }
 
 export interface MessageType {
-    user: string
+    owner: string
     params: MessageContent
 }
 
@@ -61,6 +57,7 @@ interface ChatStore extends Store<ChatListStore> {
     createChat: Effect<ChatInit, ChatType>
     getMessagesForChat: Effect<number, MessageType[]>
     clearChatList: Event<void>
+    clearChatMessages: Event<number>
 }
 
 export const ChatStore = (() => {
@@ -75,14 +72,11 @@ export const ChatStore = (() => {
     store.clearChatList = createEvent<void>("add single chat");
     store.on(store.clearChatList, ((state) => ({...state, chats: []})));
 
-    store.setMessages = createEvent<MessageType[]>("put messages by request onclick");
-    store.on(store.setMessages, ((state, payload) => {
-        if (!payload?.length)
-            return state;
-        const chat = state.chats.find(a => a.id === payload[0].params.chat_id);
-        const editedChat = {...chat, messages: []} as ChatType; // Стираю все
-        payload.forEach(a => store.addMessage(a));
-        return ({...state, chats: replaceOrPush<ChatType>(state.chats, chat, editedChat)});
+    store.clearChatMessages =  createEvent<number>("clear messages from one chat");
+    store.on(store.clearChatMessages, ((state, payload) => {
+        const chat = state.chats.find(a => a.id === payload);
+        const editedChat = {...chat, messages: []} as ChatType;
+        return({...state, chats: replaceOrPush<ChatType>(state.chats, chat, editedChat)})
     }));
 
     store.addMessage = createEvent<MessageType>("push message to chat");
@@ -112,15 +106,16 @@ export const ChatStore = (() => {
     store.getMessagesForChat = createEffect({
         name: "get messages for chat by id",
         handler: async (id: number): Promise<MessageType[]> => {
+            store.clearChatMessages(id);
             const response = await getMessagesRequest(id);
-            if (response?.length)
-                return response;
-            else throw Error("error geting mesages");
+            // if (response?.length)
+            //     return response;
+            return response;
         }
     });
     store.getMessagesForChat.done.watch(a => {
         console.log("store updated with new messages", a.result);
-        store.setMessages(a.result);
+        a.result.forEach(a => store.addMessage(a))
     });
 
     store.updateChatList = createEffect({
@@ -142,17 +137,8 @@ export const ChatStore = (() => {
                 token: token,
                 onMessage: a => {
                     const buf: MessageType = JSON.parse(a.data);
-                    const temp = {
-                        user: buf.user,
-                        params: {
-                            text: buf.params.text,
-                            chat_id: buf.params.chat_id,
-                            owner_tag: buf.params.owner_tag
-                        }
-                    };
-                    // Попробуем вернуть temp, если все-таки не парсится нормально, ага?
                     console.log(buf);
-                    store.addMessage(buf)
+                    store.addMessage(buf);
                 }
             }));
         }

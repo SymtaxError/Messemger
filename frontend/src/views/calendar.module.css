@@ -1,0 +1,13 @@
+.body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: white;
+}
+
+.leftBar {
+    width: 50px;
+    border-top: white;
+    background-color: #63465A;
+}

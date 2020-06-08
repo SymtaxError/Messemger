@@ -14,7 +14,7 @@ import {useMappedStore} from "utils/store";
 import {UserStore} from "store/user";
 import {PrivateRoute} from "PrivateRoute";
 import {Profile} from "./views/profile";
-import {AddChatComponent} from "./components/addChatComponent";
+import {Calendar} from "./views/calendar";
 
 export const App: React.FC = () => {
 
@@ -28,13 +28,11 @@ export const App: React.FC = () => {
 
     return (
         <div className={styles.app}>
-            <Header/>
+            <Header user={user}/>
             <Switch location={location}>
                 <PrivateRoute condition={true}
                               path="/login"
                               component={Login}/>
-                {/*<Route path="/login"*/}
-                {/*       component={Login}/>*/}
                 <PrivateRoute condition={true}
                               path="/todo"
                               component={Todo}/>
@@ -47,6 +45,9 @@ export const App: React.FC = () => {
                 <PrivateRoute condition={true}
                               path="/home"
                               component={Home}/>
+                <PrivateRoute condition={true}
+                              path="/calendar"
+                              component={Calendar}/>
                 <Route exact path="/">
                     <Redirect to="/home"/>
                 </Route>

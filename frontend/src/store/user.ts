@@ -1,5 +1,35 @@
 import {createStore, Store, Event, createEvent, createEffect, Effect} from "effector";
 import {UserUnit} from "api/models/user";
+import {backendURL} from "../api/http";
+
+interface RefreshUnit {
+    access: string
+    refresh: string
+}
+
+const resultRefresh = async (): Promise<UserUnit> => {
+    const bodyForCheck = {
+        "refresh": (localStorage.getItem("refresh") !== "undefined")
+            ? `${localStorage.getItem("refresh")}`
+            : ""
+    };
+    const headers = {
+        "Content-Type": "application/json; charset=UTF-8"
+    };
+    const response = await fetch(
+        `${backendURL}/auth/jwt/refresh/`, // Сюда адрес для проверки временного токена
+        {method: "POST", body: JSON.stringify(bodyForCheck), mode: "cors", headers: headers}
+    );
+    const state = response.status;
+    const result: RefreshUnit = JSON.parse(await response.text());
+    if (state === 200) {
+        localStorage.setItem("access", result.access);
+        localStorage.setItem("refresh", result.refresh);
+        const response = userDataRequest();
+        return response;
+    }
+    return response as unknown as UserUnit;
+};
 
 export const userDataRequest = async (): Promise<UserUnit> => {
     const headers = {
@@ -12,6 +42,8 @@ export const userDataRequest = async (): Promise<UserUnit> => {
         `api/users/profile/`,
         {method: "GET", headers: headers, mode: "cors"}
     );
+    if (response.status === 401)
+        return resultRefresh();
     return JSON.parse(await response.text()) as unknown as UserUnit;
 };
 
@@ -20,7 +52,7 @@ interface UserData {
 }
 
 const initialData: UserData = {
-    user: {email: "", first_name: "", last_name: "", tag: ""}
+    user: {email: "", first_name: "", last_name: "", tag: "", is_superuser: false}
 };
 
 interface UserStore extends Store<UserData> {
@@ -38,7 +70,6 @@ export const UserStore = (() => {
         name: "getUser",
         handler: async (): Promise<UserUnit> => {
             const response = await userDataRequest();
-            console.log(response);
             return response;
         }
     });

@@ -10,10 +10,14 @@
 }
 
 .dialogImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    color: white;
     margin-left: 5px;
     height: 65px;
     width: 60px;
-    background-color: #8a3bc5;
 }
 
 .dialogContent {
@@ -25,7 +29,7 @@
     color: white;
     font-size: 20px;
     font-weight: 600;
-    padding-left: 5px;
+    padding-left: 10px;
 }
 
 .arrowImg {
@@ -34,5 +38,5 @@
 }
 
 .dialog:hover {
-    background-color: #8a3bc5;
+    background-color: #9b6c92;
 }

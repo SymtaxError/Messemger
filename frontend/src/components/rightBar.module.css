@@ -4,4 +4,65 @@
     height: 100%;
     border-left: 2px solid white;
     border-top: 2px solid white;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.RightBarElement {
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid white;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+}
+
+.userData {
+    padding-left: 5px;
+    color: white;
+}
+
+.header {
+    display: flex;
+    flex-flow: row nowrap;
+    padding-top: 20px;
+    padding-left: 7px;
+    height: 45px;
+    border-bottom: 2px solid white;
+}
+
+.usersImg {
+    width: 25px;
+    height: 25px;
+}
+
+.members {
+    padding-left: 10px;
+    color: white;
+}
+
+.plusImg {
+    width: 25px;
+    height: 25px;
+    margin-left: auto;
+    padding-right: 7px;
+}
+
+
+
+.user {
+    height: 45px;
+    border-bottom: 2px solid white;
+}
+
+.name {
+    color: white;
+    padding-top: 2px;
+    padding-left: 7px;
+    width: 100%;
+}
+
+.tag {
+    padding-left: 7px;
+    color: #AFAFAF;
 }

@@ -3,7 +3,11 @@ import styles from "components/addChatComponent.module.css"
 import {createGroupChat} from "../api/http";
 import {ChatStore} from "../store/chatListStore";
 
-export const AddChatComponent: React.FC = () => {
+interface AddChatComponentProps {
+    endFunction: () => void
+}
+
+export const AddChatComponent: React.FC<AddChatComponentProps> = x => {
 
     const [isConference, setIsConference] = useState(false);
     const [chatName, setChatName] = useState("");
@@ -12,7 +16,10 @@ export const AddChatComponent: React.FC = () => {
     return (
         <div className={styles.body}>
             <div className={styles.createChat}>
-                <div className={styles.header}>Создать чат</div>
+                <div className={styles.header}
+                     onClick={x.endFunction}>
+                    Создать чат [x]
+                </div>
                 <div className={styles.block}>
                     <div className={styles.blockUp}>Название чата</div>
                     <input className={styles.blockInput}
@@ -46,12 +53,17 @@ export const AddChatComponent: React.FC = () => {
                 }
                 <div className={styles.createButton} onClick={async () => {
                     if (chatName) {
-                        await createGroupChat(chatName, dialogTag);
+                        console.log("dtag", dialogTag)
+                        const response = await createGroupChat(chatName, dialogTag);
                         ChatStore.updateChatList();
+                        if (response !== 201)
+                            alert("Упс! Какие-то данные неправильные :(")
                     }
+                    x.endFunction();
                 }}
                 >Готово
                 </div>
+
             </div>
         </div>
     )

@@ -11,7 +11,7 @@ interface TodoMinProps {
 }
 
 const TodoMiniature: React.FC<TodoMinProps> = x => {
-    return(
+    return (
         <div className={styles.desk1} onClick={x.onClick}>
             <div className={styles.nameOfDesk}>{x.unit.todoTitle}</div>
             <div className={styles.deleteDesk}>
@@ -36,10 +36,12 @@ export const Todo: React.FC = () => {
             </div>
 
             {/*а это то, где все показывается*/}
-            {
-                selectedTodo
-                    ? <TodoList unit={selectedTodo}>asd</TodoList>
-                    : <div className={styles.other}>Ничего нет</div>
-            }
+            <div className={styles.other}>
+                {
+                    selectedTodo
+                        ? <TodoList unit={selectedTodo}/>
+                        : <div/>
+                }
+            </div>
         </div>);
 };

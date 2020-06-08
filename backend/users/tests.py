@@ -1,11 +1,11 @@
 from django.test import RequestFactory, TestCase
 from .views import UserRegistrationView
 
-class RegistrationTest(TestCase):
+class TestRegistration(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
 
-    def test_details(self):
+    def test_user_can_sign_up(self):
         payload = {
             'email': 'test@test.ru',
             'password': '12345',
