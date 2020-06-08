@@ -26,6 +26,7 @@ export const Home: React.FC = () => {
 
     return (
         <div className={styles.body}>
+
             {
                 userData.user.is_superuser
                     ?
