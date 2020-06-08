@@ -35,7 +35,7 @@ export const Todo: React.FC = () => {
                                    onClick={() => setSelectedTodo(unit)}
                     />)
                 }
-                <img src={SignImg}/>
+                <img className={styles.signImg} src={SignImg}/>
             </div>
 
             <div className={styles.other}>
