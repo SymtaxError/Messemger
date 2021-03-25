@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+    backend:
+      build:
+        context: ./backend
+        dockerfile: Dockerfile
+      command: sh -c "python3 manage.py makemigrations && python3 manage.py migrate && daphne -b 0.0.0.0 -p 8001 backend.asgi:application & gunicorn --bind 0.0.0.0:8000 backend.wsgi:application"
+      env_file:
+        - ./.env
+      volumes:
+        - media_volume:/var/messemger/files
+      depends_on:
+        - db
+        - redis
+      restart: always
+    redis:
+      image: redis:alpine
+      command: redis-server
+    db:
+      image: postgres:12.0-alpine
+      volumes:
+        - postgres_data:/var/lib/postgresql/data/
+      env_file:
+        - ./.env
+    frontend:
+      build:
+        context: ./frontend
+        dockerfile: Dockerfile
+      volumes:
+        - static_volume:/var/messemger/frontend/build
+      depends_on:
+        - nginx
+    nginx:
+      build:
+        context: ./nginx
+        dockerfile: Dockerfile
+      env_file:
+        - ./.env
+      volumes:
+        - static_volume:/var/messemger/frontend/build
+        - media_volume:/var/messemger/files
+      ports:
+        - 2020:80 # host:docker
+      depends_on:
+        - backend
+
+volumes:
+    postgres_data:
+    static_volume:
+    media_volume:
